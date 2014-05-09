@@ -11,6 +11,7 @@ class PersonModel: public QAbstractListModel {
 public:
     enum ItemRole {
         IdRole = Qt::UserRole + 1,
+        SexRole,
         FullNameRole,
         BirthDateRole,
         DeathDateRole

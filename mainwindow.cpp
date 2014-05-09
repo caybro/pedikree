@@ -31,6 +31,7 @@ void MainWindow::slotOpen()
             ui->treeView->setSortingEnabled(true);
         }
         ui->treeView->setModel(m_personModel); // TODO switch view
+        ui->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     }
 }
 

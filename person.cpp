@@ -46,6 +46,7 @@ QHash<int, QByteArray> PersonModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[IdRole] = "ID";
+    roles[SexRole] = "Sex";
     roles[FullNameRole] = "FullName";
     roles[BirthDateRole] = "BirthDate";
     roles[DeathDateRole] = "DeathDate";
@@ -72,7 +73,7 @@ QVariant PersonModel::data(const QModelIndex &index, int role) const
     const int row = index.row();
     const int column = index.column();
 
-    qDebug() << "Data for row" << row << column;
+    //qDebug() << "Data for row" << row << column;
 
     if (row >=0 && row < m_persons.count()) {
         const QDomElement personElem = m_persons.item(row).toElement();
@@ -81,8 +82,12 @@ QVariant PersonModel::data(const QModelIndex &index, int role) const
             return QVariant();
 
         switch (role) {
+        case IdRole:
+            return personElem.attribute("id");
+        case SexRole:
+            return personElem.attribute("sex");
         case FullNameRole: {
-            qDebug() << "Wanting full name";
+            //qDebug() << "Wanting full name";
             const QDomElement namesElem = personElem.firstChildElement("names").toElement();
             if (!namesElem.isNull()) {
                 return QString("%1 %2 %3 %4").arg(namesElem.attribute("first"), namesElem.attribute("middle"), namesElem.attribute("surname"),
@@ -91,7 +96,7 @@ QVariant PersonModel::data(const QModelIndex &index, int role) const
             return QVariant();
         }
         case BirthDateRole: {
-            qDebug() << "Wanting birth date";
+            //qDebug() << "Wanting birth date";
             const QDomElement birthElem = personElem.firstChildElement("birth").toElement();
             if (!birthElem.isNull() && birthElem.hasAttribute("date")) {
                 return QDate::fromString(birthElem.attribute("date"), Qt::ISODate);
@@ -99,10 +104,9 @@ QVariant PersonModel::data(const QModelIndex &index, int role) const
             return QVariant();
         }
         case DeathDateRole: {
-            qDebug() << "Wanting death date";
+            //qDebug() << "Wanting death date";
             const QDomElement deathElem = personElem.firstChildElement("death").toElement();
             if (!deathElem.isNull() && deathElem.hasAttribute("date")) {
-                qDebug() << "Death date elem null";
                 return QDate::fromString(deathElem.attribute("date"), Qt::ISODate);
             }
             return QVariant();
