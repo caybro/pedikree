@@ -26,10 +26,11 @@ void MainWindow::slotOpen()
     if (!filename.isEmpty()) {
         m_filename = filename;
         setWindowFilePath(m_filename);
-        if (!m_personModel) {
-            m_personModel = new PersonModel(m_filename, this);
-            ui->treeView->setSortingEnabled(true);
+
+        if (m_personModel) {
+            m_personModel->deleteLater();
         }
+        m_personModel = new PersonModel(m_filename, this);
         ui->treeView->setModel(m_personModel); // TODO switch view
         ui->treeView->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     }
