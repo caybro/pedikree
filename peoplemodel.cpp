@@ -17,7 +17,7 @@ PeopleModel::~PeopleModel()
 
 void PeopleModel::exec()
 {
-    setQuery("SELECT People.id, People.sex, People.first_name, People.surname, People.birth_date, Places.name AS place_name "
+    setQuery("SELECT People.id, People.sex, People.first_name, People.surname, People.birth_date, People.occupation, Places.name AS place_name "
              "FROM People "
              "LEFT JOIN Places "
              "ON People.birth_place_id=Places.id "
@@ -27,7 +27,7 @@ void PeopleModel::exec()
 int PeopleModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 3;
+    return 4;
 }
 
 QVariant PeopleModel::data(const QModelIndex &item, int role) const
@@ -47,6 +47,8 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
             return rec.field("birth_date").value().toDate();
         } else if (column == 2) {
             return rec.field("place_name").value();
+        } else if (column == 3) {
+            return rec.field("occupation").value();
         }
     } else if (role == Qt::ToolTipRole) {
         const QSqlRecord rec = record(item.row());
@@ -68,6 +70,8 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
             return tr("Birth Date");
         else if (section == 2)
             return tr("Birth Place");
+        else if (section == 3)
+            return tr("Occupation");
     }
 
     return QSqlQueryModel::headerData(section, orientation, role);
