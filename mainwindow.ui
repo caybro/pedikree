@@ -51,9 +51,18 @@
           <property name="rootIsDecorated">
            <bool>false</bool>
           </property>
+          <property name="uniformRowHeights">
+           <bool>true</bool>
+          </property>
           <property name="itemsExpandable">
            <bool>false</bool>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
+          <attribute name="headerStretchLastSection">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>
@@ -77,7 +86,6 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
@@ -115,7 +123,6 @@
    </attribute>
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
-   <addaction name="actionSave"/>
    <addaction name="separator"/>
    <addaction name="actionViewPeople"/>
    <addaction name="actionViewEvents"/>
@@ -132,19 +139,6 @@
    </property>
    <property name="text">
     <string>&amp;Open...</string>
-   </property>
-   <property name="priority">
-    <enum>QAction::HighPriority</enum>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="icon">
-    <iconset theme="document-save">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Save</string>
    </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QMessageBox>
+#include <QtSql>
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +12,11 @@ int main(int argc, char *argv[])
     a.setOrganizationName("KDE");
     a.setApplicationVersion("0.1");
     a.setWindowIcon(QIcon::fromTheme("view-process-all-tree"));
+
+    if (!QSqlDatabase::isDriverAvailable("QSQLITE")) {
+        QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"), QApplication::tr("Your Qt installation doesn't contain the SQLLite DB plugin."));
+        return -1;
+    }
 
     MainWindow w;
     w.show();

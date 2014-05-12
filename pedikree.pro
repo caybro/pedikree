@@ -4,19 +4,21 @@
 #
 #-------------------------------------------------
 
-QT       += core gui xml
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT       += core gui widgets sql
 
 TARGET = pedikree
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
-    person.cpp
+    placesmodel.cpp \
+    peoplemodel.cpp
 
 HEADERS  += mainwindow.h \
-    person.h
+    placesmodel.h \
+    peoplemodel.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    db_assets.qrc

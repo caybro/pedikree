@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include <QActionGroup>
 
-#include "person.h"
+#include "peoplemodel.h"
+#include "placesmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,14 +23,17 @@ private slots:
     void slotOpen();
     void slotAbout();
 
+    void slotSwitchView(QAction * action);
+
 private:
     void setupActions();
     Ui::MainWindow *ui;
     QActionGroup * m_viewGroup;
     QString m_filename;
 
-    //models
-    PersonModel * m_personModel;
+    // models
+    PeopleModel * m_peopleModel;
+    PlacesModel * m_placesModel;
 };
 
 #endif // MAINWINDOW_H
