@@ -20,6 +20,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void slotNew();
     void slotOpen();
     void slotAbout();
 
@@ -27,9 +28,12 @@ private slots:
 
 private:
     void setupActions();
+    void openDatabase(const QString & dbFilePath, bool create = false);
+    void initDatabase();
     Ui::MainWindow *ui;
     QActionGroup * m_viewGroup;
     QString m_filename;
+    QString m_storageLocation;
 
     // models
     PeopleModel * m_peopleModel;

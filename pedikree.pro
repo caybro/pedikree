@@ -20,5 +20,4 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES += \
-    db_assets.qrc
+RESOURCES += db_assets.qrc

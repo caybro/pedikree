@@ -5,9 +5,11 @@
 #include <QtSql>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QInputDialog>
+#include <QStandardPaths>
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_viewGroup(new QActionGroup(this)),
@@ -17,32 +19,42 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setupActions();
     ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // all table views are readonly
+
+    // setup storage location
+    m_storageLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    qDebug() << "Storage location:" << m_storageLocation;
+    QDir storageDir(m_storageLocation);
+    if (!storageDir.exists()) {
+        storageDir.mkpath(m_storageLocation);
+    }
 }
 
 MainWindow::~MainWindow()
 {
     QSqlDatabase db = QSqlDatabase::database();
-    if (db.isOpen())
+    if (db.isOpen()) {
         db.close();
+    }
     QSqlDatabase::removeDatabase(db.connectionName());
 
     delete ui;
 }
 
+void MainWindow::slotNew()
+{
+    QString dbName = QInputDialog::getText(this, tr("New Pedikree Database"), tr("Database name:"));
+    if (!dbName.isEmpty()) {
+        qDebug() << "new DB name:" << dbName;
+        openDatabase(m_storageLocation + "/" + dbName + ".pdb", true);
+    }
+}
+
 void MainWindow::slotOpen()
 {
-    //const QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath(), "", 0, QFileDialog::DontUseNativeDialog); // FIXME kfiledialog crashing
-    const QString filename = "/home/ltinkl/git/pedikree/tinkl.xml";
+    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Pedikree Database"), m_storageLocation, tr("Pedikree databases (*.pdb)"),
+                                                          0, QFileDialog::DontUseNativeDialog); // FIXME native kfiledialog crashing
     if (!filename.isEmpty()) {
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("/home/ltinkl/git/pedikree/test.db"); // TODO
-        if (db.open()) {
-            m_filename = db.databaseName();
-            setWindowFilePath(m_filename);
-            ui->actionViewPeople->trigger();
-        }
-        else
-            qWarning() << "Error opening the DB" << db.lastError().text();
+        openDatabase(filename);
     }
 }
 
@@ -59,12 +71,14 @@ void MainWindow::slotSwitchView(QAction *action)
     if (action == ui->actionViewPeople) {
         if (!m_peopleModel)
             m_peopleModel = new PeopleModel(this);
-        m_peopleModel->exec();
+        else
+            m_peopleModel->exec();
         ui->treeView->setModel(m_peopleModel);
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel)
             m_placesModel = new PlacesModel(this);
-        m_placesModel->exec();
+        else
+            m_placesModel->exec();
         ui->treeView->setModel(m_placesModel);
     }
 }
@@ -82,7 +96,45 @@ void MainWindow::setupActions()
     ui->actionSaveAs->setShortcut(QKeySequence(QKeySequence::SaveAs));
     ui->actionQuit->setShortcut(QKeySequence(QKeySequence::Quit));
 
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::slotNew);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::slotOpen);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::slotAbout);
     connect(ui->actionQuit, &QAction::triggered, qApp, &QApplication::quit);
+}
+
+void MainWindow::openDatabase(const QString &dbFilePath, bool create)
+{
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbFilePath);
+    if (db.open()) {
+        if (create) {
+            initDatabase();
+        }
+        m_filename = db.databaseName();
+        setWindowFilePath(m_filename);
+        ui->actionViewPeople->trigger();
+    }
+    else {
+        qWarning() << "Error opening the DB" << db.lastError().text();
+    }
+}
+
+void MainWindow::initDatabase()
+{
+    const QStringList tables = QStringList() << "Places" << "People" << "Events" << "Relations";
+    QSqlQuery query;
+
+    foreach (const QString & table, tables) {
+        QFile file(QString::fromLatin1(":/schema/%1.sql").arg(table));
+        if (!file.open(QFile::ReadOnly))
+            return;
+
+        query.prepare(file.readAll());
+        //qDebug() << query.lastQuery();
+        if (!query.exec()) {
+            qWarning() << "Initting DB table" << table << "failed with:" << query.lastError().text();
+        }
+        query.finish();
+        file.close();
+    }
 }

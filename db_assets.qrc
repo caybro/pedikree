@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>schema.sql</file>
+        <file>schema/Events.sql</file>
+        <file>schema/People.sql</file>
+        <file>schema/Places.sql</file>
+        <file>schema/Relations.sql</file>
     </qresource>
 </RCC>

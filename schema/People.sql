@@ -1,5 +1,3 @@
-PRAGMA foreign_keys=ON; -- FIXME not supported on all configs
-
 CREATE TABLE People (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sex VARCHAR(1), -- FIXME maybe should be an enum like, so INT; one of M/F/U
@@ -32,31 +30,4 @@ CREATE TABLE People (
     hair_color TEXT,
     comment TEXT,
     photo BLOB
-);
-
-CREATE TABLE Places (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    lat REAL,
-    lon REAL,
-    name TEXT,
-    comment TEXT
-);
-
-CREATE TABLE Events (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type TEXT NOT NULL, -- FIXME maybe should be an enum like, so INT
-    date DATETIME,
-    person_id INTEGER REFERENCES People(id),
-    place_id INTEGER DEFAULT 0 REFERENCES Places(id) ON UPDATE SET NULL,
-    comment TEXT
-);
-
-CREATE TABLE Relations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    type TEXT NOT NULL, -- FIXME maybe should be an enum like, so INT
-    person1_id INTEGER REFERENCES People(id),
-    person2_id INTEGER REFERENCES People(id),
-    place_id INTEGER DEFAULT 0 REFERENCES Places(id) ON UPDATE SET NULL,
-    date DATETIME,
-    comment TEXT
 );
