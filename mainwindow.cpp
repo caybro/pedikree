@@ -68,16 +68,18 @@ void MainWindow::slotAbout()
 void MainWindow::slotSwitchView(QAction *action)
 {
     if (action == ui->actionViewPeople) {
-        if (!m_peopleModel)
+        if (!m_peopleModel) {
             m_peopleModel = new PeopleModel(this);
-        else
+        } else if (m_peopleModel) {
             m_peopleModel->exec();
+        }
         ui->tableView->setModel(m_peopleModel);
     } else if (action == ui->actionViewPlaces) {
-        if (!m_placesModel)
+        if (!m_placesModel) {
             m_placesModel = new PlacesModel(this);
-        else
+        } else if (m_placesModel) {
             m_placesModel->exec();
+        }
         ui->tableView->setModel(m_placesModel);
     }
     ui->tableView->resizeColumnsToContents();
