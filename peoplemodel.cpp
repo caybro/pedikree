@@ -24,6 +24,7 @@ void PeopleModel::exec()
 
 int PeopleModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return 4;
 }
 

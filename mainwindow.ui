@@ -44,25 +44,16 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="QTreeView" name="treeView">
-          <property name="alternatingRowColors">
-           <bool>true</bool>
-          </property>
-          <property name="rootIsDecorated">
-           <bool>false</bool>
-          </property>
-          <property name="uniformRowHeights">
-           <bool>true</bool>
-          </property>
-          <property name="itemsExpandable">
-           <bool>false</bool>
+         <widget class="QTableView" name="tableView">
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
           </property>
           <property name="sortingEnabled">
            <bool>true</bool>
           </property>
-          <attribute name="headerStretchLastSection">
+          <property name="cornerButtonEnabled">
            <bool>false</bool>
-          </attribute>
+          </property>
          </widget>
         </item>
        </layout>

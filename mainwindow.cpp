@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent):
 {
     ui->setupUi(this);
     setupActions();
-    ui->treeView->setEditTriggers(QAbstractItemView::NoEditTriggers); // all table views are readonly
 
     // setup storage location
     m_storageLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
@@ -42,7 +41,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::slotNew()
 {
-    QString dbName = QInputDialog::getText(this, tr("New Pedikree Database"), tr("Database name:"));
+    const QString dbName = QInputDialog::getText(this, tr("New Pedikree Database"), tr("Database name:"));
     if (!dbName.isEmpty()) {
         qDebug() << "new DB name:" << dbName;
         openDatabase(m_storageLocation + "/" + dbName + ".pdb", true);
@@ -73,14 +72,15 @@ void MainWindow::slotSwitchView(QAction *action)
             m_peopleModel = new PeopleModel(this);
         else
             m_peopleModel->exec();
-        ui->treeView->setModel(m_peopleModel);
+        ui->tableView->setModel(m_peopleModel);
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel)
             m_placesModel = new PlacesModel(this);
         else
             m_placesModel->exec();
-        ui->treeView->setModel(m_placesModel);
+        ui->tableView->setModel(m_placesModel);
     }
+    ui->tableView->resizeColumnsToContents();
 }
 
 void MainWindow::setupActions()
