@@ -94,9 +94,6 @@
            <property name="text">
             <string>Alive</string>
            </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroupAlive</string>
            </attribute>

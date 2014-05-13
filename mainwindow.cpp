@@ -30,7 +30,8 @@ MainWindow::MainWindow(QWidget *parent):
     }
 
     //connections
-    connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::treeViewDoubleClicked);
+    connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::tableViewDoubleClicked);
+    connect(ui->tableView, &QTableView::customContextMenuRequested, this, &MainWindow::tableViewContextMenuRequested);
 }
 
 MainWindow::~MainWindow()
@@ -90,7 +91,16 @@ void MainWindow::slotSwitchView(QAction *action)
     ui->tableView->resizeColumnsToContents();
 }
 
-void MainWindow::treeViewDoubleClicked(const QModelIndex &index)
+void MainWindow::tableViewSelectionChanged(const QModelIndex &index)
+{
+    qDebug() << "Current index changed";
+    const bool isValid = index.isValid();
+    ui->actionAddItem->setEnabled(isValid);
+    ui->actionEditItem->setEnabled(isValid);
+    ui->actionDeleteItem->setEnabled(isValid);
+}
+
+void MainWindow::tableViewDoubleClicked(const QModelIndex &index)
 {
     if (!ui->tableView->model())
         return;
@@ -101,28 +111,120 @@ void MainWindow::treeViewDoubleClicked(const QModelIndex &index)
         PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
         if (model) {
             qDebug() << "Row" << row << "has DB ID:" << model->idAtRow(row);
-            PersonDialog * dlg = new PersonDialog(this);
-            dlg->setWindowTitle(tr("Edit Person"));
-            if (dlg->exec() == QDialog::Accepted) {
-                // TODO edit the stuff
-            }
+            slotEditPerson(model->idAtRow(row));
         }
     }
 }
 
+void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
+{
+    if (m_filename.isEmpty())
+        return;
+
+    const bool validIndex = ui->tableView->indexAt(pos).isValid();
+
+    ui->actionAddItem->setEnabled(!m_filename.isEmpty());
+    ui->actionEditItem->setEnabled(validIndex);
+    ui->actionDeleteItem->setEnabled(validIndex);
+
+    QMenu menu;
+    menu.addAction(ui->actionAddItem);
+    if (validIndex) {
+        menu.addAction(ui->actionEditItem);
+        menu.addAction(ui->actionDeleteItem);
+    }
+
+    menu.exec(QCursor::pos());
+}
+
+void MainWindow::slotAddItemActionTriggered()
+{
+    if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
+        slotAddPerson();
+    }
+}
+
+void MainWindow::slotEditItemActionTriggered()
+{
+    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    if (!currentIndex.isValid())
+        return;
+
+    const int row = currentIndex.row();
+
+    if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
+        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        if (model) {
+            slotEditPerson(model->idAtRow(row));
+        }
+    }
+}
+
+void MainWindow::slotDeleteItemActionTriggered()
+{
+    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    if (!currentIndex.isValid())
+        return;
+
+    const int row = currentIndex.row();
+
+    if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
+        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        if (model) {
+            slotDeletePerson(model->idAtRow(row));
+        }
+    }
+}
+
+void MainWindow::slotAddPerson()
+{
+    PersonDialog * dlg = new PersonDialog(this);
+    dlg->setWindowTitle(tr("Add Person"));
+    if (dlg->exec() == QDialog::Accepted) {
+        // TODO add the stuff
+    }
+}
+
+void MainWindow::slotEditPerson(int personID)
+{
+    PersonDialog * dlg = new PersonDialog(this, personID);
+    dlg->setWindowTitle(tr("Edit Person"));
+    if (dlg->exec() == QDialog::Accepted) {
+        // TODO edit the stuff
+    }
+}
+
+void MainWindow::slotDeletePerson(int personID)
+{
+    // TODO ask and delete personID
+    qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
+}
+
 void MainWindow::setupActions()
 {
+    // views
     m_viewGroup->setExclusive(true);
     m_viewGroup->addAction(ui->actionViewPeople);
     m_viewGroup->addAction(ui->actionViewEvents);
     m_viewGroup->addAction(ui->actionViewPlaces);
     connect(m_viewGroup, &QActionGroup::triggered, this, &MainWindow::slotSwitchView);
 
+    // table view context menu
+    ui->tableView->addAction(ui->actionAddItem);
+    ui->tableView->addAction(ui->actionEditItem);
+    ui->tableView->addAction(ui->actionDeleteItem);
+
+    connect(ui->actionAddItem, &QAction::triggered, this, &MainWindow::slotAddItemActionTriggered);
+    connect(ui->actionEditItem, &QAction::triggered, this, &MainWindow::slotEditItemActionTriggered);
+    connect(ui->actionDeleteItem, &QAction::triggered, this, &MainWindow::slotDeleteItemActionTriggered);
+
+    // shortcuts
     ui->actionNew->setShortcut(QKeySequence(QKeySequence::New));
     ui->actionOpen->setShortcut(QKeySequence(QKeySequence::Open));
     ui->actionSaveAs->setShortcut(QKeySequence(QKeySequence::SaveAs));
     ui->actionQuit->setShortcut(QKeySequence(QKeySequence::Quit));
 
+    // connections
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::slotNew);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::slotOpen);
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::slotAbout);

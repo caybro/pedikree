@@ -1,15 +1,27 @@
+#include <QDebug>
+#include <QSqlQuery>
+#include <QSqlError>
+
 #include "persondialog.h"
 #include "ui_persondialog.h"
 
-PersonDialog::PersonDialog(QWidget *parent, bool create) :
+PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
     ui(new Ui::PersonDialog),
-    m_create(create)
+    m_personID(personID)
 {
     ui->setupUi(this);
 
-    connect(ui->buttonGroupGender, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(genderClicked(QAbstractButton*)));
-    connect(ui->buttonGroupAlive, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(deadAliveClicked(QAbstractButton*)));
+    connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
+    connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
+
+    if (personID == -1) { // new person, preset some values
+        ui->cbAlive->setChecked(true);
+    } else { // editting, fill the controls
+        populateControls();
+    }
+
+    qDebug() << "Editting person with ID:" << m_personID;
 }
 
 PersonDialog::~PersonDialog()
@@ -49,4 +61,40 @@ void PersonDialog::deadAliveClicked(QAbstractButton *button)
     ui->labelDeathPlace->setHidden(hide);
     ui->labelDeathReason->setHidden(hide);
     ui->labelBurial->setHidden(hide);
+}
+
+void PersonDialog::populateControls()
+{
+    QSqlQuery query;
+    query.prepare(QString("SELECT first_name, middle_name, surname, prefix, suffix, sex, "
+                          "birth_date, Places.name AS birth_place "
+                          "FROM People "
+                          "LEFT JOIN Places "
+                          "ON People.birth_place_id=Places.id "
+                          "WHERE People.id=%1").arg(m_personID));
+    if (!query.exec()) {
+        qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        return;
+    }
+    else
+        query.first();
+
+    // sex
+    const QString sex = query.value("sex").toString();
+    if (sex == "M")
+        ui->cbMale->setChecked(true);
+    else if (sex == "F")
+        ui->cbFemale->setChecked(true);
+
+    // names
+    ui->leGivenNames->setText(QString("%1 %2").arg(query.value("first_name").toString(), query.value("middle_name").toString()).simplified());
+    ui->leSurname->setText(query.value("surname").toString());
+    ui->lePrefix->setText(query.value("prefix").toString());
+    ui->leSuffix->setText(query.value("suffix").toString());
+
+    // birth
+    ui->leBirthDate->setText(query.value("birth_date").toString());
+    ui->leBirthPlace->setText(query.value("birth_place").toString());
+
+    // death
 }

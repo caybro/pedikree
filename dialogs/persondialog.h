@@ -8,12 +8,12 @@ namespace Ui {
 class PersonDialog;
 }
 
-class PersonDialog : public QDialog
+class PersonDialog: public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit PersonDialog(QWidget *parent = 0, bool create = false);
+    explicit PersonDialog(QWidget *parent = 0, int personID = -1);
     ~PersonDialog();
 
 protected:
@@ -24,8 +24,9 @@ private slots:
     void deadAliveClicked(QAbstractButton * button);
 
 private:
+    void populateControls();
     Ui::PersonDialog *ui;
-    bool m_create;
+    int m_personID;
 };
 
 #endif // PERSONDIALOG_H

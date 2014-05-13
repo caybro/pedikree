@@ -45,6 +45,9 @@
         </property>
         <item row="0" column="0">
          <widget class="QTableView" name="tableView">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
@@ -79,7 +82,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;File</string>
+     <string>File</string>
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
@@ -89,13 +92,13 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>&amp;Help</string>
+     <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>&amp;View</string>
+     <string>View</string>
     </property>
     <addaction name="actionViewPeople"/>
     <addaction name="actionViewEvents"/>
@@ -135,7 +138,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;Open...</string>
+    <string>Open...</string>
    </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>
@@ -143,7 +146,7 @@
   </action>
   <action name="actionSaveAs">
    <property name="text">
-    <string>Save &amp;As...</string>
+    <string>Save As...</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -153,7 +156,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;Quit</string>
+    <string>Quit</string>
    </property>
    <property name="menuRole">
     <enum>QAction::QuitRole</enum>
@@ -161,7 +164,7 @@
   </action>
   <action name="actionAbout">
    <property name="text">
-    <string>&amp;About...</string>
+    <string>About...</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -174,7 +177,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;New</string>
+    <string>New</string>
    </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>
@@ -193,7 +196,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;People</string>
+    <string>People</string>
    </property>
   </action>
   <action name="actionViewPlaces">
@@ -206,7 +209,7 @@
     </iconset>
    </property>
    <property name="text">
-    <string>P&amp;laces</string>
+    <string>Places</string>
    </property>
   </action>
   <action name="actionViewEvents">
@@ -219,7 +222,55 @@
     </iconset>
    </property>
    <property name="text">
-    <string>&amp;Events</string>
+    <string>Events</string>
+   </property>
+  </action>
+  <action name="actionAddItem">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="list-add">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Add...</string>
+   </property>
+   <property name="toolTip">
+    <string>Adds a new item to the list</string>
+   </property>
+  </action>
+  <action name="actionEditItem">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="document-edit">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Edit...</string>
+   </property>
+   <property name="toolTip">
+    <string>Edits the currently selected item</string>
+   </property>
+  </action>
+  <action name="actionDeleteItem">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="list-remove">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Delete...</string>
+   </property>
+   <property name="toolTip">
+    <string>Deletes the currently selected item</string>
    </property>
   </action>
  </widget>
