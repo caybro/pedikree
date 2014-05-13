@@ -12,12 +12,15 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     placesmodel.cpp \
-    peoplemodel.cpp
+    peoplemodel.cpp \
+    dialogs/persondialog.cpp
 
 HEADERS  += mainwindow.h \
     placesmodel.h \
-    peoplemodel.h
+    peoplemodel.h \
+    dialogs/persondialog.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialogs/persondialog.ui
 
 RESOURCES += db_assets.qrc

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PersonDialog</class>
+ <widget class="QDialog" name="PersonDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>516</width>
+    <height>454</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="5" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>53</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Surname:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leSurname</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QRadioButton" name="cbMale">
+           <property name="text">
+            <string>Male</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupGender</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="cbFemale">
+           <property name="text">
+            <string>Female</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupGender</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="cbUnknown">
+           <property name="text">
+            <string>Unknown</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupGender</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="leBirthDate"/>
+       </item>
+       <item row="13" column="0">
+        <widget class="QLineEdit" name="leDeathReason"/>
+       </item>
+       <item row="9" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="cbAlive">
+           <property name="text">
+            <string>Alive</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupAlive</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="cbDeceased">
+           <property name="text">
+            <string>Deceased</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupAlive</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Birth date:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBirthDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="labelDeathReason">
+         <property name="text">
+          <string>Death reason:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leDeathReason</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" rowspan="2">
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Prefix:</string>
+           </property>
+           <property name="buddy">
+            <cstring>lePrefix</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Suffix:</string>
+           </property>
+           <property name="buddy">
+            <cstring>leSuffix</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLineEdit" name="lePrefix"/>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="leSuffix"/>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Birth place:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBirthPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="leGivenNames"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Given names:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leGivenNames</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLineEdit" name="leDeathDate"/>
+       </item>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>52</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="labelDeathDate">
+         <property name="text">
+          <string>Death date:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leDeathDate</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLabel" name="labelBirthSurname">
+         <property name="text">
+          <string>Surname at birth:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBirthSurname</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1" colspan="2">
+        <widget class="QLabel" name="labelDeathPlace">
+         <property name="text">
+          <string>Death place:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leDeathPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QLabel" name="labelBurial">
+         <property name="text">
+          <string>Burial place or graveyard:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBurialPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
+        <widget class="QLineEdit" name="leBurialPlace"/>
+       </item>
+       <item row="11" column="1">
+        <widget class="QLineEdit" name="leDeathPlace"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="leBirthPlace"/>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="leBirthSurname"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="leSurname"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabFamily">
+      <attribute name="title">
+       <string>Family</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tabContact">
+      <attribute name="title">
+       <string>Contact</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tabPersonal">
+      <attribute name="title">
+       <string>Personal</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>cbMale</tabstop>
+  <tabstop>cbFemale</tabstop>
+  <tabstop>cbUnknown</tabstop>
+  <tabstop>leGivenNames</tabstop>
+  <tabstop>leSurname</tabstop>
+  <tabstop>lePrefix</tabstop>
+  <tabstop>leSuffix</tabstop>
+  <tabstop>leBirthSurname</tabstop>
+  <tabstop>leBirthDate</tabstop>
+  <tabstop>leBirthPlace</tabstop>
+  <tabstop>cbAlive</tabstop>
+  <tabstop>cbDeceased</tabstop>
+  <tabstop>leDeathDate</tabstop>
+  <tabstop>leDeathPlace</tabstop>
+  <tabstop>leDeathReason</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>PersonDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>PersonDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <buttongroups>
+  <buttongroup name="buttonGroupGender"/>
+  <buttongroup name="buttonGroupAlive"/>
+ </buttongroups>
+</ui>

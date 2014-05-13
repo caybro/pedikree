@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "placesmodel.h"
 
+#include "dialogs/persondialog.h"
+
 #include <QtSql>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -26,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent):
     if (!storageDir.exists()) {
         storageDir.mkpath(m_storageLocation);
     }
+
+    //connections
+    connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::treeViewDoubleClicked);
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +88,26 @@ void MainWindow::slotSwitchView(QAction *action)
         ui->tableView->setModel(m_placesModel);
     }
     ui->tableView->resizeColumnsToContents();
+}
+
+void MainWindow::treeViewDoubleClicked(const QModelIndex &index)
+{
+    if (!ui->tableView->model())
+        return;
+
+    const int row = index.row();
+
+    if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
+        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        if (model) {
+            qDebug() << "Row" << row << "has DB ID:" << model->idAtRow(row);
+            PersonDialog * dlg = new PersonDialog(this);
+            dlg->setWindowTitle(tr("Edit Person"));
+            if (dlg->exec() == QDialog::Accepted) {
+                // TODO edit the stuff
+            }
+        }
+    }
 }
 
 void MainWindow::setupActions()

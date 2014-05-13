@@ -24,6 +24,11 @@ void PeopleModel::exec()
              "ORDER BY People.surname");
 }
 
+int PeopleModel::idAtRow(int row) const
+{
+    return record(row).value("id").toInt();
+}
+
 int PeopleModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

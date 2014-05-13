@@ -26,6 +26,8 @@ private slots:
 
     void slotSwitchView(QAction * action);
 
+    void treeViewDoubleClicked(const QModelIndex &index);
+
 private:
     void setupActions();
     void openDatabase(const QString & dbFilePath, bool create = false);
