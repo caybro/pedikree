@@ -42,6 +42,11 @@ private slots:
     void slotEditPerson(int personID);
     void slotDeletePerson(int personID);
 
+    // places
+    void slotAddPlace();
+    void slotEditPlace(int placeID);
+    void slotDeletePlace(int placeID);
+
 private:
     void setupActions();
     void openDatabase(const QString & dbFilePath, bool create = false);

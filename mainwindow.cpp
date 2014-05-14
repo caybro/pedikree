@@ -3,6 +3,7 @@
 #include "placesmodel.h"
 
 #include "dialogs/persondialog.h"
+#include "dialogs/placedialog.h"
 
 #include <QtSql>
 #include <QMessageBox>
@@ -110,8 +111,14 @@ void MainWindow::tableViewDoubleClicked(const QModelIndex &index)
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
         PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
         if (model) {
-            qDebug() << "Row" << row << "has DB ID:" << model->idAtRow(row);
+            qDebug() << "Double clicked person at row " << row << "with DB ID:" << model->idAtRow(row);
             slotEditPerson(model->idAtRow(row));
+        }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
+        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        if (model) {
+            qDebug() << "Double clicked place at row " << row << "with DB ID:" << model->idAtRow(row);
+            slotEditPlace(model->idAtRow(row));
         }
     }
 }
@@ -141,6 +148,8 @@ void MainWindow::slotAddItemActionTriggered()
 {
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
         slotAddPerson();
+    } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
+        slotAddPlace();
     }
 }
 
@@ -157,6 +166,11 @@ void MainWindow::slotEditItemActionTriggered()
         if (model) {
             slotEditPerson(model->idAtRow(row));
         }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
+        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        if (model) {
+            slotEditPlace(model->idAtRow(row));
+        }
     }
 }
 
@@ -172,6 +186,11 @@ void MainWindow::slotDeleteItemActionTriggered()
         PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
         if (model) {
             slotDeletePerson(model->idAtRow(row));
+        }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
+        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        if (model) {
+            slotDeletePlace(model->idAtRow(row));
         }
     }
 }
@@ -198,6 +217,30 @@ void MainWindow::slotDeletePerson(int personID)
 {
     // TODO ask and delete personID
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
+}
+
+void MainWindow::slotAddPlace()
+{
+    PlaceDialog * dlg = new PlaceDialog(this);
+    dlg->setWindowTitle(tr("Add Place"));
+    if (dlg->exec() == QDialog::Accepted) {
+        // TODO add the stuff
+    }
+}
+
+void MainWindow::slotEditPlace(int placeID)
+{
+    PlaceDialog * dlg = new PlaceDialog(this, placeID);
+    dlg->setWindowTitle(tr("Edit Place"));
+    if (dlg->exec() == QDialog::Accepted) {
+        // TODO edit the stuff
+    }
+}
+
+void MainWindow::slotDeletePlace(int placeID)
+{
+    // TODO ask and delete personID
+    qDebug() << Q_FUNC_INFO << "Deleting place" << placeID;
 }
 
 void MainWindow::setupActions()

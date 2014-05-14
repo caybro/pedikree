@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QDate>
 
 #include "persondialog.h"
 #include "ui_persondialog.h"
@@ -15,7 +16,7 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
     connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
 
-    if (personID == -1) { // new person, preset some values
+    if (m_personID == -1) { // new person, preset some values
         ui->cbAlive->setChecked(true);
     } else { // editting, fill the controls
         populateControls();
@@ -67,7 +68,8 @@ void PersonDialog::populateControls()
 {
     QSqlQuery query;
     query.prepare(QString("SELECT first_name, middle_name, surname, prefix, suffix, sex, "
-                          "birth_date, Places.name AS birth_place "
+                          "birth_date, Places.name AS birth_place, "
+                          "death_date "
                           "FROM People "
                           "LEFT JOIN Places "
                           "ON People.birth_place_id=Places.id "
@@ -93,8 +95,15 @@ void PersonDialog::populateControls()
     ui->leSuffix->setText(query.value("suffix").toString());
 
     // birth
-    ui->leBirthDate->setText(query.value("birth_date").toString());
+    ui->leBirthDate->setText(query.value("birth_date").toDate().toString(Qt::DefaultLocaleLongDate));
     ui->leBirthPlace->setText(query.value("birth_place").toString());
 
     // death
+    const QDate deathDate = query.value("death_date").toDate();
+    if (deathDate.isValid()) {
+        ui->cbDeceased->setChecked(true);
+        ui->leDeathDate->setText(deathDate.toString(Qt::DefaultLocaleLongDate));
+    } else {
+        ui->cbAlive->setChecked(true);
+    }
 }

@@ -1,3 +1,6 @@
+#include <QSqlRecord>
+#include <QSqlField>
+
 #include "placesmodel.h"
 
 PlacesModel::PlacesModel(QObject *parent):
@@ -13,7 +16,34 @@ PlacesModel::~PlacesModel()
 void PlacesModel::exec()
 {
     setQuery("SELECT id, name, lat, lon FROM Places ORDER BY name");
-    removeColumn(0); // hide the ID column
+}
+
+int PlacesModel::idAtRow(int row) const
+{
+    return record(row).value("id").toInt();
+}
+
+int PlacesModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent)
+    return 3;
+}
+
+QVariant PlacesModel::data(const QModelIndex &item, int role) const
+{
+    if (role == Qt::DisplayRole) {
+        const QSqlRecord rec = record(item.row());
+        const int column = item.column();
+        if (column == 0) {
+            return rec.field("name").value();
+        } else if (column == 1) {
+            return rec.field("lat").value();
+        } else if (column == 2) {
+            return rec.field("lon").value();
+        }
+    }
+
+    return QSqlQueryModel::data(item, role);
 }
 
 QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int role) const
