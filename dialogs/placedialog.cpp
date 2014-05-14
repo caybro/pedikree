@@ -16,6 +16,8 @@ PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
         populateControls();
     }
 
+    connect(this, &PlaceDialog::accepted, this, &PlaceDialog::save);
+
     qDebug() << "Editting place with ID:" << m_placeID;
 }
 
@@ -33,6 +35,38 @@ void PlaceDialog::changeEvent(QEvent *e)
         break;
     default:
         break;
+    }
+}
+
+void PlaceDialog::save()
+{
+    QSqlQuery query;
+
+    if (m_placeID == -1) { // add place
+        query.prepare("INSERT INTO Places (name, lat, lon, comment) "
+                      "VALUES (:name, :lat, :lon, :comment)");
+        query.bindValue(":name", ui->leName->text());
+        query.bindValue(":lat", ui->sbLat->value());
+        query.bindValue(":lon", ui->sbLon->value());
+        query.bindValue(":comment", ui->teComment->toPlainText());
+
+        //qDebug() << "Adding place with query" << query.lastQuery();
+
+        if (!query.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    } else { // update place
+        query.prepare("UPDATE Places SET name=:name, lat=:lat, lon=:lon, comment=:comment "
+                      "WHERE id=:id");
+        query.bindValue(":name", ui->leName->text());
+        query.bindValue(":lat", ui->sbLat->value());
+        query.bindValue(":lon", ui->sbLon->value());
+        query.bindValue(":comment", ui->teComment->toPlainText());
+        query.bindValue(":id", m_placeID);
+
+        if (!query.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
     }
 }
 

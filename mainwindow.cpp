@@ -200,7 +200,7 @@ void MainWindow::slotAddPerson()
     PersonDialog * dlg = new PersonDialog(this);
     dlg->setWindowTitle(tr("Add Person"));
     if (dlg->exec() == QDialog::Accepted) {
-        // TODO add the stuff
+        m_peopleModel->exec();
     }
 }
 
@@ -209,7 +209,7 @@ void MainWindow::slotEditPerson(int personID)
     PersonDialog * dlg = new PersonDialog(this, personID);
     dlg->setWindowTitle(tr("Edit Person"));
     if (dlg->exec() == QDialog::Accepted) {
-        // TODO edit the stuff
+        m_peopleModel->exec();
     }
 }
 
@@ -217,6 +217,7 @@ void MainWindow::slotDeletePerson(int personID)
 {
     // TODO ask and delete personID
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
+    m_peopleModel->exec();
 }
 
 void MainWindow::slotAddPlace()
@@ -224,7 +225,7 @@ void MainWindow::slotAddPlace()
     PlaceDialog * dlg = new PlaceDialog(this);
     dlg->setWindowTitle(tr("Add Place"));
     if (dlg->exec() == QDialog::Accepted) {
-        // TODO add the stuff
+        m_placesModel->exec();
     }
 }
 
@@ -233,14 +234,21 @@ void MainWindow::slotEditPlace(int placeID)
     PlaceDialog * dlg = new PlaceDialog(this, placeID);
     dlg->setWindowTitle(tr("Edit Place"));
     if (dlg->exec() == QDialog::Accepted) {
-        // TODO edit the stuff
+        m_placesModel->exec();
     }
 }
 
 void MainWindow::slotDeletePlace(int placeID)
 {
-    // TODO ask and delete personID
     qDebug() << Q_FUNC_INFO << "Deleting place" << placeID;
+    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the place with ID %1?").arg(placeID)) == QMessageBox::Yes) {
+        QSqlQuery query(QString("DELETE FROM Places WHERE id=%1").arg(placeID));
+        if (query.exec()) {
+            m_placesModel->exec();
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    }
 }
 
 void MainWindow::setupActions()
@@ -285,8 +293,7 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
         m_filename = db.databaseName();
         setWindowFilePath(m_filename);
         ui->actionViewPeople->trigger();
-    }
-    else {
+    } else {
         qWarning() << "Error opening the DB" << db.lastError().text();
     }
 }

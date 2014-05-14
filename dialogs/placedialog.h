@@ -18,6 +18,9 @@ public:
 protected:
     void changeEvent(QEvent *e);
 
+private slots:
+    void save();
+
 private:
     void populateControls();
     Ui::PlaceDialog *ui;

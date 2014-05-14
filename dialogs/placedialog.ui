@@ -114,6 +114,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>leName</tabstop>
+  <tabstop>sbLat</tabstop>
+  <tabstop>sbLon</tabstop>
+  <tabstop>teComment</tabstop>
+  <tabstop>buttonBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
