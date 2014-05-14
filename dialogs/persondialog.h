@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QSqlQueryModel>
 
 namespace Ui {
 class PersonDialog;
@@ -27,6 +28,7 @@ private:
     void populateControls();
     Ui::PersonDialog *ui;
     int m_personID;
+    QSqlQueryModel * m_placesModel;
 };
 
 #endif // PERSONDIALOG_H

@@ -13,11 +13,27 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
 {
     ui->setupUi(this);
 
+    // dates
+    ui->leBirthDate->setMinimumDate(QDate(100, 1, 1));
+    ui->leDeathDate->setMinimumDate(QDate(100, 1, 1));
+
+    // places
+    m_placesModel = new QSqlQueryModel(this);
+    m_placesModel->setQuery("SELECT id, name FROM Places");
+    ui->leBirthPlace->setModel(m_placesModel);
+    ui->leBirthPlace->setModelColumn(1);
+    ui->leDeathPlace->setModel(m_placesModel);
+    ui->leDeathPlace->setModelColumn(1);
+    ui->leBurialPlace->setModel(m_placesModel);
+    ui->leBurialPlace->setModelColumn(1);
+
     connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
     connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
 
     if (m_personID == -1) { // new person, preset some values
         ui->cbAlive->setChecked(true);
+        ui->leBirthPlace->setEditText(QString());
+        ui->leDeathPlace->setEditText(QString());
     } else { // editting, fill the controls
         populateControls();
     }
@@ -69,7 +85,7 @@ void PersonDialog::populateControls()
     QSqlQuery query;
     query.prepare(QString("SELECT first_name, middle_name, surname, prefix, suffix, sex, "
                           "birth_date, birth_place, "
-                          "death_date, death_place "
+                          "death_date, death_place, death_reason, burial_place "
                           "FROM People "
                           "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
@@ -93,15 +109,18 @@ void PersonDialog::populateControls()
     ui->leSuffix->setText(query.value("suffix").toString());
 
     // birth
-    ui->leBirthDate->setText(query.value("birth_date").toDate().toString(Qt::DefaultLocaleLongDate));
-    ui->leBirthPlace->setText(query.value("birth_place").toString());
+    ui->leBirthDate->setDate(query.value("birth_date").toDate());
+    ui->leBirthPlace->setEditText(query.value("birth_place").toString());
 
     // death
     const QDate deathDate = query.value("death_date").toDate();
     if (deathDate.isValid()) {
         ui->cbDeceased->setChecked(true);
-        ui->leDeathDate->setText(deathDate.toString(Qt::DefaultLocaleLongDate));
     } else {
         ui->cbAlive->setChecked(true);
     }
+    ui->leDeathDate->setDate(deathDate);
+    ui->leDeathPlace->setEditText(query.value("death_place").toString());
+    ui->leDeathReason->setText(query.value("death_reason").toString());
+    ui->leBurialPlace->setEditText(query.value("burial_place").toString());
 }
