@@ -68,12 +68,10 @@ void PersonDialog::populateControls()
 {
     QSqlQuery query;
     query.prepare(QString("SELECT first_name, middle_name, surname, prefix, suffix, sex, "
-                          "birth_date, Places.name AS birth_place, "
-                          "death_date "
+                          "birth_date, birth_place, "
+                          "death_date, death_place "
                           "FROM People "
-                          "LEFT JOIN Places "
-                          "ON People.birth_place_id=Places.id "
-                          "WHERE People.id=%1").arg(m_personID));
+                          "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
         return;

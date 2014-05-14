@@ -17,11 +17,9 @@ PeopleModel::~PeopleModel()
 
 void PeopleModel::exec()
 {
-    setQuery("SELECT People.id, People.sex, People.first_name, People.surname, People.birth_date, People.occupation, Places.name AS place_name "
+    setQuery("SELECT id, sex, first_name, surname, birth_date, birth_place, occupation "
              "FROM People "
-             "LEFT JOIN Places "
-             "ON People.birth_place_id=Places.id "
-             "ORDER BY People.surname");
+             "ORDER BY surname");
 }
 
 int PeopleModel::idAtRow(int row) const
@@ -51,7 +49,7 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         } else if (column == 1) {
             return rec.field("birth_date").value().toDate();
         } else if (column == 2) {
-            return rec.field("place_name").value();
+            return rec.field("birth_place").value();
         } else if (column == 3) {
             return rec.field("occupation").value();
         }

@@ -3,6 +3,7 @@ CREATE TABLE Events (
     type TEXT NOT NULL, -- FIXME maybe should be an enum like, so INT
     date DATETIME,
     person_id INTEGER REFERENCES People(id),
-    place_id INTEGER DEFAULT 0 REFERENCES Places(id) ON UPDATE SET NULL,
+    place TEXT,
+    place_id INTEGER DEFAULT 0,
     comment TEXT
 );

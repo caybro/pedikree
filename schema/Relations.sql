@@ -3,7 +3,8 @@ CREATE TABLE Relations (
     type TEXT NOT NULL, -- FIXME maybe should be an enum like, so INT
     person1_id INTEGER REFERENCES People(id),
     person2_id INTEGER REFERENCES People(id),
-    place_id INTEGER DEFAULT 0 REFERENCES Places(id) ON UPDATE SET NULL,
+    place TEXT,
+    place_id INTEGER DEFAULT 0,
     date DATETIME,
     comment TEXT
 );
