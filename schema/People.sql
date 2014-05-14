@@ -4,6 +4,7 @@ CREATE TABLE People (
     first_name TEXT,
     middle_name TEXT,
     surname TEXT,
+    maiden_name TEXT,
     prefix TEXT,
     suffix TEXT,
     honorary TEXT,

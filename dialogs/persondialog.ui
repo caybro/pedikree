@@ -207,10 +207,10 @@
        <item row="3" column="1" colspan="2">
         <widget class="QLabel" name="labelBirthSurname">
          <property name="text">
-          <string>Surname at birth:</string>
+          <string>Maiden name:</string>
          </property>
          <property name="buddy">
-          <cstring>leBirthSurname</cstring>
+          <cstring>leMaidenName</cstring>
          </property>
         </widget>
        </item>
@@ -229,10 +229,13 @@
          <property name="text">
           <string>Burial place or graveyard:</string>
          </property>
+         <property name="buddy">
+          <cstring>leBurialPlace</cstring>
+         </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLineEdit" name="leBirthSurname"/>
+        <widget class="QLineEdit" name="leMaidenName"/>
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="leSurname"/>
@@ -327,7 +330,7 @@
   <tabstop>leSurname</tabstop>
   <tabstop>lePrefix</tabstop>
   <tabstop>leSuffix</tabstop>
-  <tabstop>leBirthSurname</tabstop>
+  <tabstop>leMaidenName</tabstop>
   <tabstop>leBirthDate</tabstop>
   <tabstop>leBirthPlace</tabstop>
   <tabstop>cbAlive</tabstop>

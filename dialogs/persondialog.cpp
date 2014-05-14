@@ -62,7 +62,7 @@ void PersonDialog::genderClicked(QAbstractButton *button)
 {
     Q_UNUSED(button)
     const bool hide = ui->cbMale->isChecked();
-    ui->leBirthSurname->setHidden(hide);
+    ui->leMaidenName->setHidden(hide);
     ui->labelBirthSurname->setHidden(hide);
 }
 
@@ -83,7 +83,7 @@ void PersonDialog::deadAliveClicked(QAbstractButton *button)
 void PersonDialog::populateControls()
 {
     QSqlQuery query;
-    query.prepare(QString("SELECT first_name, middle_name, surname, prefix, suffix, sex, "
+    query.prepare(QString("SELECT first_name, middle_name, surname, maiden_name, prefix, suffix, sex, "
                           "birth_date, birth_place, "
                           "death_date, death_place, death_reason, burial_place "
                           "FROM People "
@@ -107,6 +107,7 @@ void PersonDialog::populateControls()
     ui->leSurname->setText(query.value("surname").toString());
     ui->lePrefix->setText(query.value("prefix").toString());
     ui->leSuffix->setText(query.value("suffix").toString());
+    ui->leMaidenName->setText(query.value("maiden_name").toString());
 
     // birth
     ui->leBirthDate->setDate(query.value("birth_date").toDate());
