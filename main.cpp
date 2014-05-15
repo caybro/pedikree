@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon::fromTheme("view-process-all-tree"));
 
     if (!QSqlDatabase::isDriverAvailable("QSQLITE")) {
-        QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"), QApplication::tr("Your Qt installation doesn't contain the required SQLLite DB plugin."));
+        QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"),
+                              QApplication::tr("Your Qt installation doesn't contain the required SQLLite DB plugin."));
         return -1;
     }
 

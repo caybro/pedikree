@@ -23,6 +23,7 @@ protected:
 private slots:
     void genderClicked(QAbstractButton * button);
     void deadAliveClicked(QAbstractButton * button);
+    void save();
 
 private:
     void populateControls();
