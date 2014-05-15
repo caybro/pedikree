@@ -80,6 +80,7 @@ void PersonDialog::deadAliveClicked(QAbstractButton *button)
     ui->labelDeathPlace->setHidden(hide);
     ui->labelDeathReason->setHidden(hide);
     ui->labelBurial->setHidden(hide);
+    ui->cbDeathDate->setHidden(hide);
 }
 
 void PersonDialog::save()
@@ -174,7 +175,9 @@ void PersonDialog::populateControls()
     ui->leMaidenName->setText(query.value("maiden_name").toString());
 
     // birth
-    ui->leBirthDate->setDate(query.value("birth_date").toDate());
+    const QDate birthDate = query.value("birth_date").toDate();
+    ui->cbBirthDate->setChecked(birthDate.isValid());
+    ui->leBirthDate->setDate(birthDate);
     ui->leBirthPlace->setEditText(query.value("birth_place").toString());
 
     // death
