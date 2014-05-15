@@ -2,7 +2,6 @@ CREATE TABLE People (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sex VARCHAR(1), -- FIXME maybe should be an enum like, so INT; one of M/F/U
     first_name TEXT,
-    middle_name TEXT,
     surname TEXT,
     maiden_name TEXT,
     prefix TEXT,
