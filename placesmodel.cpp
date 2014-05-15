@@ -15,7 +15,7 @@ PlacesModel::~PlacesModel()
 
 void PlacesModel::exec()
 {
-    setQuery("SELECT id, name, lat, lon FROM Places ORDER BY name");
+    setQuery("SELECT id, name, lat, lon, comment FROM Places ORDER BY name");
 }
 
 int PlacesModel::idAtRow(int row) const
@@ -26,7 +26,7 @@ int PlacesModel::idAtRow(int row) const
 int PlacesModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 3;
+    return 4;
 }
 
 QVariant PlacesModel::data(const QModelIndex &item, int role) const
@@ -40,6 +40,8 @@ QVariant PlacesModel::data(const QModelIndex &item, int role) const
             return rec.field("lat").value();
         } else if (column == 2) {
             return rec.field("lon").value();
+        } else if (column == 3) {
+            return rec.field("comment").value();
         }
     }
 
@@ -55,6 +57,8 @@ QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int r
             return tr("Latitude");
         else if (section == 2)
             return ("Longitude");
+        else if (section == 3)
+            return ("Comment");
     }
 
     return QSqlQueryModel::headerData(section, orientation, role);
