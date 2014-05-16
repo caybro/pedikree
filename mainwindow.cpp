@@ -52,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent):
     //connections
     connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::tableViewDoubleClicked);
     connect(ui->tableView, &QTableView::customContextMenuRequested, this, &MainWindow::tableViewContextMenuRequested);
+
+    // settings
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
@@ -62,7 +65,29 @@ MainWindow::~MainWindow()
     }
     QSqlDatabase::removeDatabase(db.connectionName());
 
+    saveSettings();
+
     delete ui;
+}
+
+void MainWindow::saveSettings()
+{
+    QSettings settings;
+
+    settings.beginGroup("MainWindow");
+    settings.setValue("state", saveState());
+    settings.setValue("geometry", saveGeometry());
+    settings.endGroup();
+}
+
+void MainWindow::loadSettings()
+{
+    QSettings settings;
+
+    settings.beginGroup("MainWindow");
+    restoreState(settings.value("state").toByteArray());
+    restoreGeometry(settings.value("geometry").toByteArray());
+    settings.endGroup();
 }
 
 void MainWindow::slotNew()

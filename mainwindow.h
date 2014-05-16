@@ -39,6 +39,10 @@ public:
     ~MainWindow();
 
 private slots:
+    // settings
+    void saveSettings();
+    void loadSettings();
+
     // menu actions
     void slotNew();
     void slotOpen();
