@@ -5,6 +5,6 @@ CREATE TABLE Relations (
     person2_id INTEGER REFERENCES People(id),
     place TEXT,
     place_id INTEGER DEFAULT 0,
-    date DATETIME,
+    date TEXT,
     comment TEXT
 );

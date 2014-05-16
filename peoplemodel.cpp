@@ -39,15 +39,20 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
         if (column == 0) {
-            const QString val = rec.field("sex").value().toString();
+            const QString sex = rec.field("sex").value().toString();
             QString symbol;
-            if (val == "M")
+            if (sex == "M")
                 symbol = "♂";
-            else if (val == "F")
+            else if (sex == "F")
                 symbol = "♀";
             return QString("%1 %2 %3").arg(symbol, rec.field("first_name").value().toString(), rec.field("surname").value().toString());
         } else if (column == 1) {
-            return rec.field("birth_date").value().toDate();
+            const QDate birthDate = rec.field("birth_date").value().toDate();
+            if (birthDate.isValid()) {
+                return birthDate;
+            } else {
+                return rec.field("birth_date").value();
+            }
         } else if (column == 2) {
             return rec.field("birth_place").value();
         } else if (column == 3) {
@@ -57,7 +62,10 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
         if (column == 1) {
-            return rec.field("birth_date").value().toDate().toString(Qt::DefaultLocaleLongDate);
+            const QDate birthDate = rec.field("birth_date").value().toDate();
+            if (birthDate.isValid()) {
+                return birthDate.toString(Qt::DefaultLocaleLongDate);
+            }
         }
     }
 

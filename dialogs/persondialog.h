@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QAbstractButton>
 #include <QSqlQueryModel>
+#include <QAction>
 
 namespace Ui {
 class PersonDialog;
@@ -24,6 +25,9 @@ private slots:
     void genderClicked(QAbstractButton * button);
     void deadAliveClicked(QAbstractButton * button);
     void save();
+
+    void popupBirthDateCalendar();
+    void popupDeathDateCalendar();
 
 private:
     void populateControls();

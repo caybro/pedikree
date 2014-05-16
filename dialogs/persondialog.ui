@@ -21,40 +21,7 @@
        <string>General</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="13" column="2">
-        <widget class="QComboBox" name="leBurialPlace">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="2">
-        <widget class="QComboBox" name="leBirthPlace">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="2" colspan="2">
-        <widget class="QLabel" name="labelDeathPlace">
-         <property name="text">
-          <string>Death place:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leDeathPlace</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLineEdit" name="leMaidenName"/>
-       </item>
-       <item row="0" column="1" colspan="3">
+       <item row="0" column="0" colspan="3">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QRadioButton" name="cbMale">
@@ -91,17 +58,20 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="2" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Surname:</string>
+       <item row="7" column="1">
+        <widget class="QComboBox" name="leBirthPlace">
+         <property name="editable">
+          <bool>true</bool>
          </property>
-         <property name="buddy">
-          <cstring>leSurname</cstring>
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="13" column="0">
+        <widget class="QLineEdit" name="leDeathReason"/>
+       </item>
+       <item row="1" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Given names:</string>
@@ -111,57 +81,24 @@
          </property>
         </widget>
        </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="labelDeathDate">
+         <property name="text">
+          <string>Death date:</string>
+         </property>
+        </widget>
+       </item>
        <item row="13" column="1">
-        <widget class="QLineEdit" name="leDeathReason"/>
-       </item>
-       <item row="9" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QRadioButton" name="cbAlive">
-           <property name="text">
-            <string>Alive</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroupAlive</string>
-           </attribute>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="cbDeceased">
-           <property name="text">
-            <string>Deceased</string>
-           </property>
-           <attribute name="buttonGroup">
-            <string notr="true">buttonGroupAlive</string>
-           </attribute>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="leSurname"/>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Birth date:</string>
+        <widget class="QComboBox" name="leBurialPlace">
+         <property name="editable">
+          <bool>true</bool>
          </property>
-         <property name="buddy">
-          <cstring>leBirthDate</cstring>
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
          </property>
         </widget>
        </item>
-       <item row="6" column="2" colspan="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Birth place:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leBirthPlace</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
+       <item row="12" column="0">
         <widget class="QLabel" name="labelDeathReason">
          <property name="text">
           <string>Death reason:</string>
@@ -171,7 +108,103 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1" rowspan="2">
+       <item row="3" column="1" colspan="2">
+        <widget class="QLabel" name="labelMaidenName">
+         <property name="text">
+          <string>Maiden name:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leMaidenName</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="leMaidenName"/>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLineEdit" name="leBirthDate">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Surname:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leSurname</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="leSurname"/>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Birth date:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>52</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QLabel" name="labelBurial">
+         <property name="text">
+          <string>Burial place or graveyard:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBurialPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLineEdit" name="leGivenNames"/>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>Birth place:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBirthPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>53</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLineEdit" name="leDeathDate">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" rowspan="2">
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="0">
           <widget class="QLabel" name="label_3">
@@ -201,69 +234,7 @@
          </item>
         </layout>
        </item>
-       <item row="3" column="2" colspan="2">
-        <widget class="QLabel" name="labelBirthSurname">
-         <property name="text">
-          <string>Maiden name:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leMaidenName</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QDateEdit" name="leBirthDate">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="displayFormat">
-          <string>dd.MM.yyyy</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>53</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLabel" name="labelDeathDate">
-         <property name="text">
-          <string>Death date:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leDeathDate</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="leGivenNames"/>
-       </item>
        <item row="11" column="1">
-        <widget class="QDateEdit" name="leDeathDate">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="displayFormat">
-          <string>dd.MM.yyyy</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="2">
         <widget class="QComboBox" name="leDeathPlace">
          <property name="editable">
           <bool>true</bool>
@@ -273,34 +244,39 @@
          </property>
         </widget>
        </item>
-       <item row="8" column="2">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>52</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="12" column="2" colspan="2">
-        <widget class="QLabel" name="labelBurial">
+       <item row="10" column="1" colspan="2">
+        <widget class="QLabel" name="labelDeathPlace">
          <property name="text">
-          <string>Burial place or graveyard:</string>
+          <string>Death place:</string>
          </property>
          <property name="buddy">
-          <cstring>leBurialPlace</cstring>
+          <cstring>leDeathPlace</cstring>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QCheckBox" name="cbBirthDate"/>
-       </item>
-       <item row="11" column="0">
-        <widget class="QCheckBox" name="cbDeathDate"/>
+       <item row="9" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QRadioButton" name="cbAlive">
+           <property name="text">
+            <string>Alive</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupAlive</string>
+           </attribute>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="cbDeceased">
+           <property name="text">
+            <string>Deceased</string>
+           </property>
+           <attribute name="buttonGroup">
+            <string notr="true">buttonGroupAlive</string>
+           </attribute>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -343,12 +319,10 @@
   <tabstop>lePrefix</tabstop>
   <tabstop>leSuffix</tabstop>
   <tabstop>leMaidenName</tabstop>
-  <tabstop>cbBirthDate</tabstop>
   <tabstop>leBirthDate</tabstop>
   <tabstop>leBirthPlace</tabstop>
   <tabstop>cbAlive</tabstop>
   <tabstop>cbDeceased</tabstop>
-  <tabstop>cbDeathDate</tabstop>
   <tabstop>leDeathDate</tabstop>
   <tabstop>leDeathPlace</tabstop>
   <tabstop>leDeathReason</tabstop>
@@ -389,41 +363,9 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>cbBirthDate</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leBirthDate</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>26</x>
-     <y>238</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>90</x>
-     <y>238</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cbDeathDate</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>leDeathDate</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>28</x>
-     <y>336</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>118</x>
-     <y>333</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupGender"/>
   <buttongroup name="buttonGroupAlive"/>
+  <buttongroup name="buttonGroupGender"/>
  </buttongroups>
 </ui>

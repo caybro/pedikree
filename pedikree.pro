@@ -14,16 +14,19 @@ SOURCES += main.cpp\
     placesmodel.cpp \
     peoplemodel.cpp \
     dialogs/persondialog.cpp \
-    dialogs/placedialog.cpp
+    dialogs/placedialog.cpp \
+    dialogs/pddatedialog.cpp
 
 HEADERS  += mainwindow.h \
     placesmodel.h \
     peoplemodel.h \
     dialogs/persondialog.h \
-    dialogs/placedialog.h
+    dialogs/placedialog.h \
+    dialogs/pddatedialog.h
 
 FORMS    += mainwindow.ui \
     dialogs/persondialog.ui \
-    dialogs/placedialog.ui
+    dialogs/placedialog.ui \
+    dialogs/pddatedialog.ui
 
 RESOURCES += db_assets.qrc

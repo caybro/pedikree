@@ -5,6 +5,7 @@
 
 #include "persondialog.h"
 #include "ui_persondialog.h"
+#include "pddatedialog.h"
 
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
@@ -12,10 +13,6 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     m_personID(personID)
 {
     ui->setupUi(this);
-
-    // dates
-    ui->leBirthDate->setMinimumDate(QDate(100, 1, 1));
-    ui->leDeathDate->setMinimumDate(QDate(100, 1, 1));
 
     // places
     m_placesModel = new QSqlQueryModel(this);
@@ -34,9 +31,18 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
         ui->cbAlive->setChecked(true);
         ui->leBirthPlace->setEditText(QString());
         ui->leDeathPlace->setEditText(QString());
+        ui->leBurialPlace->setEditText(QString());
     } else { // editting, fill the controls
         populateControls();
     }
+
+    QAction * tmp = ui->leBirthDate->addAction(QIcon::fromTheme("view-calendar-day"), QLineEdit::TrailingPosition);
+    tmp->setToolTip(tr("Enter date"));
+    connect(tmp, &QAction::triggered, this, &PersonDialog::popupBirthDateCalendar);
+
+    QAction * tmp2 = ui->leDeathDate->addAction(QIcon::fromTheme("view-calendar-day"), QLineEdit::TrailingPosition);
+    tmp2->setToolTip(tr("Enter date"));
+    connect(tmp2, &QAction::triggered, this, &PersonDialog::popupDeathDateCalendar);
 
     connect(this, &PersonDialog::accepted, this, &PersonDialog::save);
 
@@ -65,7 +71,7 @@ void PersonDialog::genderClicked(QAbstractButton *button)
     Q_UNUSED(button)
     const bool hide = ui->cbMale->isChecked();
     ui->leMaidenName->setHidden(hide);
-    ui->labelBirthSurname->setHidden(hide);
+    ui->labelMaidenName->setHidden(hide);
 }
 
 void PersonDialog::deadAliveClicked(QAbstractButton *button)
@@ -80,7 +86,6 @@ void PersonDialog::deadAliveClicked(QAbstractButton *button)
     ui->labelDeathPlace->setHidden(hide);
     ui->labelDeathReason->setHidden(hide);
     ui->labelBurial->setHidden(hide);
-    ui->cbDeathDate->setHidden(hide);
 }
 
 void PersonDialog::save()
@@ -91,26 +96,26 @@ void PersonDialog::save()
         query.prepare("INSERT INTO People (first_name, surname, maiden_name, prefix, suffix, sex, "
                       "birth_date, birth_place, "
                       "death_date, death_place, death_reason, burial_place) "
-                      "VALUES (first_name, surname, maiden_name, prefix, suffix, sex, "
-                      "birth_date, birth_place, "
-                      "death_date, death_place, death_reason, burial_place)");
+                      "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
+                      ":birth_date, :birth_place, "
+                      ":death_date, :death_place, :death_reason, :burial_place)");
         query.bindValue(":first_name", ui->leGivenNames->text());
         query.bindValue(":surname", ui->leSurname->text());
         query.bindValue(":maiden_name", ui->leMaidenName->text());
         query.bindValue(":prefix", ui->lePrefix->text());
         query.bindValue(":suffix", ui->leSuffix->text());
         query.bindValue(":sex", ui->cbMale->isChecked() ? "M" : (ui->cbFemale->isChecked() ? "F" : ""));
-        query.bindValue(":birth_date", ui->leBirthDate->date().toString(Qt::ISODate));
+        query.bindValue(":birth_date", ui->leBirthDate->text());
         query.bindValue(":birth_place", ui->leBirthPlace->currentText());
         // TODO places id
         if (ui->cbDeceased->isChecked()) {
-            query.bindValue(":death_date", ui->leDeathDate->date().toString(Qt::ISODate));
+            query.bindValue(":death_date", ui->leDeathDate->text());
             query.bindValue(":death_place", ui->leDeathPlace->currentText());
             query.bindValue(":death_reason", ui->leDeathReason->text());
             query.bindValue(":burial_place", ui->leBurialPlace->currentText());
         }
 
-        //qDebug() << "Adding person with query" << query.lastQuery();
+        qDebug() << "Adding person with query" << query.lastQuery();
 
         if (!query.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
@@ -128,11 +133,11 @@ void PersonDialog::save()
         query.bindValue(":prefix", ui->lePrefix->text());
         query.bindValue(":suffix", ui->leSuffix->text());
         query.bindValue(":sex", ui->cbMale->isChecked() ? "M" : (ui->cbFemale->isChecked() ? "F" : ""));
-        query.bindValue(":birth_date", ui->leBirthDate->date().toString(Qt::ISODate));
+        query.bindValue(":birth_date", ui->leBirthDate->text());
         query.bindValue(":birth_place", ui->leBirthPlace->currentText());
         // TODO places id
         if (ui->cbDeceased->isChecked()) {
-            query.bindValue(":death_date", ui->leDeathDate->date().toString(Qt::ISODate));
+            query.bindValue(":death_date", ui->leDeathDate->text());
             query.bindValue(":death_place", ui->leDeathPlace->currentText());
             query.bindValue(":death_reason", ui->leDeathReason->text());
             query.bindValue(":burial_place", ui->leBurialPlace->currentText());
@@ -143,6 +148,24 @@ void PersonDialog::save()
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
         }
     }
+}
+
+void PersonDialog::popupBirthDateCalendar()
+{
+    PdDateDialog * dlg = new PdDateDialog(ui->leBirthDate->text(), this);
+    if (dlg->exec() == QDialog::Accepted) {
+        ui->leBirthDate->setText(dlg->date());
+    }
+    delete dlg;
+}
+
+void PersonDialog::popupDeathDateCalendar()
+{
+    PdDateDialog * dlg = new PdDateDialog(ui->leDeathDate->text(), this);
+    if (dlg->exec() == QDialog::Accepted) {
+        ui->leDeathDate->setText(dlg->date());
+    }
+    delete dlg;
 }
 
 void PersonDialog::populateControls()
@@ -175,19 +198,17 @@ void PersonDialog::populateControls()
     ui->leMaidenName->setText(query.value("maiden_name").toString());
 
     // birth
-    const QDate birthDate = query.value("birth_date").toDate();
-    ui->cbBirthDate->setChecked(birthDate.isValid());
-    ui->leBirthDate->setDate(birthDate);
+    ui->leBirthDate->setText(query.value("birth_date").toString());
     ui->leBirthPlace->setEditText(query.value("birth_place").toString());
 
     // death
-    const QDate deathDate = query.value("death_date").toDate();
-    if (deathDate.isValid()) {
+    const QString deathDate = query.value("death_date").toString();
+    if (!deathDate.isEmpty()) {
         ui->cbDeceased->setChecked(true);
     } else {
         ui->cbAlive->setChecked(true);
     }
-    ui->leDeathDate->setDate(deathDate);
+    ui->leDeathDate->setText(deathDate);
     ui->leDeathPlace->setEditText(query.value("death_place").toString());
     ui->leDeathReason->setText(query.value("death_reason").toString());
     ui->leBurialPlace->setEditText(query.value("burial_place").toString());
