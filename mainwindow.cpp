@@ -235,7 +235,8 @@ void MainWindow::slotEditPerson(int personID)
 void MainWindow::slotDeletePerson(int personID)
 {
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
-    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person with ID %1?").arg(personID)) == QMessageBox::Yes) {
+    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person with ID %1?").arg(personID),
+                              (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
         QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(personID));
         if (query.exec()) {
             m_peopleModel->exec();
@@ -266,7 +267,8 @@ void MainWindow::slotEditPlace(int placeID)
 void MainWindow::slotDeletePlace(int placeID)
 {
     qDebug() << Q_FUNC_INFO << "Deleting place" << placeID;
-    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the place with ID %1?").arg(placeID)) == QMessageBox::Yes) {
+    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the place with ID %1?").arg(placeID),
+                              (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
         QSqlQuery query(QString("DELETE FROM Places WHERE id=%1").arg(placeID));
         if (query.exec()) {
             m_placesModel->exec();
