@@ -92,15 +92,6 @@ void MainWindow::slotSwitchView(QAction *action)
     ui->tableView->resizeColumnsToContents();
 }
 
-void MainWindow::tableViewSelectionChanged(const QModelIndex &index)
-{
-    qDebug() << "Current index changed";
-    const bool isValid = index.isValid();
-    ui->actionAddItem->setEnabled(isValid);
-    ui->actionEditItem->setEnabled(isValid);
-    ui->actionDeleteItem->setEnabled(isValid);
-}
-
 void MainWindow::tableViewDoubleClicked(const QModelIndex &index)
 {
     if (!ui->tableView->model())

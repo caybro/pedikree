@@ -28,7 +28,6 @@ private slots:
     void slotSwitchView(QAction * action);
 
     // table view handling
-    void tableViewSelectionChanged(const QModelIndex &index);
     void tableViewDoubleClicked(const QModelIndex &index);
     void tableViewContextMenuRequested(const QPoint & pos);
 
