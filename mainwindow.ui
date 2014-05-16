@@ -104,7 +104,16 @@
     <addaction name="actionViewEvents"/>
     <addaction name="actionViewPlaces"/>
    </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionAddItem"/>
+    <addaction name="actionEditItem"/>
+    <addaction name="actionDeleteItem"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
    <addaction name="menuView"/>
    <addaction name="menuHelp"/>
   </widget>

@@ -30,6 +30,7 @@ private slots:
     // table view handling
     void tableViewDoubleClicked(const QModelIndex &index);
     void tableViewContextMenuRequested(const QPoint & pos);
+    void updateEditMenuActions();
 
     // general action handling
     void slotAddItemActionTriggered();

@@ -135,6 +135,15 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
     menu.exec(QCursor::pos());
 }
 
+void MainWindow::updateEditMenuActions()
+{
+    const bool validIndex = ui->tableView->currentIndex().isValid();
+
+    ui->actionAddItem->setEnabled(!m_filename.isEmpty());
+    ui->actionEditItem->setEnabled(validIndex);
+    ui->actionDeleteItem->setEnabled(validIndex);
+}
+
 void MainWindow::slotAddItemActionTriggered()
 {
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
@@ -206,9 +215,15 @@ void MainWindow::slotEditPerson(int personID)
 
 void MainWindow::slotDeletePerson(int personID)
 {
-    // TODO ask and delete personID
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
-    m_peopleModel->exec();
+    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person with ID %1?").arg(personID)) == QMessageBox::Yes) {
+        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(personID));
+        if (query.exec()) {
+            m_peopleModel->exec();
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    }
 }
 
 void MainWindow::slotAddPlace()
@@ -255,6 +270,8 @@ void MainWindow::setupActions()
     ui->tableView->addAction(ui->actionAddItem);
     ui->tableView->addAction(ui->actionEditItem);
     ui->tableView->addAction(ui->actionDeleteItem);
+
+    connect(ui->menuEdit, &QMenu::aboutToShow, this, &MainWindow::updateEditMenuActions);
 
     connect(ui->actionAddItem, &QAction::triggered, this, &MainWindow::slotAddItemActionTriggered);
     connect(ui->actionEditItem, &QAction::triggered, this, &MainWindow::slotEditItemActionTriggered);
