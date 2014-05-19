@@ -36,7 +36,7 @@ PeopleModel::~PeopleModel()
 
 void PeopleModel::exec()
 {
-    setQuery("SELECT id, sex, first_name, surname, birth_date, birth_place, occupation "
+    setQuery("SELECT id, sex, first_name, surname, birth_date, birth_place, death_date, death_place, occupation "
              "FROM People "
              "ORDER BY surname");
 }
@@ -49,7 +49,7 @@ int PeopleModel::idAtRow(int row) const
 int PeopleModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 4;
+    return 6;
 }
 
 QVariant PeopleModel::data(const QModelIndex &item, int role) const
@@ -66,15 +66,30 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
                 symbol = "♀";
             return QString("%1 %2 %3").arg(symbol, rec.field("first_name").value().toString(), rec.field("surname").value().toString());
         } else if (column == 1) {
+            QString result = QString::fromUtf8("✱ ");
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
-                return birthDate;
+                result += birthDate.toString(Qt::DefaultLocaleShortDate);
             } else {
-                return rec.field("birth_date").value();
+                result += rec.field("birth_date").value().toString();
             }
+            return result;
         } else if (column == 2) {
             return rec.field("birth_place").value();
         } else if (column == 3) {
+            if (rec.field("death_date").isNull())
+                return QVariant();
+            QString result = QString::fromUtf8("✝ ");
+            const QDate deathDate = rec.field("death_date").value().toDate();
+            if (deathDate.isValid()) {
+                result += deathDate.toString(Qt::DefaultLocaleShortDate);
+            } else {
+                result += rec.field("death_date").value().toString();
+            }
+            return result;
+        } else if (column == 4) {
+            return rec.field("death_place").value();
+        } else if (column == 5) {
             return rec.field("occupation").value();
         }
     } else if (role == Qt::ToolTipRole) {
@@ -84,6 +99,11 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
                 return birthDate.toString(Qt::DefaultLocaleLongDate);
+            }
+        } else if (column == 3) {
+            const QDate deathDate = rec.field("death_date").value().toDate();
+            if (deathDate.isValid()) {
+                return deathDate.toString(Qt::DefaultLocaleLongDate);
             }
         }
     }
@@ -101,6 +121,10 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
         else if (section == 2)
             return tr("Birth Place");
         else if (section == 3)
+            return tr("Death Date");
+        else if (section == 4)
+            return tr("Death Place");
+        else if (section == 5)
             return tr("Occupation");
     }
 
