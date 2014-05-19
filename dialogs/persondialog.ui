@@ -381,6 +381,11 @@
          </item>
          <item>
           <property name="text">
+           <string>Agnostic</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>Christian</string>
           </property>
          </item>
