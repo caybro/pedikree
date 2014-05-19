@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>456</height>
+    <width>510</width>
+    <height>454</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -280,20 +280,355 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabFamily">
-      <attribute name="title">
-       <string>Family</string>
-      </attribute>
-     </widget>
      <widget class="QWidget" name="tabContact">
       <attribute name="title">
        <string>Contact</string>
       </attribute>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="emailLabel">
+         <property name="text">
+          <string>Email:</string>
+         </property>
+         <property name="buddy">
+          <cstring>email</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="email">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="phoneLabel">
+         <property name="text">
+          <string>Phone:</string>
+         </property>
+         <property name="buddy">
+          <cstring>phone</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="phone">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="webLabel">
+         <property name="text">
+          <string>Web:</string>
+         </property>
+         <property name="buddy">
+          <cstring>web</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="web">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
      <widget class="QWidget" name="tabPersonal">
       <attribute name="title">
        <string>Personal</string>
       </attribute>
+      <layout class="QFormLayout" name="formLayout_2">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="nationalityLabel">
+         <property name="text">
+          <string>Nationality:</string>
+         </property>
+         <property name="buddy">
+          <cstring>nationality</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="religionLabel">
+         <property name="text">
+          <string>Religion:</string>
+         </property>
+         <property name="buddy">
+          <cstring>religion</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="religion">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Christian</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Islam</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Judaism</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Buddhism</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Hinduism</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="nationality">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="heightLabel">
+         <property name="text">
+          <string>Height:</string>
+         </property>
+         <property name="buddy">
+          <cstring>height</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QSpinBox" name="height">
+         <property name="suffix">
+          <string comment="centimeters"> cm</string>
+         </property>
+         <property name="maximum">
+          <number>300</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="weightLabel">
+         <property name="text">
+          <string>Weight:</string>
+         </property>
+         <property name="buddy">
+          <cstring>weight</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QSpinBox" name="weight">
+         <property name="suffix">
+          <string comment="kilograms"> kg</string>
+         </property>
+         <property name="maximum">
+          <number>300</number>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="colorLabel">
+         <property name="text">
+          <string>Color:</string>
+         </property>
+         <property name="buddy">
+          <cstring>color</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="color">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>White</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Black</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Yellow</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="eyeColorLabel">
+         <property name="text">
+          <string>Eye color:</string>
+         </property>
+         <property name="buddy">
+          <cstring>eyeColor</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="hairColorLabel">
+         <property name="text">
+          <string>Hair color:</string>
+         </property>
+         <property name="buddy">
+          <cstring>hairColor</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QComboBox" name="hairColor">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>blond</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brown</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>black</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>gray</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ginger</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>bald</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QComboBox" name="eyeColor">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <item>
+          <property name="text">
+           <string/>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>blue</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>brown</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>black</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>green</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>gray</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="occupationLabel">
+         <property name="text">
+          <string>Occupation:</string>
+         </property>
+         <property name="buddy">
+          <cstring>occupation</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLineEdit" name="occupation"/>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>
@@ -327,6 +662,16 @@
   <tabstop>leDeathPlace</tabstop>
   <tabstop>leDeathReason</tabstop>
   <tabstop>leBurialPlace</tabstop>
+  <tabstop>email</tabstop>
+  <tabstop>phone</tabstop>
+  <tabstop>web</tabstop>
+  <tabstop>nationality</tabstop>
+  <tabstop>religion</tabstop>
+  <tabstop>height</tabstop>
+  <tabstop>weight</tabstop>
+  <tabstop>color</tabstop>
+  <tabstop>eyeColor</tabstop>
+  <tabstop>hairColor</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

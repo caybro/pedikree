@@ -43,6 +43,12 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     ui->leBurialPlace->setModel(m_placesModel);
     ui->leBurialPlace->setModelColumn(1);
 
+    // nationality
+    ui->nationality->addItem(QString());
+    for (int i = 1; i <= QLocale::LastCountry; i++) {
+        ui->nationality->addItem((QLocale::system().countryToString((QLocale::Country)i)), i);
+    }
+
     connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
     connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
 
@@ -114,10 +120,12 @@ void PersonDialog::save()
     if (m_personID == -1) { // add person
         query.prepare("INSERT INTO People (first_name, surname, maiden_name, prefix, suffix, sex, "
                       "birth_date, birth_place, "
-                      "death_date, death_place, death_reason, burial_place) "
+                      "death_date, death_place, death_reason, burial_place "
+                      "contact_email, contact_phone, contact_web) "
                       "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
                       ":birth_date, :birth_place, "
-                      ":death_date, :death_place, :death_reason, :burial_place)");
+                      ":death_date, :death_place, :death_reason, :burial_place "
+                      ":contact_email, :contact_phone, :contact_web)");
         query.bindValue(":first_name", ui->leGivenNames->text());
         query.bindValue(":surname", ui->leSurname->text());
         query.bindValue(":maiden_name", ui->leMaidenName->text());
@@ -133,6 +141,9 @@ void PersonDialog::save()
             query.bindValue(":death_reason", ui->leDeathReason->text());
             query.bindValue(":burial_place", ui->leBurialPlace->currentText());
         }
+        query.bindValue(":contact_email", ui->email->text());
+        query.bindValue(":contact_phone", ui->phone->text());
+        query.bindValue(":contact_web", ui->web->text());
 
         qDebug() << "Adding person with query" << query.lastQuery();
 
@@ -143,7 +154,8 @@ void PersonDialog::save()
         query.prepare("UPDATE People SET "
                       "first_name=:first_name, surname=:surname, maiden_name=:maiden_name, prefix=:prefix, suffix=:suffix, sex=:sex, "
                       "birth_date=:birth_date, birth_place=:birth_place, "
-                      "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place "
+                      "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place, "
+                      "contact_email=:contact_email, contact_phone=:contact_phone, contact_web=:contact_web "
                       "WHERE id=:id");
 
         query.bindValue(":first_name", ui->leGivenNames->text());
@@ -161,6 +173,9 @@ void PersonDialog::save()
             query.bindValue(":death_reason", ui->leDeathReason->text());
             query.bindValue(":burial_place", ui->leBurialPlace->currentText());
         }
+        query.bindValue(":contact_email", ui->email->text());
+        query.bindValue(":contact_phone", ui->phone->text());
+        query.bindValue(":contact_web", ui->web->text());
         query.bindValue(":id", m_personID);
 
         if (!query.exec()) {
@@ -192,7 +207,8 @@ void PersonDialog::populateControls()
     QSqlQuery query;
     query.prepare(QString("SELECT first_name, surname, maiden_name, prefix, suffix, sex, "
                           "birth_date, birth_place, "
-                          "death_date, death_place, death_reason, burial_place "
+                          "death_date, death_place, death_reason, burial_place, "
+                          "contact_email, contact_phone, contact_web "
                           "FROM People "
                           "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
@@ -208,6 +224,8 @@ void PersonDialog::populateControls()
         ui->cbMale->setChecked(true);
     else if (sex == "F")
         ui->cbFemale->setChecked(true);
+    else
+        ui->cbUnknown->setChecked(true);
 
     // names
     ui->leGivenNames->setText(query.value("first_name").toString());
@@ -231,4 +249,9 @@ void PersonDialog::populateControls()
     ui->leDeathPlace->setEditText(query.value("death_place").toString());
     ui->leDeathReason->setText(query.value("death_reason").toString());
     ui->leBurialPlace->setEditText(query.value("burial_place").toString());
+
+    // contact
+    ui->email->setText(query.value("contact_email").toString());
+    ui->phone->setText(query.value("contact_phone").toString());
+    ui->web->setText(query.value("contact_web").toString());
 }
