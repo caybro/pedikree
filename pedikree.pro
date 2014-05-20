@@ -36,3 +36,5 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     assets.qrc
+
+TRANSLATIONS = translations/pedikree_cs.ts

@@ -69,7 +69,7 @@
      <item>
       <widget class="QPushButton" name="btnClear">
        <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Clears the contents of the date controls&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Clears the contents of the date controls</string>
        </property>
        <property name="text">
         <string>Clear</string>

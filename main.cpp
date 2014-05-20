@@ -26,6 +26,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
+    QTranslator qtTranslator;
+    qtTranslator.load(":/translations/pedikree_" + QLocale::system().name());
+    a.installTranslator(&qtTranslator);
+
     a.setApplicationDisplayName(QApplication::tr("Pedikree"));
     a.setOrganizationDomain("kde.org");
     a.setOrganizationName("KDE");
