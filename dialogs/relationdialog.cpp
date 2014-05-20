@@ -109,10 +109,6 @@ void RelationDialog::save()
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
     }
-
-    qDebug() << "Current person1:" << ui->person1->currentData();
-    qDebug() << "Current person2:" << ui->person2->currentData();
-    qDebug() << "Current place:" << ui->place->currentData();
 }
 
 void RelationDialog::popupCalendar()
