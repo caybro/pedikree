@@ -39,6 +39,9 @@ public:
 protected:
     void changeEvent(QEvent *e);
 
+private slots:
+    void slotClear();
+
 private:
     void init();
     void parse();

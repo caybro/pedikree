@@ -34,6 +34,8 @@ PdDateDialog::PdDateDialog(const QString &date, QWidget *parent) :
 
     init();
     parse();
+
+    connect(ui->btnClear, &QPushButton::clicked, this, &PdDateDialog::slotClear);
 }
 
 PdDateDialog::~PdDateDialog()
@@ -51,6 +53,13 @@ void PdDateDialog::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void PdDateDialog::slotClear()
+{
+    ui->cbDay->setCurrentIndex(0);
+    ui->cbMonth->setCurrentIndex(0);
+    ui->leYear->clear();
 }
 
 void PdDateDialog::init()
