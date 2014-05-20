@@ -21,6 +21,7 @@
 #include <QSqlRecord>
 #include <QSqlField>
 #include <QSqlError>
+#include <QDate>
 #include <QDebug>
 
 #include "relationsmodel.h"
@@ -72,9 +73,25 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
         } else if (column == 3) {
             return rec.field("place").value();
         } else if (column == 4) {
-            return rec.field("date").value();
+            if (rec.field("date").isNull())
+                return QVariant();
+            const QDate date = rec.field("date").value().toDate();
+            if (date.isValid()) {
+                return date.toString(Qt::DefaultLocaleShortDate);
+            } else {
+                return rec.field("date").value().toString();
+            }
         } else if (column == 5) {
             return rec.field("comment").value();
+        }
+    } else if (role == Qt::ToolTipRole) {
+        const QSqlRecord rec = record(item.row());
+        const int column = item.column();
+        if (column == 4) {
+            const QDate date = rec.field("date").value().toDate();
+            if (date.isValid()) {
+                return date.toString(Qt::DefaultLocaleLongDate);
+            }
         }
     }
 
