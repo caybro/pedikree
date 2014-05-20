@@ -443,6 +443,9 @@
        </item>
        <item row="3" column="1">
         <widget class="QSpinBox" name="height">
+         <property name="specialValueText">
+          <string>Not Set</string>
+         </property>
          <property name="suffix">
           <string comment="centimeters"> cm</string>
          </property>
@@ -463,6 +466,9 @@
        </item>
        <item row="4" column="1">
         <widget class="QSpinBox" name="weight">
+         <property name="specialValueText">
+          <string>Not Set</string>
+         </property>
          <property name="suffix">
           <string comment="kilograms"> kg</string>
          </property>
@@ -488,22 +494,22 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>White</string>
+           <string>white</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Black</string>
+           <string>black</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>Yellow</string>
+           <string>yellow</string>
           </property>
          </item>
         </widget>
@@ -535,7 +541,7 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </item>
          <item>
@@ -577,7 +583,7 @@
          </property>
          <item>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </item>
          <item>
@@ -715,7 +721,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupAlive"/>
   <buttongroup name="buttonGroupGender"/>
+  <buttongroup name="buttonGroupAlive"/>
  </buttongroups>
 </ui>
