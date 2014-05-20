@@ -38,7 +38,7 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
 
     Relation * rel = new Relation(this);
     for (int i = 0; i < Relation::LastRelationType; i++) {
-        ui->type->addItem(rel->relationTypeAsString(i));
+        ui->type->addItem(rel->relationTypeAsString(i), i);
     }
     delete rel;
 
@@ -61,6 +61,10 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
     } else {
         ui->place->setEditText(QString());
     }
+
+    connect(ui->type, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+    connect(ui->person1, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+    connect(ui->person2, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
 
     connect(this, &RelationDialog::accepted, this, &RelationDialog::save);
 
@@ -118,6 +122,27 @@ void RelationDialog::popupCalendar()
         ui->date->setText(dlg->date());
     }
     delete dlg;
+}
+
+void RelationDialog::slotTypeChanged(int index)
+{
+    Q_UNUSED(index)
+
+    const int currentType = ui->type->currentData().toInt();
+    if (currentType >= Relation::AdoptiveParent && currentType <= Relation::SurrogateParent
+            && ui->person1->currentData() != ui->person2->currentData()) {
+        qDebug() << "Type changed to parent/child";
+
+        QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->person2->currentData().toInt()));
+        if (!query.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+            return;
+        }
+        else
+            query.first();
+        ui->date->setText(query.value("birth_date").toString());
+        ui->place->setEditText(query.value("birth_place").toString());
+    }
 }
 
 void RelationDialog::populateControls()

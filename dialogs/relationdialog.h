@@ -41,6 +41,7 @@ protected:
 private slots:
     void save();
     void popupCalendar();
+    void slotTypeChanged(int index);
 
 private:
     void populateControls();
