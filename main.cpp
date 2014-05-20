@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("kde.org");
     a.setOrganizationName("KDE");
     a.setApplicationVersion("0.1");
-    a.setWindowIcon(QIcon::fromTheme("view-process-all-tree"));
+    a.setWindowIcon(QIcon(":/icons/appicon.png"));
 
     if (!QSqlDatabase::isDriverAvailable("QSQLITE")) {
         QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"),

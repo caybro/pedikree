@@ -34,4 +34,5 @@ FORMS    += mainwindow.ui \
     dialogs/pddatedialog.ui \
     dialogs/relationdialog.ui
 
-RESOURCES += db_assets.qrc
+RESOURCES += \
+    assets.qrc

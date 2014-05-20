@@ -156,6 +156,9 @@
    </property>
   </action>
   <action name="actionSaveAs">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save As...</string>
    </property>
@@ -289,7 +292,9 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-calendar-wedding-anniversary"/>
+    <iconset theme="view-calendar-wedding-anniversary">
+     <normaloff/>
+    </iconset>
    </property>
    <property name="text">
     <string>Relations</string>

@@ -4,5 +4,6 @@
         <file>schema/People.sql</file>
         <file>schema/Places.sql</file>
         <file>schema/Relations.sql</file>
+        <file>icons/appicon.png</file>
     </qresource>
 </RCC>
