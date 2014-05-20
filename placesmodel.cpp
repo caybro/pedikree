@@ -82,3 +82,33 @@ QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int r
 
     return QSqlQueryModel::headerData(section, orientation, role);
 }
+
+
+PlacesLookupModel::PlacesLookupModel(QObject *parent):
+    QSqlQueryModel(parent)
+{
+    setQuery("SELECT id, name FROM Places");
+}
+
+PlacesLookupModel::~PlacesLookupModel()
+{
+}
+
+QVariant PlacesLookupModel::data(const QModelIndex &item, int role) const
+{
+    const int column = item.column();
+
+    if (role == Qt::DisplayRole) {
+        const QSqlRecord rec = record(item.row());
+        if (column == 0) {
+            return rec.field("id").value();
+        } else if (column == 1) {
+            return rec.field("name").value();
+        }
+    } else if (role == Qt::UserRole) {
+        const QSqlRecord rec = record(item.row());
+        return rec.field("id").value();
+    }
+
+    return QSqlQueryModel::data(item, role);
+}

@@ -25,6 +25,7 @@
 
 #include "peoplemodel.h"
 #include "placesmodel.h"
+#include "relationsmodel.h"
 
 namespace Ui {
 class MainWindow;
@@ -70,6 +71,11 @@ private slots:
     void slotEditPlace(int placeID);
     void slotDeletePlace(int placeID);
 
+    // relations
+    void slotAddRelation();
+    void slotEditRelation(int relationID);
+    void slotDeleteRelation(int relationID);
+
 private:
     void setupActions();
     void openDatabase(const QString & dbFilePath, bool create = false);
@@ -82,6 +88,7 @@ private:
     // models
     PeopleModel * m_peopleModel;
     PlacesModel * m_placesModel;
+    RelationsModel * m_relationsModel;
 };
 
 #endif // MAINWINDOW_H

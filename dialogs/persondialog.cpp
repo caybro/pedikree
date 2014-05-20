@@ -22,6 +22,7 @@
 #include <QSqlError>
 #include <QDate>
 
+#include "../placesmodel.h"
 #include "persondialog.h"
 #include "ui_persondialog.h"
 #include "pddatedialog.h"
@@ -34,8 +35,7 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     ui->setupUi(this);
 
     // places
-    m_placesModel = new QSqlQueryModel(this);
-    m_placesModel->setQuery("SELECT id, name FROM Places");
+    m_placesModel = new PlacesLookupModel(this);
     ui->leBirthPlace->setModel(m_placesModel);
     ui->leBirthPlace->setModelColumn(1);
     ui->leDeathPlace->setModel(m_placesModel);

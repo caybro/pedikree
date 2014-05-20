@@ -26,17 +26,18 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "placesmodel.h"
 
 #include "dialogs/persondialog.h"
 #include "dialogs/placedialog.h"
+#include "dialogs/relationdialog.h"
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_viewGroup(new QActionGroup(this)),
     m_peopleModel(0),
-    m_placesModel(0)
+    m_placesModel(0),
+    m_relationsModel(0)
 {
     ui->setupUi(this);
     setupActions();
@@ -132,6 +133,13 @@ void MainWindow::slotSwitchView(QAction *action)
             m_placesModel->exec();
         }
         ui->tableView->setModel(m_placesModel);
+    } else if (action == ui->actionViewRelations) {
+        if (!m_relationsModel) {
+            m_relationsModel = new RelationsModel(this);
+        } else if (m_relationsModel) {
+            m_relationsModel->exec();
+        }
+        ui->tableView->setModel(m_relationsModel);
     }
     ui->tableView->resizeColumnsToContents();
 }
@@ -154,6 +162,12 @@ void MainWindow::tableViewDoubleClicked(const QModelIndex &index)
         if (model) {
             qDebug() << "Double clicked place at row " << row << "with DB ID:" << model->idAtRow(row);
             slotEditPlace(model->idAtRow(row));
+        }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
+        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        if (model) {
+            qDebug() << "Double clicked relation at row " << row << "with DB ID:" << model->idAtRow(row);
+            slotEditRelation(model->idAtRow(row));
         }
     }
 }
@@ -194,6 +208,8 @@ void MainWindow::slotAddItemActionTriggered()
         slotAddPerson();
     } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
         slotAddPlace();
+    } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
+        slotAddRelation();
     }
 }
 
@@ -215,6 +231,11 @@ void MainWindow::slotEditItemActionTriggered()
         if (model) {
             slotEditPlace(model->idAtRow(row));
         }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
+        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        if (model) {
+            slotEditRelation(model->idAtRow(row));
+        }
     }
 }
 
@@ -235,6 +256,11 @@ void MainWindow::slotDeleteItemActionTriggered()
         PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
         if (model) {
             slotDeletePlace(model->idAtRow(row));
+        }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
+        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        if (model) {
+            slotDeleteRelation(model->idAtRow(row));
         }
     }
 }
@@ -303,11 +329,44 @@ void MainWindow::slotDeletePlace(int placeID)
     }
 }
 
+void MainWindow::slotAddRelation()
+{
+    RelationDialog * dlg = new RelationDialog(this);
+    dlg->setWindowTitle(tr("Add Relation"));
+    if (dlg->exec() == QDialog::Accepted) {
+        m_relationsModel->exec();
+    }
+}
+
+void MainWindow::slotEditRelation(int relationID)
+{
+    RelationDialog * dlg = new RelationDialog(this, relationID);
+    dlg->setWindowTitle(tr("Edit Relation"));
+    if (dlg->exec() == QDialog::Accepted) {
+        m_relationsModel->exec();
+    }
+}
+
+void MainWindow::slotDeleteRelation(int relationID)
+{
+    qDebug() << Q_FUNC_INFO << "Deleting relation" << relationID;
+    if (QMessageBox::question(this, tr("Delete Relation"), tr("Do you really want to delete the relation with ID %1?").arg(relationID),
+                              (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QString("DELETE FROM Relations WHERE id=%1").arg(relationID));
+        if (query.exec()) {
+            m_relationsModel->exec();
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    }
+}
+
 void MainWindow::setupActions()
 {
     // views
     m_viewGroup->setExclusive(true);
     m_viewGroup->addAction(ui->actionViewPeople);
+    m_viewGroup->addAction(ui->actionViewRelations);
     m_viewGroup->addAction(ui->actionViewEvents);
     m_viewGroup->addAction(ui->actionViewPlaces);
     connect(m_viewGroup, &QActionGroup::triggered, this, &MainWindow::slotSwitchView);
@@ -346,7 +405,7 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
         }
         m_filename = db.databaseName();
         setWindowFilePath(m_filename);
-        ui->actionViewPeople->trigger();
+        ui->actionViewPeople->trigger(); // default view
     } else {
         qWarning() << "Error opening the DB" << db.lastError().text();
     }

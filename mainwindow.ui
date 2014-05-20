@@ -102,6 +102,7 @@
     </property>
     <addaction name="actionViewPeople"/>
     <addaction name="actionViewEvents"/>
+    <addaction name="actionViewRelations"/>
     <addaction name="actionViewPlaces"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -135,6 +136,7 @@
    <addaction name="separator"/>
    <addaction name="actionViewPeople"/>
    <addaction name="actionViewEvents"/>
+   <addaction name="actionViewRelations"/>
    <addaction name="actionViewPlaces"/>
    <addaction name="separator"/>
    <addaction name="actionQuit"/>
@@ -280,6 +282,17 @@
    </property>
    <property name="toolTip">
     <string>Deletes the currently selected item</string>
+   </property>
+  </action>
+  <action name="actionViewRelations">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-calendar-wedding-anniversary"/>
+   </property>
+   <property name="text">
+    <string>Relations</string>
    </property>
   </action>
  </widget>

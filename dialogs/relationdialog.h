@@ -17,36 +17,37 @@
  *
  */
 
-#ifndef PEOPLEMODEL_H
-#define PEOPLEMODEL_H
+#ifndef RELATIONDIALOG_H
+#define RELATIONDIALOG_H
 
+#include <QDialog>
 #include <QSqlQueryModel>
 
-class PeopleModel : public QSqlQueryModel
+namespace Ui {
+class RelationDialog;
+}
+
+class RelationDialog: public QDialog
 {
     Q_OBJECT
+
 public:
-    PeopleModel(QObject *parent = 0);
-    virtual ~PeopleModel();
+    explicit RelationDialog(QWidget *parent = 0, int relationID = -1);
+    ~RelationDialog();
 
-    void exec();
+protected:
+    void changeEvent(QEvent *e);
 
-    int idAtRow(int row) const;
+private slots:
+    void save();
+    void popupCalendar();
 
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+private:
+    void populateControls();
+    Ui::RelationDialog *ui;
+    int m_relationID;
+    QSqlQueryModel * m_placesModel;
+    QSqlQueryModel * m_peopleModel;
 };
 
-class PeopleLookupModel: public QSqlQueryModel
-{
-    Q_OBJECT
-public:
-    PeopleLookupModel(QObject * parent = 0);
-    virtual ~PeopleLookupModel();
-
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-};
-
-
-#endif // PEOPLEMODEL_H
+#endif // RELATIONDIALOG_H

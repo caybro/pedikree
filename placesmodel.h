@@ -38,4 +38,14 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
 };
 
+class PlacesLookupModel: public QSqlQueryModel
+{
+    Q_OBJECT
+public:
+    PlacesLookupModel(QObject * parent = 0);
+    virtual ~PlacesLookupModel();
+
+    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+};
+
 #endif // PLACESMODEL_H
