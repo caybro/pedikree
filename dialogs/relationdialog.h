@@ -23,6 +23,9 @@
 #include <QDialog>
 #include <QSqlQueryModel>
 
+#include "../peoplemodel.h"
+#include "../placesmodel.h"
+
 namespace Ui {
 class RelationDialog;
 }
@@ -42,13 +45,14 @@ private slots:
     void save();
     void popupCalendar();
     void slotTypeChanged(int index);
+    void slotAddPlace();
 
 private:
     void populateControls();
     Ui::RelationDialog *ui;
     int m_relationID;
-    QSqlQueryModel * m_placesModel;
-    QSqlQueryModel * m_peopleModel;
+    PlacesLookupModel * m_placesModel;
+    PeopleLookupModel * m_peopleModel;
 };
 
 #endif // RELATIONDIALOG_H

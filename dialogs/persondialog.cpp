@@ -22,10 +22,10 @@
 #include <QSqlError>
 #include <QDate>
 
-#include "../placesmodel.h"
 #include "persondialog.h"
 #include "ui_persondialog.h"
 #include "pddatedialog.h"
+#include "placedialog.h"
 
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
@@ -57,9 +57,15 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
         ui->leBirthPlace->setEditText(QString());
         ui->leDeathPlace->setEditText(QString());
         ui->leBurialPlace->setEditText(QString());
+        ui->leMaidenName->setVisible(false);
+        ui->labelMaidenName->setVisible(false);
     } else { // editting, fill the controls
         populateControls();
     }
+
+    connect(ui->btnAddBirthPlace, &QPushButton::clicked, this, &PersonDialog::slotAddPlace);
+    connect(ui->btnAddDeathPlace, &QPushButton::clicked, this, &PersonDialog::slotAddPlace);
+    connect(ui->btnAddBurialPlace, &QPushButton::clicked, this, &PersonDialog::slotAddPlace);
 
     QAction * tmp = ui->leBirthDate->addAction(QIcon::fromTheme("view-calendar-day"), QLineEdit::TrailingPosition);
     tmp->setToolTip(tr("Enter date"));
@@ -94,9 +100,9 @@ void PersonDialog::changeEvent(QEvent *e)
 void PersonDialog::genderClicked(QAbstractButton *button)
 {
     Q_UNUSED(button)
-    const bool hide = ui->cbMale->isChecked();
-    ui->leMaidenName->setHidden(hide);
-    ui->labelMaidenName->setHidden(hide);
+    const bool show = ui->cbFemale->isChecked();
+    ui->leMaidenName->setVisible(show);
+    ui->labelMaidenName->setVisible(show);
 }
 
 void PersonDialog::deadAliveClicked(QAbstractButton *button)
@@ -111,6 +117,8 @@ void PersonDialog::deadAliveClicked(QAbstractButton *button)
     ui->labelDeathPlace->setHidden(hide);
     ui->labelDeathReason->setHidden(hide);
     ui->labelBurial->setHidden(hide);
+    ui->btnAddDeathPlace->setHidden(hide);
+    ui->btnAddBurialPlace->setHidden(hide);
 }
 
 void PersonDialog::save()
@@ -191,6 +199,24 @@ void PersonDialog::popupDeathDateCalendar()
         ui->leDeathDate->setText(dlg->date());
     }
     delete dlg;
+}
+
+void PersonDialog::slotAddPlace()
+{
+    PlaceDialog * dlg = new PlaceDialog(this);
+    dlg->setWindowTitle(tr("Add Place"));
+    if (dlg->exec() == QDialog::Accepted) {
+        m_placesModel->reload();
+
+        QPushButton * btn = qobject_cast<QPushButton *>(sender());
+        if (btn == ui->btnAddBirthPlace) {
+            ui->leBirthPlace->setCurrentIndex(ui->leBirthPlace->findData(dlg->placeId()));
+        } else if (btn == ui->btnAddDeathPlace) {
+            ui->leDeathPlace->setCurrentIndex(ui->leDeathPlace->findData(dlg->placeId()));
+        } else if (btn == ui->btnAddBurialPlace) {
+            ui->leBurialPlace->setCurrentIndex(ui->leBurialPlace->findData(dlg->placeId()));
+        }
+    }
 }
 
 void PersonDialog::populateControls()

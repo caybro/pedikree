@@ -66,7 +66,7 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
                 symbol = "♀";
             return QString("%1 %2 %3").arg(symbol, rec.field("first_name").value().toString(), rec.field("surname").value().toString());
         } else if (column == 1) {
-            QString result = QString::fromUtf8("✱ ");
+            QString result = QString::fromUtf8("* ");
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
                 result += birthDate.toString(Qt::DefaultLocaleShortDate);

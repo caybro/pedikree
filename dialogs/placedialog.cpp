@@ -45,6 +45,11 @@ PlaceDialog::~PlaceDialog()
     delete ui;
 }
 
+int PlaceDialog::placeId() const
+{
+    return m_placeID;
+}
+
 void PlaceDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -78,7 +83,11 @@ void PlaceDialog::save()
 
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        return;
     }
+
+    if (query.lastInsertId().isValid())
+        m_placeID = query.lastInsertId().toInt();
 }
 
 void PlaceDialog::populateControls()

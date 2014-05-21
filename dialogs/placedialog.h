@@ -34,6 +34,8 @@ public:
     explicit PlaceDialog(QWidget *parent = 0, int placeID = -1);
     ~PlaceDialog();
 
+    int placeId() const;
+
 protected:
     void changeEvent(QEvent *e);
 

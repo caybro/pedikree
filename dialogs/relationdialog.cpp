@@ -21,12 +21,11 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
-#include "../peoplemodel.h"
-#include "../placesmodel.h"
 #include "../relationsmodel.h"
 
 #include "relationdialog.h"
 #include "pddatedialog.h"
+#include "placedialog.h"
 #include "ui_relationdialog.h"
 
 RelationDialog::RelationDialog(QWidget *parent, int relationID) :
@@ -65,6 +64,8 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
     connect(ui->type, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
     connect(ui->person1, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
     connect(ui->person2, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+
+    connect(ui->btnAddPlace, &QPushButton::clicked, this, &RelationDialog::slotAddPlace);
 
     connect(this, &RelationDialog::accepted, this, &RelationDialog::save);
 
@@ -142,6 +143,20 @@ void RelationDialog::slotTypeChanged(int index)
             query.first();
         ui->date->setText(query.value("birth_date").toString());
         ui->place->setEditText(query.value("birth_place").toString());
+    }
+}
+
+void RelationDialog::slotAddPlace()
+{
+    PlaceDialog * dlg = new PlaceDialog(this);
+    dlg->setWindowTitle(tr("Add Place"));
+    if (dlg->exec() == QDialog::Accepted) {
+        m_placesModel->reload();
+
+        QPushButton * btn = qobject_cast<QPushButton *>(sender());
+        if (btn == ui->btnAddPlace) {
+            ui->place->setCurrentIndex(ui->place->findData(dlg->placeId()));
+        }
     }
 }
 

@@ -19,6 +19,7 @@
 
 #include <QSqlRecord>
 #include <QSqlField>
+#include <QSqlQuery>
 
 #include "placesmodel.h"
 
@@ -111,4 +112,11 @@ QVariant PlacesLookupModel::data(const QModelIndex &item, int role) const
     }
 
     return QSqlQueryModel::data(item, role);
+}
+
+void PlacesLookupModel::reload()
+{
+    QString q = query().lastQuery();
+    clear();
+    setQuery(q);
 }

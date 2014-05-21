@@ -46,6 +46,9 @@ public:
     virtual ~PlacesLookupModel();
 
     virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+
+public slots:
+    void reload();
 };
 
 #endif // PLACESMODEL_H

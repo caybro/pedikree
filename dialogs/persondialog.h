@@ -25,6 +25,8 @@
 #include <QSqlQueryModel>
 #include <QAction>
 
+#include "../placesmodel.h"
+
 namespace Ui {
 class PersonDialog;
 }
@@ -47,12 +49,13 @@ private slots:
 
     void popupBirthDateCalendar();
     void popupDeathDateCalendar();
+    void slotAddPlace();
 
 private:
     void populateControls();
     Ui::PersonDialog *ui;
     int m_personID;
-    QSqlQueryModel * m_placesModel;
+    PlacesLookupModel * m_placesModel;
 };
 
 #endif // PERSONDIALOG_H
