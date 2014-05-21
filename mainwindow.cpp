@@ -367,7 +367,6 @@ void MainWindow::setupActions()
     m_viewGroup->setExclusive(true);
     m_viewGroup->addAction(ui->actionViewPeople);
     m_viewGroup->addAction(ui->actionViewRelations);
-    m_viewGroup->addAction(ui->actionViewEvents);
     m_viewGroup->addAction(ui->actionViewPlaces);
     connect(m_viewGroup, &QActionGroup::triggered, this, &MainWindow::slotSwitchView);
 

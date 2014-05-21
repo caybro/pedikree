@@ -45,7 +45,7 @@ void RelationsModel::exec()
              "FROM Relations r, People p1, People p2 "
              "JOIN People ON p1.id=r.person1_id "
              "JOIN People ON p2.id=r.person2_id");
-    qDebug() << Q_FUNC_INFO << "Query status:" << lastError().text();
+    //qDebug() << Q_FUNC_INFO << "Query status:" << lastError().text();
 }
 
 int RelationsModel::idAtRow(int row) const

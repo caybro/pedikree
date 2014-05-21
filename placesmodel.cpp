@@ -75,9 +75,9 @@ QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int r
         else if (section == 1)
             return tr("Latitude");
         else if (section == 2)
-            return ("Longitude");
+            return tr("Longitude");
         else if (section == 3)
-            return ("Comment");
+            return tr("Comment");
     }
 
     return QSqlQueryModel::headerData(section, orientation, role);

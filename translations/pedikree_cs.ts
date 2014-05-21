@@ -19,87 +19,86 @@
         <translation>Pohled</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="110"/>
+        <location filename="../mainwindow.ui" line="109"/>
         <source>Edit</source>
         <translation>Úpravy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="123"/>
+        <location filename="../mainwindow.ui" line="122"/>
         <source>Main toolbar</source>
         <translation>Hlavní nástrojová lišta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="152"/>
+        <location filename="../mainwindow.ui" line="150"/>
         <source>Open...</source>
         <translation>Otevřít...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="163"/>
+        <location filename="../mainwindow.ui" line="161"/>
         <source>Save As...</source>
         <translation>Uložit jako...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="173"/>
+        <location filename="../mainwindow.ui" line="171"/>
         <source>Quit</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="181"/>
+        <location filename="../mainwindow.ui" line="179"/>
         <source>About...</source>
         <translation>O aplikaci...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="194"/>
+        <location filename="../mainwindow.ui" line="192"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="213"/>
+        <location filename="../mainwindow.ui" line="211"/>
         <source>People</source>
         <translation>Lidé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="226"/>
+        <location filename="../mainwindow.ui" line="224"/>
         <source>Places</source>
         <translation>Místa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="239"/>
         <source>Events</source>
-        <translation>Události</translation>
+        <translation type="vanished">Události</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="252"/>
+        <location filename="../mainwindow.ui" line="237"/>
         <source>Add...</source>
         <translation>Přidat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="255"/>
+        <location filename="../mainwindow.ui" line="240"/>
         <source>Adds a new item to the list</source>
         <translation>Přidá novou položku do seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="268"/>
+        <location filename="../mainwindow.ui" line="253"/>
         <source>Edit...</source>
         <translation>Upravit...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="271"/>
+        <location filename="../mainwindow.ui" line="256"/>
         <source>Edits the currently selected item</source>
         <translation>Upraví aktuální položku seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="284"/>
+        <location filename="../mainwindow.ui" line="269"/>
         <source>Delete...</source>
         <translation>Smazat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="287"/>
+        <location filename="../mainwindow.ui" line="272"/>
         <source>Deletes the currently selected item</source>
         <translation>Smaže aktuální položku v seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="300"/>
+        <location filename="../mainwindow.ui" line="285"/>
         <source>Relations</source>
         <translation>Vztahy</translation>
     </message>
@@ -593,21 +592,31 @@
         <source>Latitude</source>
         <translation>Zem. šířka</translation>
     </message>
+    <message>
+        <location filename="../placesmodel.cpp" line="78"/>
+        <source>Longitude</source>
+        <translation>Zem. délka</translation>
+    </message>
+    <message>
+        <location filename="../placesmodel.cpp" line="80"/>
+        <source>Comment</source>
+        <translation>Komentář</translation>
+    </message>
 </context>
 <context>
     <name>QApplication</name>
     <message>
-        <location filename="../main.cpp" line="29"/>
+        <location filename="../main.cpp" line="34"/>
         <source>Pedikree</source>
         <translation>Pedikree</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="36"/>
+        <location filename="../main.cpp" line="41"/>
         <source>No SQLLite DB support</source>
         <translation>Bez podpory pro SQLite databází</translation>
     </message>
     <message>
-        <location filename="../main.cpp" line="37"/>
+        <location filename="../main.cpp" line="42"/>
         <source>Your Qt installation doesn&apos;t contain the required SQLLite DB plugin.</source>
         <translation>Vaše instalace Qt neobsahuje požadovaný modul pro SQLite databázi.</translation>
     </message>
