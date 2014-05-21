@@ -76,6 +76,14 @@ private slots:
     void slotEditRelation(int relationID);
     void slotDeleteRelation(int relationID);
 
+    // person contextual actions
+    void slotAddFather();
+    void slotAddMother();
+    void slotAddSon();
+    void slotAddDaugther();
+    void slotAddBrother();
+    void slotAddSister();
+
 private:
     void setupActions();
     void openDatabase(const QString & dbFilePath, bool create = false);

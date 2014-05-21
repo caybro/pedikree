@@ -39,6 +39,12 @@ public:
     explicit PersonDialog(QWidget *parent = 0, int personID = -1);
     ~PersonDialog();
 
+    void setMale();
+    void setFemale();
+    void setSurname(const QString & surname);
+
+    int personID() const;
+
 protected:
     void changeEvent(QEvent *e);
 

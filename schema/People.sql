@@ -13,6 +13,7 @@ CREATE TABLE People (
     christening_date TEXT,
     christening_place TEXT,
     christening_place_id INTEGER DEFAULT 0,
+    alive BOOLEAN DEFAULT 1,
     death_date TEXT,
     death_place TEXT,
     death_place_id INTEGER DEFAULT 0,

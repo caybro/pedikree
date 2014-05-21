@@ -85,6 +85,26 @@ PersonDialog::~PersonDialog()
     delete ui;
 }
 
+void PersonDialog::setMale()
+{
+    ui->cbMale->setChecked(true);
+}
+
+void PersonDialog::setFemale()
+{
+    ui->cbFemale->setChecked(true);
+}
+
+void PersonDialog::setSurname(const QString &surname)
+{
+    ui->leSurname->setText(surname);
+}
+
+int PersonDialog::personID() const
+{
+    return m_personID;
+}
+
 void PersonDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
@@ -131,13 +151,13 @@ void PersonDialog::save()
                       "death_date, death_place, death_reason, burial_place, "
                       "contact_email, contact_phone, contact_web, "
                       "nationality, religion, height, weight, "
-                      "color, eye_color, hair_color, occupation) "
+                      "color, eye_color, hair_color, occupation, alive) "
                       "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
                       ":birth_date, :birth_place, "
                       ":death_date, :death_place, :death_reason, :burial_place, "
                       ":contact_email, :contact_phone, :contact_web, "
                       ":nationality, :religion, :height, :weight, "
-                      ":color, :eye_color, :hair_color, :occupation)");
+                      ":color, :eye_color, :hair_color, :occupation, :alive)");
     } else { // update person
         query.prepare("UPDATE People SET "
                       "first_name=:first_name, surname=:surname, maiden_name=:maiden_name, prefix=:prefix, suffix=:suffix, sex=:sex, "
@@ -145,7 +165,8 @@ void PersonDialog::save()
                       "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place, "
                       "contact_email=:contact_email, contact_phone=:contact_phone, contact_web=:contact_web, "
                       "nationality=:nationality, religion=:religion, height=:height, weight=:weight, "
-                      "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation "
+                      "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation, "
+                      "alive=:alive "
                       "WHERE id=:id");
 
         query.bindValue(":id", m_personID);
@@ -160,7 +181,9 @@ void PersonDialog::save()
     query.bindValue(":birth_date", ui->leBirthDate->text());
     query.bindValue(":birth_place", ui->leBirthPlace->currentText());
     // TODO places id
-    if (ui->cbDeceased->isChecked()) {
+    const bool alive = ui->cbAlive->isChecked();
+    query.bindValue(":alive", alive ? 1 : 0);
+    if (!alive) {
         query.bindValue(":death_date", ui->leDeathDate->text());
         query.bindValue(":death_place", ui->leDeathPlace->currentText());
         query.bindValue(":death_reason", ui->leDeathReason->text());
@@ -180,7 +203,11 @@ void PersonDialog::save()
 
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        return;
     }
+
+    if (query.lastInsertId().isValid())
+        m_personID = query.lastInsertId().toInt();
 }
 
 void PersonDialog::popupBirthDateCalendar()
@@ -228,7 +255,7 @@ void PersonDialog::populateControls()
                           "contact_email, contact_phone, contact_web, "
                           "nationality, religion, "
                           "height, weight, "
-                          "color, eye_color, hair_color, occupation "
+                          "color, eye_color, hair_color, occupation, alive "
                           "FROM People "
                           "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
@@ -259,13 +286,12 @@ void PersonDialog::populateControls()
     ui->leBirthPlace->setEditText(query.value("birth_place").toString());
 
     // death
-    const QString deathDate = query.value("death_date").toString();
-    if (!deathDate.isEmpty()) {
-        ui->cbDeceased->setChecked(true);
-    } else {
+    if (query.value("alive").toBool()) {
         ui->cbAlive->setChecked(true);
+    } else {
+        ui->cbDeceased->setChecked(true);
     }
-    ui->leDeathDate->setText(deathDate);
+    ui->leDeathDate->setText(query.value("death_date").toString());
     ui->leDeathPlace->setEditText(query.value("death_place").toString());
     ui->leDeathReason->setText(query.value("death_reason").toString());
     ui->leBurialPlace->setEditText(query.value("burial_place").toString());
