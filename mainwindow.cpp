@@ -459,12 +459,88 @@ void MainWindow::slotAddMother()
 
 void MainWindow::slotAddSon()
 {
+    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    int personID = m_peopleModel->idAtRow(currentIndex.row());
 
+    qDebug() << "Adding son of " << personID;
+
+    QSqlQuery query(QString("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
+
+    PersonDialog * dlg = new PersonDialog(this);
+    dlg->setMale();
+    if (query.exec() && query.first()) {
+        dlg->setWindowTitle(tr("Add Son of %1 %2").arg(query.value("first_name").toString(), query.value("surname").toString()));
+        dlg->setSurname(query.value("surname").toString());
+    } else {
+        dlg->setWindowTitle(tr("Add Son"));
+    }
+
+    if (dlg->exec() == QDialog::Accepted) {
+        query.finish();
+        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.bindValue(":person1_id", personID);
+        query2.bindValue(":person2_id", dlg->personID());
+        if (query.exec() && query.first()) {
+            query2.bindValue(":place", query.value("birth_place"));
+            query2.bindValue(":date", query.value("birth_date"));
+        }
+
+        qDebug() << "Inserting son" << query2.executedQuery();
+
+        if (!query2.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
+            return;
+        }
+    }
+
+    m_peopleModel->exec();
 }
 
 void MainWindow::slotAddDaugther()
 {
+    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    int personID = m_peopleModel->idAtRow(currentIndex.row());
 
+    qDebug() << "Adding daughter of " << personID;
+
+    QSqlQuery query(QString("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
+
+    PersonDialog * dlg = new PersonDialog(this);
+    dlg->setFemale();
+    if (query.exec() && query.first()) {
+        dlg->setWindowTitle(tr("Add Daughter of %1 %2").arg(query.value("first_name").toString(), query.value("surname").toString()));
+        dlg->setSurname(query.value("surname").toString());
+    } else {
+        dlg->setWindowTitle(tr("Add Daughter"));
+    }
+
+    if (dlg->exec() == QDialog::Accepted) {
+        query.finish();
+        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.bindValue(":person1_id", personID);
+        query2.bindValue(":person2_id", dlg->personID());
+        if (query.exec() && query.first()) {
+            query2.bindValue(":place", query.value("birth_place"));
+            query2.bindValue(":date", query.value("birth_date"));
+        }
+
+        qDebug() << "Inserting son" << query2.executedQuery();
+
+        if (!query2.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
+            return;
+        }
+    }
+
+    m_peopleModel->exec();
 }
 
 void MainWindow::slotAddBrother()
