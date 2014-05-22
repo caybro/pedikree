@@ -405,7 +405,7 @@ void MainWindow::slotAddFather()
         query2.bindValue(":place", query.value("birth_place"));
         query2.bindValue(":date", query.value("birth_date"));
 
-        qDebug() << "Inserting father" << query2.lastQuery();
+        qDebug() << "Inserting father" << query2.executedQuery();
 
         if (!query2.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
@@ -446,7 +446,7 @@ void MainWindow::slotAddMother()
         query2.bindValue(":place", query.value("birth_place"));
         query2.bindValue(":date", query.value("birth_date"));
 
-        qDebug() << "Inserting mother" << query2.lastQuery();
+        qDebug() << "Inserting mother" << query2.executedQuery();
 
         if (!query2.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
@@ -537,7 +537,7 @@ void MainWindow::initDatabase()
             return;
 
         query.prepare(file.readAll());
-        //qDebug() << query.lastQuery();
+        //qDebug() << query.executedQuery();
         if (!query.exec()) {
             qWarning() << "Initting DB table" << table << "failed with:" << query.lastError().text();
         }
