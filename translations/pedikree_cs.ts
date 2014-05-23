@@ -263,6 +263,26 @@
         <source>Add Mother</source>
         <translation>Přidat matku</translation>
     </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="472"/>
+        <source>Add Son of %1 %2</source>
+        <translation>Přidat syna osoby %1 %2</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="475"/>
+        <source>Add Son</source>
+        <translation>Přidat syna</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="515"/>
+        <source>Add Daughter of %1 %2</source>
+        <translation>Přidat dceru osoby %1 %2</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="518"/>
+        <source>Add Daughter</source>
+        <translation>Přidat dceru</translation>
+    </message>
 </context>
 <context>
     <name>PdDateDialog</name>
@@ -636,30 +656,40 @@
         <translation>Dialog</translation>
     </message>
     <message>
-        <location filename="../dialogs/placedialog.ui" line="25"/>
+        <location filename="../dialogs/placedialog.ui" line="20"/>
         <source>Name:</source>
         <translation>Jméno:</translation>
     </message>
     <message>
-        <location filename="../dialogs/placedialog.ui" line="38"/>
+        <location filename="../dialogs/placedialog.ui" line="39"/>
+        <source>Get suggestions and coordinates from OpenStreetMsap</source>
+        <translation>Získat návrhy a souřadnice z OpenStreetMap</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/placedialog.ui" line="53"/>
         <source>Latitude:</source>
         <translation>Zem. šířka:</translation>
     </message>
     <message>
-        <location filename="../dialogs/placedialog.ui" line="54"/>
-        <location filename="../dialogs/placedialog.ui" line="90"/>
+        <location filename="../dialogs/placedialog.ui" line="69"/>
+        <location filename="../dialogs/placedialog.ui" line="92"/>
         <source> °</source>
         <translation> °</translation>
     </message>
     <message>
-        <location filename="../dialogs/placedialog.ui" line="67"/>
+        <location filename="../dialogs/placedialog.ui" line="82"/>
         <source>Longitude:</source>
         <translation>Zem. délka:</translation>
     </message>
     <message>
-        <location filename="../dialogs/placedialog.ui" line="77"/>
+        <location filename="../dialogs/placedialog.ui" line="108"/>
         <source>Comment:</source>
         <translation>Komentář:</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/placedialog.cpp" line="129"/>
+        <source>Suggestions available</source>
+        <translation>Dostupné návrhy</translation>
     </message>
 </context>
 <context>
