@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>568</width>
+    <height>334</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,18 +35,6 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnGeoCode">
-       <property name="minimumSize">
-        <size>
-         <width>25</width>
-         <height>25</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>25</height>
-        </size>
-       </property>
        <property name="toolTip">
         <string>Get suggestions and coordinates from OpenStreetMsap</string>
        </property>

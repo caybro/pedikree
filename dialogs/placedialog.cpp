@@ -125,8 +125,10 @@ void PlaceDialog::geocodeReply(const QString &originalQuery, const QString &lat,
 void PlaceDialog::geocodeFinished(const QString &originalQuery)
 {
     qDebug() << "GEOCODE FINISHED" << originalQuery;
-    if (!m_placeMenu->actions().isEmpty())
+    if (!m_placeMenu->actions().isEmpty()) {
+        ui->btnGeoCode->setText(tr("Suggestions available"));
         ui->btnGeoCode->setMenu(m_placeMenu);
+    }
     ui->btnGeoCode->unsetCursor();
 }
 
@@ -141,6 +143,7 @@ void PlaceDialog::placeTriggered(QAction *action)
     ui->sbLat->setValue(userData.section(':', 0, 0).toDouble());
     ui->sbLon->setValue(userData.section(':', 1, 1).toDouble());
 
+    ui->btnGeoCode->setText(QString());
     m_placeMenu->clear();
     ui->btnGeoCode->setMenu(0);
 }
