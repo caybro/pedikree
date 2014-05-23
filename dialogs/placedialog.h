@@ -21,6 +21,9 @@
 #define PLACEDIALOG_H
 
 #include <QDialog>
+#include <QMenu>
+
+#include "osmgeocoder.h"
 
 namespace Ui {
 class PlaceDialog;
@@ -41,11 +44,17 @@ protected:
 
 private slots:
     void save();
+    void geocode();
+    void geocodeReply(const QString & originalQuery, const QString & lat, const QString & lon, const QString & displayName, const QString & osmId);
+    void geocodeFinished(const QString & originalQuery);
+    void placeTriggered(QAction * action);
 
 private:
     void populateControls();
     Ui::PlaceDialog *ui;
     int m_placeID;
+    OsmGeoCoder * m_gc;
+    QMenu * m_placeMenu;
 };
 
 #endif // PLACEDIALOG_H

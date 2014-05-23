@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets sql
+QT       += core gui widgets sql network xml
 
 TARGET = pedikree
 TEMPLATE = app
@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     dialogs/placedialog.cpp \
     dialogs/pddatedialog.cpp \
     dialogs/relationdialog.cpp \
-    relationsmodel.cpp
+    relationsmodel.cpp \
+    osmgeocoder.cpp
 
 HEADERS  += mainwindow.h \
     placesmodel.h \
@@ -26,7 +27,8 @@ HEADERS  += mainwindow.h \
     dialogs/placedialog.h \
     dialogs/pddatedialog.h \
     dialogs/relationdialog.h \
-    relationsmodel.h
+    relationsmodel.h \
+    osmgeocoder.h
 
 FORMS    += mainwindow.ui \
     dialogs/persondialog.ui \

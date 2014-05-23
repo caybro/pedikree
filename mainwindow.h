@@ -49,6 +49,7 @@ private slots:
     void slotOpen();
     void slotAbout();
 
+    // views
     void slotSwitchView(QAction * action);
 
     // table view handling

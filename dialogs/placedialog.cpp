@@ -27,7 +27,8 @@
 PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
     QDialog(parent),
     ui(new Ui::PlaceDialog),
-    m_placeID(placeID)
+    m_placeID(placeID),
+    m_gc(0)
 {
     ui->setupUi(this);
 
@@ -35,6 +36,10 @@ PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
         populateControls();
     }
 
+    m_gc = new OsmGeoCoder(this);
+    m_placeMenu = new QMenu(this);
+
+    connect(ui->btnGeoCode, &QPushButton::clicked, this, &PlaceDialog::geocode);
     connect(this, &PlaceDialog::accepted, this, &PlaceDialog::save);
 
     qDebug() << "Editting place with ID:" << m_placeID;
@@ -88,6 +93,56 @@ void PlaceDialog::save()
 
     if (query.lastInsertId().isValid())
         m_placeID = query.lastInsertId().toInt();
+}
+
+void PlaceDialog::geocode()
+{
+    const QString query = ui->leName->text();
+    qDebug() << "Geocoding" << query;
+
+    m_gc->geocode(query);
+
+    ui->btnGeoCode->setCursor(Qt::BusyCursor);
+
+    connect(m_gc, SIGNAL(geocodeReply(QString,QString,QString,QString,QString)),
+            this, SLOT(geocodeReply(QString,QString,QString,QString,QString)), Qt::UniqueConnection);
+    connect(m_gc, SIGNAL(geocodeFinished(QString)), this, SLOT(geocodeFinished(QString)), Qt::UniqueConnection);
+}
+
+void PlaceDialog::geocodeReply(const QString &originalQuery, const QString &lat, const QString &lon, const QString &displayName, const QString &osmId)
+{
+    qDebug() << "GEOCODE RESULT" << originalQuery << lat << lon << displayName << osmId;
+    if (originalQuery != ui->leName->text())
+        return;
+
+    QAction * action = new QAction(m_placeMenu);
+    action->setText(displayName);
+    action->setData(QString("%1:%2:%3").arg(lat).arg(lon).arg(displayName));
+    m_placeMenu->addAction(action);
+    connect(m_placeMenu, SIGNAL(triggered(QAction*)), this, SLOT(placeTriggered(QAction*)), Qt::UniqueConnection);
+}
+
+void PlaceDialog::geocodeFinished(const QString &originalQuery)
+{
+    qDebug() << "GEOCODE FINISHED" << originalQuery;
+    if (!m_placeMenu->actions().isEmpty())
+        ui->btnGeoCode->setMenu(m_placeMenu);
+    ui->btnGeoCode->unsetCursor();
+}
+
+void PlaceDialog::placeTriggered(QAction *action)
+{
+    qDebug() << "Place triggered" << action->text().replace('&', "");
+
+    const QString userData = action->data().toString();
+
+    // fill the controls with the action's data
+    ui->leName->setText(userData.section(':', 2, 2));
+    ui->sbLat->setValue(userData.section(':', 0, 0).toDouble());
+    ui->sbLon->setValue(userData.section(':', 1, 1).toDouble());
+
+    m_placeMenu->clear();
+    ui->btnGeoCode->setMenu(0);
 }
 
 void PlaceDialog::populateControls()

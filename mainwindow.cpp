@@ -524,7 +524,7 @@ void MainWindow::slotAddDaugther()
 
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
         query2.bindValue(":person1_id", personID);
         query2.bindValue(":person2_id", dlg->personID());
         if (query.exec() && query.first()) {
@@ -532,7 +532,7 @@ void MainWindow::slotAddDaugther()
             query2.bindValue(":date", query.value("birth_date"));
         }
 
-        qDebug() << "Inserting son" << query2.executedQuery();
+        qDebug() << "Inserting daughter" << query2.executedQuery();
 
         if (!query2.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
