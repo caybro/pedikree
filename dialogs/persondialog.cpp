@@ -45,8 +45,11 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
 
     // nationality
     ui->nationality->addItem(QString());
+    ui->country->addItem(QString());
     for (int i = 1; i <= QLocale::LastCountry; i++) {
-        ui->nationality->addItem((QLocale::system().countryToString((QLocale::Country)i)), i);
+        const QString countryName = QLocale::system().countryToString((QLocale::Country)i);
+        ui->nationality->addItem(countryName, i);
+        ui->country->addItem(countryName, i);
     }
 
     connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
@@ -150,6 +153,7 @@ void PersonDialog::save()
                       "birth_date, birth_place, "
                       "death_date, death_place, death_reason, burial_place, "
                       "contact_email, contact_phone, contact_web, "
+                      "contact_address, contact_city, contact_state, contact_zip, contact_country, "
                       "nationality, religion, height, weight, "
                       "color, eye_color, hair_color, occupation, alive) "
                       "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
@@ -164,6 +168,8 @@ void PersonDialog::save()
                       "birth_date=:birth_date, birth_place=:birth_place, "
                       "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place, "
                       "contact_email=:contact_email, contact_phone=:contact_phone, contact_web=:contact_web, "
+                      "contact_address=:contact_address, contact_city=:contact_city, contact_state=:contact_state, "
+                      "contact_zip=:contact_zip, contact_country=:contact_country, "
                       "nationality=:nationality, religion=:religion, height=:height, weight=:weight, "
                       "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation, "
                       "alive=:alive "
@@ -192,6 +198,11 @@ void PersonDialog::save()
     query.bindValue(":contact_email", ui->email->text());
     query.bindValue(":contact_phone", ui->phone->text());
     query.bindValue(":contact_web", ui->web->text());
+    query.bindValue(":contact_address", ui->address->text());
+    query.bindValue(":contact_city", ui->city->text());
+    query.bindValue(":contact_state", ui->state->text());
+    query.bindValue(":contact_zip", ui->zip->text());
+    query.bindValue(":contact_country", ui->country->currentText());
     query.bindValue(":nationality", ui->nationality->currentText());
     query.bindValue(":religion", ui->religion->currentText());
     query.bindValue(":height", ui->height->value());
@@ -253,6 +264,7 @@ void PersonDialog::populateControls()
                           "birth_date, birth_place, "
                           "death_date, death_place, death_reason, burial_place, "
                           "contact_email, contact_phone, contact_web, "
+                          "contact_address, contact_city, contact_state, contact_zip, contact_country, "
                           "nationality, religion, "
                           "height, weight, "
                           "color, eye_color, hair_color, occupation, alive "
@@ -300,6 +312,12 @@ void PersonDialog::populateControls()
     ui->email->setText(query.value("contact_email").toString());
     ui->phone->setText(query.value("contact_phone").toString());
     ui->web->setText(query.value("contact_web").toString());
+
+    ui->address->setText(query.value("contact_address").toString());
+    ui->city->setText(query.value("contact_city").toString());
+    ui->state->setText(query.value("contact_state").toString());
+    ui->zip->setText(query.value("contact_zip").toString());
+    ui->country->setEditText(query.value("contact_country").toString());
 
     // personal
     ui->nationality->setEditText(query.value("nationality").toString());

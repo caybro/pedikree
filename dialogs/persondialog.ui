@@ -79,7 +79,11 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLineEdit" name="leGivenNames"/>
+        <widget class="QLineEdit" name="leGivenNames">
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
        <item row="2" column="1">
         <widget class="QLineEdit" name="leSurname"/>
@@ -107,10 +111,18 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLineEdit" name="lePrefix"/>
+          <widget class="QLineEdit" name="lePrefix">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="leSuffix"/>
+          <widget class="QLineEdit" name="leSuffix">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -125,7 +137,11 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLineEdit" name="leMaidenName"/>
+        <widget class="QLineEdit" name="leMaidenName">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="5" column="1">
         <spacer name="verticalSpacer">
@@ -322,7 +338,11 @@
         </widget>
        </item>
        <item row="12" column="0">
-        <widget class="QLineEdit" name="leDeathReason"/>
+        <widget class="QLineEdit" name="leDeathReason">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="12" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -369,9 +389,6 @@
        <string>Contact</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-       </property>
        <item row="0" column="0">
         <widget class="QLabel" name="emailLabel">
          <property name="text">
@@ -420,6 +437,107 @@
         <widget class="QLineEdit" name="web">
          <property name="clearButtonEnabled">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="addressLabel">
+         <property name="text">
+          <string>Address:</string>
+         </property>
+         <property name="buddy">
+          <cstring>address</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="address">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="cityLabel">
+         <property name="text">
+          <string>City:</string>
+         </property>
+         <property name="buddy">
+          <cstring>city</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLineEdit" name="city">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="stateLabel">
+         <property name="text">
+          <string>State:</string>
+         </property>
+         <property name="buddy">
+          <cstring>state</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLineEdit" name="state">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="zIPCodeLabel">
+         <property name="text">
+          <string>ZIP code:</string>
+         </property>
+         <property name="buddy">
+          <cstring>zip</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLineEdit" name="zip">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="countryLabel">
+         <property name="text">
+          <string>Country:</string>
+         </property>
+         <property name="buddy">
+          <cstring>country</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QComboBox" name="country">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
          </property>
         </widget>
        </item>
@@ -721,7 +839,11 @@
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QLineEdit" name="occupation"/>
+        <widget class="QLineEdit" name="occupation">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -764,6 +886,11 @@
   <tabstop>email</tabstop>
   <tabstop>phone</tabstop>
   <tabstop>web</tabstop>
+  <tabstop>address</tabstop>
+  <tabstop>city</tabstop>
+  <tabstop>state</tabstop>
+  <tabstop>zip</tabstop>
+  <tabstop>country</tabstop>
   <tabstop>nationality</tabstop>
   <tabstop>religion</tabstop>
   <tabstop>height</tabstop>
@@ -809,7 +936,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupGender"/>
   <buttongroup name="buttonGroupAlive"/>
+  <buttongroup name="buttonGroupGender"/>
  </buttongroups>
 </ui>

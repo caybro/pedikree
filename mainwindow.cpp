@@ -545,12 +545,12 @@ void MainWindow::slotAddDaugther()
 
 void MainWindow::slotAddBrother()
 {
-
+    // TODO
 }
 
 void MainWindow::slotAddSister()
 {
-
+    // TODO
 }
 
 void MainWindow::setupActions()
