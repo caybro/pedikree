@@ -23,6 +23,7 @@
 #include <QSqlError>
 #include <QDate>
 #include <QDebug>
+#include <QtGlobal>
 
 #include "relationsmodel.h"
 
@@ -119,12 +120,26 @@ QVariant RelationsModel::headerData(int section, Qt::Orientation orientation, in
 }
 
 
-Relation::Relation(QObject *parent):
-    QObject(parent)
-{
-}
+QMap<QString,QString> Relations::m_relations = {
+    {"Annulment", QT_TR_NOOP("Annulment")},
+    {"CommonLawMarriage", QT_TR_NOOP("Common Law Marriage")},
+    {"CivilUnion", QT_TR_NOOP("Civil Union")},
+    {"DomesticPartnership", QT_TR_NOOP("Domestic Partnership")},
+    {"Divorce", QT_TR_NOOP("Divorce")},
+    {"DivorceFiling", QT_TR_NOOP("Divorce Filing")},
+    {"Engagement", QT_TR_NOOP("Engagement")},
+    {"Marriage", QT_TR_NOOP("Marriage")},
+    {"MarriageBanns", QT_TR_NOOP("Marriage Banns")},
+    {"MarriageContract", QT_TR_NOOP("Marriage Contract")},
+    {"MarriageLicense", QT_TR_NOOP("Marriage License")},
+    {"MarriageNotice", QT_TR_NOOP("Marriage Notice")},
+    {"Separation", QT_TR_NOOP("Separation")},
 
-QString Relation::relationTypeAsString(int type) const
-{
-    return metaObject()->enumerator(metaObject()->indexOfEnumerator("RelationType")).valueToKey(type);  // FIXME make this a QMap and translatable
-}
+    {"AdoptiveParent", QT_TR_NOOP("Adoptive Parent")},
+    {"BiologicalParent", QT_TR_NOOP("Biological Parent")},
+    {"FosterParent", QT_TR_NOOP("Foster Parent")},
+    {"GuardianParent", QT_TR_NOOP("Guardian Parent")},
+    {"StepParent", QT_TR_NOOP("Step Parent")},
+    {"SociologicalParent", QT_TR_NOOP("Socialogical Parent")},
+    {"SurrogateParent", QT_TR_NOOP("Surrogate Parent")}
+};

@@ -8,6 +8,7 @@ QT       += core gui widgets sql network xml
 
 TARGET = pedikree
 TEMPLATE = app
+CONFIG += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \

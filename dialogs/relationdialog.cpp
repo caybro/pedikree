@@ -35,11 +35,11 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
 {
     ui->setupUi(this);
 
-    Relation * rel = new Relation(this);
-    for (int i = 0; i < Relation::LastRelationType; i++) {
-        ui->type->addItem(rel->relationTypeAsString(i), i);
+    QMapIterator<QString, QString> i(Relations::relations());
+    while (i.hasNext()) {
+        i.next();
+        ui->type->addItem(tr(i.value().toUtf8()), i.key());
     }
-    delete rel;
 
     m_peopleModel = new PeopleLookupModel(this);
     ui->person1->setModel(m_peopleModel);
@@ -103,7 +103,7 @@ void RelationDialog::save()
         query.bindValue(":id", m_relationID);
     }
 
-    query.bindValue(":type", ui->type->currentText());
+    query.bindValue(":type", ui->type->currentData());
     query.bindValue(":person1_id", ui->person1->currentData());
     query.bindValue(":person2_id", ui->person2->currentData());
     query.bindValue(":place", ui->place->currentText());
@@ -127,11 +127,8 @@ void RelationDialog::popupCalendar()
 
 void RelationDialog::slotTypeChanged(int index)
 {
-    Q_UNUSED(index)
-
-    const int currentType = ui->type->currentData().toInt();
-    if (currentType >= Relation::AdoptiveParent && currentType <= Relation::SurrogateParent
-            && ui->person1->currentData() != ui->person2->currentData()) {
+    const QString type = ui->type->itemData(index).toString();
+    if (type.contains("Parent") && ui->person1->currentData() != ui->person2->currentData()) {
         qDebug() << "Type changed to parent/child";
 
         QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->person2->currentData().toInt()));
@@ -142,7 +139,7 @@ void RelationDialog::slotTypeChanged(int index)
         else
             query.first();
         ui->date->setText(query.value("birth_date").toString());
-        ui->place->setEditText(query.value("birth_place").toString());
+        ui->place->setEditText(query.value("birth_place").toString()); // TODO place id
     }
 }
 
@@ -174,7 +171,7 @@ void RelationDialog::populateControls()
     else
         query.first();
 
-    ui->type->setCurrentIndex(ui->type->findText(query.value("type").toString()));
+    ui->type->setCurrentIndex(ui->type->findData(query.value("type").toString()));
     ui->person1->setCurrentIndex(ui->person1->findData(query.value("person1_id").toInt()));
     ui->person2->setCurrentIndex(ui->person2->findData(query.value("person2_id").toInt()));
     ui->place->setCurrentIndex(ui->place->findText(query.value("place").toString()));

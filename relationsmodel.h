@@ -22,40 +22,11 @@
 
 #include <QSqlQueryModel>
 
-class Relation: public QObject {
-    Q_OBJECT
-    Q_ENUMS(RelationType)
+class Relations {
 public:
-    enum RelationType {
-        // couples
-        Annulment = 0, // The fact of an annulment of a marriage
-        CommonLawMarriage, // The fact of a marriage by common law
-        CivilUnion, // The fact of a civil union of a couple
-        DomesticPartnership, // The fact of a domestic partnership of a couple
-        Divorce, // The fact of a divorce of a couple
-        DivorceFiling, // The fact of a filing for divorce
-        Engagement, // The fact of an engagement to be married
-        Marriage, // The fact of a marriage
-        MarriageBanns, // The fact of a marriage banns
-        MarriageContract, // The fact of a marriage contract
-        MarriageLicense, // The fact of a marriage license
-        MarriageNotice, // The fact of a marriage notice
-        Separation, // A fact of a couple's separation
-
-        // parent-child
-        AdoptiveParent, // A fact about an adoptive relationship between a parent and a child
-        BiologicalParent, // A fact the biological relationship between a parent and a child
-        FosterParent, // A fact about a foster relationship between a foster parent and a child
-        GuardianParent, // A fact about a legal guardianship between a parent and a child
-        StepParent, // A fact about the step relationship between a parent and a child
-        SociologicalParent, // A fact about a sociological relationship between a parent and a child, but not definable in typical legal or biological terms
-        SurrogateParent, // A fact about a pregnancy surrogate relationship between a parent and a child
-        LastRelationType = SurrogateParent
-    };
-
-    Relation(QObject *parent = 0);
-
-    QString relationTypeAsString(int type) const;
+    static QMap<QString, QString> relations() { return m_relations; }
+private:
+    static QMap<QString, QString> m_relations;
 };
 
 class RelationsModel : public QSqlQueryModel
