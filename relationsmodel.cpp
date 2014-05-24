@@ -39,8 +39,8 @@ RelationsModel::~RelationsModel()
 void RelationsModel::exec()
 {
     setQuery("SELECT DISTINCT r.id, r.type, "
-             "printf(\"%s %s\", p1.first_name, p1.surname) as person1_name, "
-             "printf(\"%s %s\", p2.first_name, p2.surname) as person2_name, "
+             "printf(\"%s %s %s\", p1.first_name, p1.surname, p1.suffix) as person1_name, "
+             "printf(\"%s %s %s\", p2.first_name, p2.surname, p2.suffix) as person2_name, "
              "r.place, r.date, r.comment "
              "FROM Relations r, People p1, People p2 "
              "JOIN People ON p1.id=r.person1_id "
@@ -126,5 +126,5 @@ Relation::Relation(QObject *parent):
 
 QString Relation::relationTypeAsString(int type) const
 {
-    return metaObject()->enumerator(metaObject()->indexOfEnumerator("RelationType")).valueToKey(type);
+    return metaObject()->enumerator(metaObject()->indexOfEnumerator("RelationType")).valueToKey(type);  // FIXME make this a QMap and translatable
 }

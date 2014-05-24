@@ -36,7 +36,7 @@ PeopleModel::~PeopleModel()
 
 void PeopleModel::exec()
 {
-    setQuery("SELECT id, sex, first_name, surname, birth_date, birth_place, death_date, death_place, occupation "
+    setQuery("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
              "FROM People "
              "ORDER BY surname");
 }
@@ -64,7 +64,9 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
                 symbol = "♂";
             else if (sex == "F")
                 symbol = "♀";
-            return QString("%1 %2 %3").arg(symbol, rec.field("first_name").value().toString(), rec.field("surname").value().toString());
+            return QString("%1 %2 %3 %4").arg(symbol, rec.field("first_name").value().toString(),
+                                              rec.field("surname").value().toString(),
+                                              rec.field("suffix").value().toString()).simplified();
         } else if (column == 1) {
             QString result = QString::fromUtf8("* ");
             const QDate birthDate = rec.field("birth_date").value().toDate();
@@ -77,7 +79,7 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         } else if (column == 2) {
             return rec.field("birth_place").value();
         } else if (column == 3) {
-            if (rec.field("death_date").isNull())
+            if (rec.field("alive").value().toBool())
                 return QVariant();
             QString result = QString::fromUtf8("✝ ");
             const QDate deathDate = rec.field("death_date").value().toDate();
@@ -135,7 +137,7 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
 PeopleLookupModel::PeopleLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
-    setQuery("SELECT id, printf(\"%s %s\", first_name, surname) as name FROM People");
+    setQuery("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People");
 }
 
 PeopleLookupModel::~PeopleLookupModel()
