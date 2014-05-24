@@ -21,8 +21,10 @@
 #define RELATIONSMODEL_H
 
 #include <QSqlQueryModel>
+#include <QCoreApplication>
 
 class Relations {
+    Q_DECLARE_TR_FUNCTIONS(Relations)
 public:
     static QMap<QString, QString> relations() { return m_relations; }
 private:
