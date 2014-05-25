@@ -66,7 +66,7 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
         if (column == 0) {
-            return rec.field("type").value();
+            return qApp->translate("Relations", Relations::relations().value(rec.field("type").value().toString()).toUtf8());
         } else if (column == 1) {
             return rec.field("person1_name").value();
         } else if (column == 2) {

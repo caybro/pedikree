@@ -38,7 +38,7 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
     QMapIterator<QString, QString> i(Relations::relations());
     while (i.hasNext()) {
         i.next();
-        ui->type->addItem(tr(i.value().toUtf8()), i.key());
+        ui->type->addItem(qApp->translate("Relations", i.value().toUtf8()), i.key());
     }
 
     m_peopleModel = new PeopleLookupModel(this);
