@@ -1,6 +1,6 @@
 # Pedikree
 
-Genealogy application written using Qt 5.2, using SQL classes as the backend storage.
+Genealogy application written using Qt 5.2, using SQL classes as the backend storage. Visit our user homepage at http://caybro.github.io/pedikree/
 
 ### Compiling
 You need at at least Qt 5.2:
