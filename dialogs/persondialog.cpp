@@ -160,6 +160,7 @@ void PersonDialog::save()
                       ":birth_date, :birth_place, "
                       ":death_date, :death_place, :death_reason, :burial_place, "
                       ":contact_email, :contact_phone, :contact_web, "
+                      ":contact_address, :contact_city, :contact_state, :contact_zip, :contact_country, "
                       ":nationality, :religion, :height, :weight, "
                       ":color, :eye_color, :hair_color, :occupation, :alive)");
     } else { // update person
