@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include <QAbstractButton>
+#include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QAction>
 
@@ -57,11 +58,26 @@ private slots:
     void popupDeathDateCalendar();
     void slotAddPlace();
 
+    void tabChanged(int index);
+    void nextPartner();
+    void prevPartner();
+
 private:
     void populateControls();
+    void populateFamilyTab();
+    void updatePartnersLabel();
+    void updatePartnersButtons();
+    void fetchChildren();
     Ui::PersonDialog *ui;
     int m_personID;
     PlacesLookupModel * m_placesModel;
+
+    // family tab
+    bool m_familyInitted;
+    QSqlQuery m_partnerQuery;
+    QSqlQuery m_thisPersonQuery;
+    QSqlQuery m_childrenQuery;
+    QSqlQueryModel * m_childrenModel;
 };
 
 #endif // PERSONDIALOG_H

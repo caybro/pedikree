@@ -18,7 +18,6 @@
  */
 
 #include <QDebug>
-#include <QSqlQuery>
 #include <QSqlError>
 #include <QDate>
 
@@ -30,7 +29,9 @@
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
     ui(new Ui::PersonDialog),
-    m_personID(personID)
+    m_personID(personID),
+    m_familyInitted(false),
+    m_childrenModel(0)
 {
     ui->setupUi(this);
 
@@ -78,6 +79,12 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     tmp2->setToolTip(tr("Enter date"));
     connect(tmp2, &QAction::triggered, this, &PersonDialog::popupDeathDateCalendar);
 
+    // family tab
+    connect(ui->tabWidget, &QTabWidget::currentChanged, this, &PersonDialog::tabChanged);
+    connect(ui->btnPrevCouple, &QToolButton::clicked, this, &PersonDialog::prevPartner);
+    connect(ui->btnNextCouple, &QToolButton::clicked, this, &PersonDialog::nextPartner);
+
+    // button box
     connect(this, &PersonDialog::accepted, this, &PersonDialog::save);
 
     qDebug() << "Editting person with ID:" << m_personID;
@@ -258,6 +265,13 @@ void PersonDialog::slotAddPlace()
     }
 }
 
+void PersonDialog::tabChanged(int index)
+{
+    if (index == 1 && !m_familyInitted) {
+        populateFamilyTab();
+    }
+}
+
 void PersonDialog::populateControls()
 {
     QSqlQuery query;
@@ -332,4 +346,104 @@ void PersonDialog::populateControls()
     ui->hairColor->setEditText(query.value("hair_color").toString());
 
     ui->occupation->setText(query.value("occupation").toString());
+}
+
+void PersonDialog::populateFamilyTab()
+{
+    // this person
+    m_thisPersonQuery = QSqlQuery(QString("SELECT printf(\"%s %s\", first_name, surname) as name FROM People WHERE id=%1").arg(m_personID));
+    m_thisPersonQuery.exec();
+    m_thisPersonQuery.first();
+
+    // partners and children
+    m_partnerQuery = QSqlQuery(QString("SELECT r.id as relation_id, r.type, r.date, "
+                                       "p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name "
+                                       "FROM Relations r, People p "
+                                       "WHERE (r.person1_id=%1 OR r.person2_id=%1) "
+                                       "      AND (r.person1_id=p.id OR r.person2_id=p.id) "
+                                       "      AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
+                                       "                    'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation') "
+                                       "      AND p.id!=%1").arg(m_personID));
+
+    if (m_partnerQuery.exec() && m_partnerQuery.first()) {
+        updatePartnersLabel();
+        ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
+
+        const QString childrenQuery = QString("SELECT p.id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
+                                              "FROM People p, Relations r "
+                                              "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
+                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
+                                              "AND p.id=r.person2_id "
+                                              "GROUP BY p.id "
+                                              "HAVING count(p.id) > 1;");
+        m_childrenQuery.prepare(childrenQuery);
+        m_childrenQuery.bindValue(":person1", m_personID);
+        m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
+        if (m_childrenQuery.exec() && m_childrenQuery.first()) {
+            //qDebug() << "Executed children query for" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
+            m_childrenModel = new QSqlQueryModel(this);
+            m_childrenModel->setQuery(m_childrenQuery);
+            m_childrenModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+            m_childrenModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+            m_childrenModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
+            m_childrenModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
+            ui->children->setModel(m_childrenModel);
+            ui->children->hideColumn(0);
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << m_childrenQuery.lastError().text();
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "Query failed with" << m_partnerQuery.lastError().text();
+        ui->couples->setText(tr("No spouse found for this person."));
+    }
+
+    // TODO parents and siblings
+
+    m_familyInitted = true;
+}
+
+void PersonDialog::updatePartnersLabel()
+{
+    ui->couples->setText(tr("%1 + %2 (%3, since %4)").arg(m_thisPersonQuery.value("name").toString(),
+                                                          m_partnerQuery.value("name").toString(),
+                                                          m_partnerQuery.value("type").toString(),
+                                                          m_partnerQuery.value("date").toString()));
+}
+
+void PersonDialog::updatePartnersButtons()
+{
+    ui->btnNextCouple->setDisabled(m_partnerQuery.at() == QSql::AfterLastRow);
+    ui->btnPrevCouple->setDisabled(m_partnerQuery.at() == QSql::BeforeFirstRow || m_partnerQuery.at() == 0);
+}
+
+void PersonDialog::fetchChildren()
+{
+    m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
+    if (m_childrenQuery.exec()) {
+        ui->children->reset();
+        m_childrenQuery.first();
+        ui->children->update();
+    } else {
+        qWarning() << Q_FUNC_INFO << "Query failed with" << m_childrenQuery.lastError().text();
+    }
+}
+
+void PersonDialog::nextPartner()
+{
+    if (m_partnerQuery.seek(1, true)) {
+        updatePartnersLabel();
+        fetchChildren();
+    }
+
+    updatePartnersButtons();
+}
+
+void PersonDialog::prevPartner()
+{
+    if (m_partnerQuery.seek(-1, true)) {
+        updatePartnersLabel();
+        fetchChildren();
+    }
+
+    updatePartnersButtons();
 }
