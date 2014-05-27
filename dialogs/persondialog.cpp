@@ -31,7 +31,8 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     ui(new Ui::PersonDialog),
     m_personID(personID),
     m_familyInitted(false),
-    m_childrenModel(0)
+    m_childrenModel(0),
+    m_siblingsModel(0)
 {
     ui->setupUi(this);
 
@@ -397,7 +398,47 @@ void PersonDialog::populateFamilyTab()
         ui->couples->setText(tr("No spouse found for this person."));
     }
 
-    // TODO parents and siblings
+    // parents and siblings
+    m_parentsQuery = QSqlQuery(QString("SELECT DISTINCT r.id, r.type, r.date, p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.sex "
+                                       "FROM People p, Relations r "
+                                       "WHERE r.person2_id=%1 AND r.person1_id=p.id "
+                                       "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
+                               .arg(m_personID));
+    if (m_parentsQuery.exec() && m_parentsQuery.first()) {
+        const QString siblingsQuery = QString("SELECT DISTINCT p.id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
+                                              "FROM People p, Relations r "
+                                              "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
+                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
+                                              "AND p.id=r.person2_id AND p.id!=%1").arg(m_personID);
+        m_siblingsQuery.prepare(siblingsQuery);
+        m_siblingsQuery.bindValue(":person1", m_parentsQuery.value("person_id"));
+
+        qDebug() << "First parent:" << m_parentsQuery.value("person_id").toInt();
+        QString parent1 = m_parentsQuery.value("name").toString();
+        QString parent2 = tr("Unknown parent");
+        if (m_parentsQuery.next()) {
+            qDebug() << "Second parent:" << m_parentsQuery.value("person_id").toInt();
+            m_siblingsQuery.bindValue(":person2", m_parentsQuery.value("person_id"));
+            parent2 = m_parentsQuery.value("name").toString();
+        }
+        ui->parents->setText(tr("%1 + %2").arg(parent1, parent2));
+
+        if (m_siblingsQuery.exec() && m_siblingsQuery.first()) {
+            m_siblingsModel = new QSqlQueryModel(this);
+            m_siblingsModel->setQuery(m_siblingsQuery);
+            m_siblingsModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+            m_siblingsModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+            m_siblingsModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
+            m_siblingsModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
+            ui->siblings->setModel(m_siblingsModel);
+            ui->siblings->hideColumn(0);
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << m_siblingsQuery.lastError().text();
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "Query failed with" << m_partnerQuery.lastError().text();
+        ui->parents->setText(tr("No parents found for this person."));
+    }
 
     m_familyInitted = true;
 }

@@ -458,35 +458,11 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QLabel" name="parents">
-              <property name="text">
-               <string notr="true">Here go the parents of this person, siblings of this person below</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="btnPrevParent">
-              <property name="toolTip">
-               <string>Go to the previous parents</string>
-              </property>
-              <property name="arrowType">
-               <enum>Qt::LeftArrow</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="btnNextParent">
-              <property name="toolTip">
-               <string>Go to the next parents</string>
-              </property>
-              <property name="arrowType">
-               <enum>Qt::RightArrow</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QLabel" name="parents">
+            <property name="text">
+             <string notr="true">Here go the parents of this person, siblings of this person below</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QTableView" name="siblings">

@@ -78,6 +78,9 @@ private:
     QSqlQuery m_thisPersonQuery;
     QSqlQuery m_childrenQuery;
     QSqlQueryModel * m_childrenModel;
+    QSqlQuery m_parentsQuery;
+    QSqlQuery m_siblingsQuery;
+    QSqlQueryModel * m_siblingsModel;
 };
 
 #endif // PERSONDIALOG_H
