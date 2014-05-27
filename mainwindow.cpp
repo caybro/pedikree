@@ -594,6 +594,11 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(dbFilePath);
+
+    if (!db.driver()->hasFeature(QSqlDriver::QuerySize)) {
+        qWarning() << "DB driver" << db.driverName() << "doesn't support query size!";
+    }
+
     if (db.open()) {
         if (create) {
             initDatabase();
