@@ -88,6 +88,7 @@ private slots:
 private:
     void setupActions();
     void openDatabase(const QString & dbFilePath, bool create = false);
+    void closeDatabase();
     void initDatabase();
     Ui::MainWindow *ui;
     QActionGroup * m_viewGroup;

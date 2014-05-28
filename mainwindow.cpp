@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     // setup storage location
     m_storageLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    qDebug() << "Storage location:" << m_storageLocation;
+    //qDebug() << "Storage location:" << m_storageLocation;
     QDir storageDir(m_storageLocation);
     if (!storageDir.exists()) {
         storageDir.mkpath(m_storageLocation);
@@ -60,14 +60,8 @@ MainWindow::MainWindow(QWidget *parent):
 
 MainWindow::~MainWindow()
 {
-    QSqlDatabase db = QSqlDatabase::database();
-    if (db.isOpen()) {
-        db.close();
-    }
-    QSqlDatabase::removeDatabase(db.connectionName());
-
+    closeDatabase();
     saveSettings();
-
     delete ui;
 }
 
@@ -95,6 +89,7 @@ void MainWindow::slotNew()
 {
     const QString dbName = QInputDialog::getText(this, tr("New Pedikree Database"), tr("Database name:"));
     if (!dbName.isEmpty()) {
+        closeDatabase();
         qDebug() << "new DB name:" << dbName;
         openDatabase(m_storageLocation + "/" + dbName + ".pdb", true);
     }
@@ -123,20 +118,26 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotSwitchView(QAction *action)
 {
+    if (!QSqlDatabase::database().isOpen())
+        return;
+
     if (action == ui->actionViewPeople) {
         if (!m_peopleModel) {
             m_peopleModel = new PeopleModel(this);
         }
+        m_peopleModel->exec();
         ui->tableView->setModel(m_peopleModel);
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel) {
             m_placesModel = new PlacesModel(this);
         }
+        m_placesModel->exec();
         ui->tableView->setModel(m_placesModel);
     } else if (action == ui->actionViewRelations) {
         if (!m_relationsModel) {
             m_relationsModel = new RelationsModel(this);
         }
+        m_relationsModel->exec();
         ui->tableView->setModel(m_relationsModel);
     }
     ui->tableView->resizeColumnsToContents();
@@ -603,6 +604,24 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
     } else {
         qWarning() << "Error opening the DB" << db.lastError().text();
     }
+}
+
+void MainWindow::closeDatabase()
+{
+    ui->tableView->setModel(0);
+
+    delete m_peopleModel;
+    m_peopleModel = 0;
+    delete m_relationsModel;
+    m_relationsModel = 0;
+    delete m_placesModel;
+    m_placesModel = 0;
+
+    QSqlDatabase db = QSqlDatabase::database();
+    if (db.isOpen()) {
+        db.close();
+    }
+    QSqlDatabase::removeDatabase(db.connectionName());
 }
 
 void MainWindow::initDatabase()
