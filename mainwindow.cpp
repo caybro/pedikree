@@ -52,10 +52,13 @@ MainWindow::MainWindow(QWidget *parent):
     }
 
     m_proxyModel->setSortLocaleAware(true);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setFilterKeyColumn(-1); // all columns
 
     //connections
     connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::tableViewDoubleClicked);
     connect(ui->tableView, &QTableView::customContextMenuRequested, this, &MainWindow::tableViewContextMenuRequested);
+    connect(ui->leSearch, &QLineEdit::textChanged, this, &MainWindow::slotSearchStringChanged);
 
     // settings
     loadSettings();
@@ -147,6 +150,11 @@ void MainWindow::slotSwitchView(QAction *action)
         ui->tableView->setModel(m_proxyModel);
     }
     ui->tableView->resizeColumnsToContents();
+}
+
+void MainWindow::slotSearchStringChanged(const QString &pattern)
+{
+    m_proxyModel->setFilterFixedString(pattern);
 }
 
 void MainWindow::tableViewDoubleClicked(const QModelIndex &index)

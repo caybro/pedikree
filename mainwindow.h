@@ -52,6 +52,7 @@ private slots:
 
     // views
     void slotSwitchView(QAction * action);
+    void slotSearchStringChanged(const QString & pattern);
 
     // table view handling
     void tableViewDoubleClicked(const QModelIndex &index);
