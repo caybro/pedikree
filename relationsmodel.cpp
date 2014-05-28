@@ -74,14 +74,11 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
         } else if (column == 3) {
             return rec.field("place").value();
         } else if (column == 4) {
-            if (rec.field("date").isNull())
-                return QVariant();
             const QDate date = rec.field("date").value().toDate();
             if (date.isValid()) {
-                return date.toString(Qt::DefaultLocaleShortDate);
-            } else {
-                return rec.field("date").value().toString();
+                return date;
             }
+            return rec.field("date").value();
         } else if (column == 5) {
             return rec.field("comment").value();
         }

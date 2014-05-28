@@ -392,32 +392,41 @@
 <context>
     <name>PeopleModel</name>
     <message>
-        <location filename="../peoplemodel.cpp" line="119"/>
         <source>Name</source>
+        <translation type="vanished">Jméno</translation>
+    </message>
+    <message>
+        <location filename="../peoplemodel.cpp" line="108"/>
+        <source>First Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="121"/>
+        <location filename="../peoplemodel.cpp" line="110"/>
+        <source>Surname</source>
+        <translation>Příjmení</translation>
+    </message>
+    <message>
+        <location filename="../peoplemodel.cpp" line="112"/>
         <source>Birth Date</source>
         <translation>Datum narození</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="123"/>
+        <location filename="../peoplemodel.cpp" line="114"/>
         <source>Birth Place</source>
         <translation>Místo narození</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="125"/>
+        <location filename="../peoplemodel.cpp" line="116"/>
         <source>Death Date</source>
         <translation>Datum umrtí</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="127"/>
+        <location filename="../peoplemodel.cpp" line="118"/>
         <source>Death Place</source>
         <translation>Místo umrtí</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="129"/>
+        <location filename="../peoplemodel.cpp" line="120"/>
         <source>Occupation</source>
         <translation>Zaměstnání</translation>
     </message>

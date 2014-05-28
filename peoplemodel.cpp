@@ -48,7 +48,7 @@ int PeopleModel::idAtRow(int row) const
 int PeopleModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 6;
+    return 7;
 }
 
 QVariant PeopleModel::data(const QModelIndex &item, int role) const
@@ -57,51 +57,40 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
         if (column == 0) {
-            const QString sex = rec.field("sex").value().toString();
-            QString symbol;
-            if (sex == "M")
-                symbol = "♂";
-            else if (sex == "F")
-                symbol = "♀";
-            return QString("%1 %2 %3 %4").arg(symbol, rec.field("first_name").value().toString(),
-                                              rec.field("surname").value().toString(),
-                                              rec.field("suffix").value().toString()).simplified();
+            return rec.field("first_name").value();
         } else if (column == 1) {
-            QString result = QString::fromUtf8("* ");
+            return QString("%1 %2").arg(rec.field("surname").value().toString(),
+                                        rec.field("suffix").value().toString().simplified());
+        } else if (column == 2) {
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
-                result += birthDate.toString(Qt::DefaultLocaleShortDate);
-            } else {
-                result += rec.field("birth_date").value().toString();
+                return birthDate;
             }
-            return result;
-        } else if (column == 2) {
-            return rec.field("birth_place").value();
+            return rec.field("birth_date").value();
         } else if (column == 3) {
+            return rec.field("birth_place").value();
+        } else if (column == 4) {
             if (rec.field("alive").value().toBool())
                 return QVariant();
-            QString result = QString::fromUtf8("✝ ");
             const QDate deathDate = rec.field("death_date").value().toDate();
             if (deathDate.isValid()) {
-                result += deathDate.toString(Qt::DefaultLocaleShortDate);
-            } else {
-                result += rec.field("death_date").value().toString();
+                return deathDate;
             }
-            return result;
-        } else if (column == 4) {
-            return rec.field("death_place").value();
+            return rec.field("death_date").value();
         } else if (column == 5) {
+            return rec.field("death_place").value();
+        } else if (column == 6) {
             return rec.field("occupation").value();
         }
     } else if (role == Qt::ToolTipRole) {
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
-        if (column == 1) {
+        if (column == 2) {
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
                 return birthDate.toString(Qt::DefaultLocaleLongDate);
             }
-        } else if (column == 3) {
+        } else if (column == 4) {
             const QDate deathDate = rec.field("death_date").value().toDate();
             if (deathDate.isValid()) {
                 return deathDate.toString(Qt::DefaultLocaleLongDate);
@@ -116,16 +105,18 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         if (section == 0)
-            return tr("Name");
-        else if (section == 1)
-            return tr("Birth Date");
+            return tr("First Name");
+        if (section == 1)
+            return tr("Surname");
         else if (section == 2)
-            return tr("Birth Place");
+            return tr("Birth Date");
         else if (section == 3)
-            return tr("Death Date");
+            return tr("Birth Place");
         else if (section == 4)
-            return tr("Death Place");
+            return tr("Death Date");
         else if (section == 5)
+            return tr("Death Place");
+        else if (section == 6)
             return tr("Occupation");
     }
 
