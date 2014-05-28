@@ -20,6 +20,7 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QDate>
+#include <QHeaderView>
 
 #include "persondialog.h"
 #include "ui_persondialog.h"
@@ -370,7 +371,7 @@ void PersonDialog::populateFamilyTab()
         updatePartnersLabel();
         ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
 
-        const QString childrenQuery = QString("SELECT p.id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
+        const QString childrenQuery = QString("SELECT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
                                               "FROM People p, Relations r "
                                               "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
@@ -390,11 +391,12 @@ void PersonDialog::populateFamilyTab()
             m_childrenModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
             ui->children->setModel(m_childrenModel);
             ui->children->hideColumn(0);
+            ui->children->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
         } else {
-            qWarning() << Q_FUNC_INFO << "Query failed with" << m_childrenQuery.lastError().text();
+            qWarning() << Q_FUNC_INFO << "Children query failed with" << m_childrenQuery.lastError().text();
         }
     } else {
-        qWarning() << Q_FUNC_INFO << "Query failed with" << m_partnerQuery.lastError().text();
+        qWarning() << Q_FUNC_INFO << "Spouse query failed with" << m_partnerQuery.lastError().text();
         ui->couples->setText(tr("No spouse found for this person."));
     }
 
@@ -405,7 +407,7 @@ void PersonDialog::populateFamilyTab()
                                        "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
                                .arg(m_personID));
     if (m_parentsQuery.exec() && m_parentsQuery.first()) {
-        const QString siblingsQuery = QString("SELECT DISTINCT p.id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
+        const QString siblingsQuery = QString("SELECT DISTINCT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
                                               "FROM People p, Relations r "
                                               "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
@@ -414,7 +416,7 @@ void PersonDialog::populateFamilyTab()
         m_siblingsQuery.bindValue(":person1", m_parentsQuery.value("person_id"));
 
         qDebug() << "First parent:" << m_parentsQuery.value("person_id").toInt();
-        QString parent1 = m_parentsQuery.value("name").toString();
+        const QString parent1 = m_parentsQuery.value("name").toString();
         QString parent2 = tr("Unknown parent");
         if (m_parentsQuery.next()) {
             qDebug() << "Second parent:" << m_parentsQuery.value("person_id").toInt();
@@ -432,11 +434,12 @@ void PersonDialog::populateFamilyTab()
             m_siblingsModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
             ui->siblings->setModel(m_siblingsModel);
             ui->siblings->hideColumn(0);
+            ui->siblings->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
         } else {
-            qWarning() << Q_FUNC_INFO << "Query failed with" << m_siblingsQuery.lastError().text();
+            qWarning() << Q_FUNC_INFO << "Siblings query failed with" << m_siblingsQuery.lastError().text();
         }
     } else {
-        qWarning() << Q_FUNC_INFO << "Query failed with" << m_partnerQuery.lastError().text();
+        qWarning() << Q_FUNC_INFO << "Parents query failed with" << m_parentsQuery.lastError().text();
         ui->parents->setText(tr("No parents found for this person."));
     }
 
@@ -465,7 +468,7 @@ void PersonDialog::fetchChildren()
         m_childrenQuery.first();
         ui->children->update();
     } else {
-        qWarning() << Q_FUNC_INFO << "Query failed with" << m_childrenQuery.lastError().text();
+        qWarning() << Q_FUNC_INFO << "Fetch children query failed with" << m_childrenQuery.lastError().text();
     }
 }
 
