@@ -4,92 +4,97 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainwindow.ui" line="85"/>
+        <location filename="../mainwindow.ui" line="51"/>
+        <source>&amp;Search:</source>
+        <translation>&amp;Hledat:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="109"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="95"/>
+        <location filename="../mainwindow.ui" line="119"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="101"/>
+        <location filename="../mainwindow.ui" line="125"/>
         <source>View</source>
         <translation>Pohled</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="109"/>
+        <location filename="../mainwindow.ui" line="133"/>
         <source>Edit</source>
         <translation>Úpravy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="122"/>
+        <location filename="../mainwindow.ui" line="146"/>
         <source>Main toolbar</source>
         <translation>Hlavní nástrojová lišta</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="150"/>
+        <location filename="../mainwindow.ui" line="173"/>
         <source>Open...</source>
         <translation>Otevřít...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="153"/>
+        <location filename="../mainwindow.ui" line="176"/>
         <source>Open an existing database</source>
         <translation>Otevřít existující databázi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="164"/>
+        <location filename="../mainwindow.ui" line="187"/>
         <source>Save As...</source>
         <translation>Uložit jako...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="174"/>
+        <location filename="../mainwindow.ui" line="197"/>
         <source>Quit</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="177"/>
+        <location filename="../mainwindow.ui" line="200"/>
         <source>Exit the application</source>
         <translation>Ukončit aplikaci</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="185"/>
+        <location filename="../mainwindow.ui" line="208"/>
         <source>About...</source>
         <translation>O aplikaci...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="198"/>
+        <location filename="../mainwindow.ui" line="221"/>
         <source>New</source>
         <translation>Nový</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="201"/>
+        <location filename="../mainwindow.ui" line="224"/>
         <source>Create a new database</source>
         <translation>Vytvořit novou databázi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="220"/>
+        <location filename="../mainwindow.ui" line="243"/>
         <source>People</source>
         <translation>Lidé</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="223"/>
+        <location filename="../mainwindow.ui" line="246"/>
         <source>View the list of people</source>
         <translation>Zobrazit seznam osob</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="236"/>
+        <location filename="../mainwindow.ui" line="259"/>
         <source>Places</source>
         <translation>Místa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="239"/>
+        <location filename="../mainwindow.ui" line="262"/>
         <source>View the list of places</source>
         <translation>Zobrazit seznam míst</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="303"/>
+        <location filename="../mainwindow.ui" line="326"/>
         <source>View the list of relations</source>
         <translation>Zobrazit seznam vztahů</translation>
     </message>
@@ -98,37 +103,37 @@
         <translation type="vanished">Události</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="252"/>
+        <location filename="../mainwindow.ui" line="275"/>
         <source>Add...</source>
         <translation>Přidat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="255"/>
+        <location filename="../mainwindow.ui" line="278"/>
         <source>Adds a new item to the list</source>
         <translation>Přidá novou položku do seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="268"/>
+        <location filename="../mainwindow.ui" line="291"/>
         <source>Edit...</source>
         <translation>Upravit...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="271"/>
+        <location filename="../mainwindow.ui" line="294"/>
         <source>Edits the currently selected item</source>
         <translation>Upraví aktuální položku seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="284"/>
+        <location filename="../mainwindow.ui" line="307"/>
         <source>Delete...</source>
         <translation>Smazat...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="287"/>
+        <location filename="../mainwindow.ui" line="310"/>
         <source>Deletes the currently selected item</source>
         <translation>Smaže aktuální položku v seznamu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="300"/>
+        <location filename="../mainwindow.ui" line="323"/>
         <source>Relations</source>
         <translation>Vztahy</translation>
     </message>
@@ -137,7 +142,7 @@
         <translation type="vanished">Nová databáze Pedikree</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="90"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>Database name:</source>
         <translation>Název databáze:</translation>
     </message>
@@ -146,7 +151,7 @@
         <translation type="vanished">Otevřít databázi Pedikree</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="100"/>
+        <location filename="../mainwindow.cpp" line="106"/>
         <source>Pedikree databases (*.pdb)</source>
         <translation>Databáze Pedikree (*.pdb)</translation>
     </message>
@@ -155,173 +160,173 @@
         <translation type="vanished">O aplikaci Pedikree</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="90"/>
+        <location filename="../mainwindow.cpp" line="96"/>
         <source>New Database</source>
         <translation>Nová databáze</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="100"/>
+        <location filename="../mainwindow.cpp" line="106"/>
         <source>Open Database</source>
         <translation>Otevřít databázi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="113"/>
+        <location filename="../mainwindow.cpp" line="119"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="114"/>
+        <location filename="../mainwindow.cpp" line="120"/>
         <source>A simple genealogy application written using Qt</source>
         <translation>Jednoduchý genealogický program napsaný pomocí Qt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="116"/>
+        <location filename="../mainwindow.cpp" line="122"/>
         <source>Version: %1</source>
         <translation>Verze: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="194"/>
+        <location filename="../mainwindow.cpp" line="208"/>
         <source>Add new</source>
         <translation>Přidat nové</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="195"/>
+        <location filename="../mainwindow.cpp" line="209"/>
         <source>Parents</source>
         <translation>Rodiče</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="196"/>
+        <location filename="../mainwindow.cpp" line="210"/>
         <source>Add &amp;father...</source>
         <translation>Přidat &amp;otce...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="197"/>
+        <location filename="../mainwindow.cpp" line="211"/>
         <source>Add &amp;mother...</source>
         <translation>Přidat &amp;matku...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="198"/>
+        <location filename="../mainwindow.cpp" line="212"/>
         <source>Children</source>
         <translation>Děti</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="199"/>
+        <location filename="../mainwindow.cpp" line="213"/>
         <source>Add &amp;son...</source>
         <translation>Přidat &amp;syna...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="200"/>
+        <location filename="../mainwindow.cpp" line="214"/>
         <source>Add &amp;daughter...</source>
         <translation>Přidat &amp;dceru...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="201"/>
+        <location filename="../mainwindow.cpp" line="215"/>
         <source>Siblings</source>
         <translation>Sourozenci</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="202"/>
+        <location filename="../mainwindow.cpp" line="216"/>
         <source>Add &amp;brother...</source>
         <translation>Přidat &amp;bratra...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="203"/>
+        <location filename="../mainwindow.cpp" line="217"/>
         <source>Add s&amp;ister...</source>
         <translation>Přidat s&amp;estru...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="284"/>
+        <location filename="../mainwindow.cpp" line="298"/>
         <source>Add Person</source>
         <translation>Přidat osobu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="293"/>
+        <location filename="../mainwindow.cpp" line="307"/>
         <source>Edit Person</source>
         <translation>Upravit osobu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="302"/>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="316"/>
+        <location filename="../mainwindow.cpp" line="348"/>
         <source>Delete Place</source>
         <translation>Smazat místo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="302"/>
+        <location filename="../mainwindow.cpp" line="316"/>
         <source>Do you really want to delete the person with ID %1?</source>
         <translation>Opravdu chcete smazat osobu s ID %1?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="316"/>
+        <location filename="../mainwindow.cpp" line="330"/>
         <source>Add Place</source>
         <translation>Přidat místo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="325"/>
+        <location filename="../mainwindow.cpp" line="339"/>
         <source>Edit Place</source>
         <translation>Upravit místo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="334"/>
+        <location filename="../mainwindow.cpp" line="348"/>
         <source>Do you really want to delete the place with ID %1?</source>
         <translation>Opravdu chcete smazat místo s ID %1?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="348"/>
+        <location filename="../mainwindow.cpp" line="362"/>
         <source>Add Relation</source>
         <translation>Přidat vztah</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="357"/>
+        <location filename="../mainwindow.cpp" line="371"/>
         <source>Edit Relation</source>
         <translation>Upravit vztah</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="366"/>
+        <location filename="../mainwindow.cpp" line="380"/>
         <source>Delete Relation</source>
         <translation>Smazat vztah</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="366"/>
+        <location filename="../mainwindow.cpp" line="380"/>
         <source>Do you really want to delete the relation with ID %1?</source>
         <translation>Opravdu chcete smazat vztah s ID %1?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="389"/>
+        <location filename="../mainwindow.cpp" line="403"/>
         <source>Add Father of %1 %2</source>
         <translation>Přidat otce osoby %1 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="395"/>
+        <location filename="../mainwindow.cpp" line="409"/>
         <source>Add Father</source>
         <translation>Přidat otce</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="430"/>
+        <location filename="../mainwindow.cpp" line="444"/>
         <source>Add Mother of %1 %2</source>
         <translation>Přidat matku osoby %1 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="436"/>
+        <location filename="../mainwindow.cpp" line="450"/>
         <source>Add Mother</source>
         <translation>Přidat matku</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="471"/>
+        <location filename="../mainwindow.cpp" line="485"/>
         <source>Add Son of %1 %2</source>
         <translation>Přidat syna osoby %1 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="474"/>
+        <location filename="../mainwindow.cpp" line="488"/>
         <source>Add Son</source>
         <translation>Přidat syna</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="514"/>
+        <location filename="../mainwindow.cpp" line="528"/>
         <source>Add Daughter of %1 %2</source>
         <translation>Přidat dceru osoby %1 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="517"/>
+        <location filename="../mainwindow.cpp" line="531"/>
         <source>Add Daughter</source>
         <translation>Přidat dceru</translation>
     </message>
@@ -387,32 +392,32 @@
 <context>
     <name>PeopleModel</name>
     <message>
-        <location filename="../peoplemodel.cpp" line="120"/>
+        <location filename="../peoplemodel.cpp" line="119"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="122"/>
+        <location filename="../peoplemodel.cpp" line="121"/>
         <source>Birth Date</source>
         <translation>Datum narození</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="124"/>
+        <location filename="../peoplemodel.cpp" line="123"/>
         <source>Birth Place</source>
         <translation>Místo narození</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="126"/>
+        <location filename="../peoplemodel.cpp" line="125"/>
         <source>Death Date</source>
         <translation>Datum umrtí</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="128"/>
+        <location filename="../peoplemodel.cpp" line="127"/>
         <source>Death Place</source>
         <translation>Místo umrtí</translation>
     </message>
     <message>
-        <location filename="../peoplemodel.cpp" line="130"/>
+        <location filename="../peoplemodel.cpp" line="129"/>
         <source>Occupation</source>
         <translation>Zaměstnání</translation>
     </message>
