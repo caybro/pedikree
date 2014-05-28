@@ -734,7 +734,7 @@
     <message>
         <location filename="../dialogs/persondialog.cpp" line="444"/>
         <source>No parents found for this person.</source>
-        <translation>Žádnýí rodiče nenalezeni pro tuto osobu.</translation>
+        <translation>Žádní rodiče nenalezeni pro tuto osobu.</translation>
     </message>
     <message>
         <location filename="../dialogs/persondialog.cpp" line="453"/>

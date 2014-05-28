@@ -371,6 +371,7 @@ void PersonDialog::populateFamilyTab()
     if (m_partnerQuery.exec() && m_partnerQuery.first()) {
         updatePartnersLabel();
         ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
+        //qDebug() << "First partner at:" << m_partnerQuery.at();
 
         const QString childrenQuery = QString("SELECT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
                                               "FROM People p, Relations r "

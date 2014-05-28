@@ -126,24 +126,24 @@ void MainWindow::slotSwitchView(QAction *action)
     if (action == ui->actionViewPeople) {
         if (!m_peopleModel) {
             m_peopleModel = new PeopleModel(this);
-        } else if (m_peopleModel) {
-            m_peopleModel->exec();
         }
+        ui->tableView->reset();
         ui->tableView->setModel(m_peopleModel);
+        ui->tableView->update();
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel) {
             m_placesModel = new PlacesModel(this);
-        } else if (m_placesModel) {
-            m_placesModel->exec();
         }
+        ui->tableView->reset();
         ui->tableView->setModel(m_placesModel);
+        ui->tableView->update();
     } else if (action == ui->actionViewRelations) {
         if (!m_relationsModel) {
             m_relationsModel = new RelationsModel(this);
-        } else if (m_relationsModel) {
-            m_relationsModel->exec();
         }
+        ui->tableView->reset();
         ui->tableView->setModel(m_relationsModel);
+        ui->tableView->update();
     }
     ui->tableView->resizeColumnsToContents();
 }
