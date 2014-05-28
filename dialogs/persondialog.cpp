@@ -26,6 +26,7 @@
 #include "ui_persondialog.h"
 #include "pddatedialog.h"
 #include "placedialog.h"
+#include "../relationsmodel.h"
 
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
@@ -423,7 +424,7 @@ void PersonDialog::populateFamilyTab()
             m_siblingsQuery.bindValue(":person2", m_parentsQuery.value("person_id"));
             parent2 = m_parentsQuery.value("name").toString();
         }
-        ui->parents->setText(tr("%1 + %2").arg(parent1, parent2));
+        ui->parents->setText(QString("%1 + %2").arg(parent1, parent2));
 
         if (m_siblingsQuery.exec() && m_siblingsQuery.first()) {
             m_siblingsModel = new QSqlQueryModel(this);
@@ -448,10 +449,19 @@ void PersonDialog::populateFamilyTab()
 
 void PersonDialog::updatePartnersLabel()
 {
-    ui->couples->setText(tr("%1 + %2 (%3, since %4)").arg(m_thisPersonQuery.value("name").toString(),
-                                                          m_partnerQuery.value("name").toString(),
-                                                          m_partnerQuery.value("type").toString(),
-                                                          m_partnerQuery.value("date").toString()));
+    const QString type = qApp->translate("Relations", Relations::relations().value(m_partnerQuery.value("type").toString()).toUtf8());
+    const QString format = tr(", since %1");
+    QString dateStr = m_partnerQuery.value("date").toString();
+    const QDate date = QDate::fromString(dateStr, Qt::ISODate);
+    if (date.isValid()) {
+        dateStr = date.toString(Qt::DefaultLocaleShortDate);
+    }
+    if (!dateStr.isEmpty()) {
+        dateStr = format.arg(dateStr);
+    }
+    ui->couples->setText(QString("%1 + %2 (%3%4)").arg(m_thisPersonQuery.value("name").toString(),
+                                                       m_partnerQuery.value("name").toString(),
+                                                       type, dateStr));
 }
 
 void PersonDialog::updatePartnersButtons()
