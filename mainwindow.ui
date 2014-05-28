@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>471</height>
+    <width>737</width>
+    <height>517</height>
    </rect>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -76,7 +76,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>662</width>
+     <width>737</width>
      <height>23</height>
     </rect>
    </property>
@@ -149,6 +149,9 @@
    <property name="text">
     <string>Open...</string>
    </property>
+   <property name="toolTip">
+    <string>Open an existing database</string>
+   </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>
    </property>
@@ -169,6 +172,9 @@
    </property>
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit the application</string>
    </property>
    <property name="menuRole">
     <enum>QAction::QuitRole</enum>
@@ -191,6 +197,9 @@
    <property name="text">
     <string>New</string>
    </property>
+   <property name="toolTip">
+    <string>Create a new database</string>
+   </property>
    <property name="priority">
     <enum>QAction::HighPriority</enum>
    </property>
@@ -210,6 +219,9 @@
    <property name="text">
     <string>People</string>
    </property>
+   <property name="toolTip">
+    <string>View the list of people</string>
+   </property>
   </action>
   <action name="actionViewPlaces">
    <property name="checkable">
@@ -222,6 +234,9 @@
    </property>
    <property name="text">
     <string>Places</string>
+   </property>
+   <property name="toolTip">
+    <string>View the list of places</string>
    </property>
   </action>
   <action name="actionAddItem">
@@ -283,6 +298,9 @@
    </property>
    <property name="text">
     <string>Relations</string>
+   </property>
+   <property name="toolTip">
+    <string>View the list of relations</string>
    </property>
   </action>
  </widget>

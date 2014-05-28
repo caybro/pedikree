@@ -87,7 +87,7 @@ void MainWindow::loadSettings()
 
 void MainWindow::slotNew()
 {
-    const QString dbName = QInputDialog::getText(this, tr("New Pedikree Database"), tr("Database name:"));
+    const QString dbName = QInputDialog::getText(this, tr("New Database"), tr("Database name:"));
     if (!dbName.isEmpty()) {
         closeDatabase();
         qDebug() << "new DB name:" << dbName;
@@ -97,7 +97,7 @@ void MainWindow::slotNew()
 
 void MainWindow::slotOpen()
 {
-    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Pedikree Database"), m_storageLocation, tr("Pedikree databases (*.pdb)"),
+    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Database"), m_storageLocation, tr("Pedikree databases (*.pdb)"),
                                                           0
                                                       #ifdef Q_OS_LINUX
                                                           , QFileDialog::DontUseNativeDialog // FIXME native kfiledialog crashing
@@ -110,7 +110,7 @@ void MainWindow::slotOpen()
 
 void MainWindow::slotAbout()
 {
-    QMessageBox::about(this, tr("About Pedikree"),
+    QMessageBox::about(this, tr("About"),
                        tr("A simple genealogy application written using Qt") + "\n\n" +
                        QString::fromUtf8("(c) Lukáš Tinkl <lukas@kde.org>") + "\n\n" +
                        tr("Version: %1").arg(qApp->applicationVersion()));
