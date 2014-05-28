@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_viewGroup(new QActionGroup(this)),
+    m_proxyModel(new QSortFilterProxyModel(this)),
     m_peopleModel(0),
     m_placesModel(0),
     m_relationsModel(0)
@@ -49,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent):
     if (!storageDir.exists()) {
         storageDir.mkpath(m_storageLocation);
     }
+
+    m_proxyModel->setSortLocaleAware(true);
 
     //connections
     connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::tableViewDoubleClicked);
@@ -126,44 +129,47 @@ void MainWindow::slotSwitchView(QAction *action)
             m_peopleModel = new PeopleModel(this);
         }
         m_peopleModel->exec();
-        ui->tableView->setModel(m_peopleModel);
+        m_proxyModel->setSourceModel(m_peopleModel);
+        ui->tableView->setModel(m_proxyModel);
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel) {
             m_placesModel = new PlacesModel(this);
         }
         m_placesModel->exec();
-        ui->tableView->setModel(m_placesModel);
+        m_proxyModel->setSourceModel(m_placesModel);
+        ui->tableView->setModel(m_proxyModel);
     } else if (action == ui->actionViewRelations) {
         if (!m_relationsModel) {
             m_relationsModel = new RelationsModel(this);
         }
         m_relationsModel->exec();
-        ui->tableView->setModel(m_relationsModel);
+        m_proxyModel->setSourceModel(m_relationsModel);
+        ui->tableView->setModel(m_proxyModel);
     }
     ui->tableView->resizeColumnsToContents();
 }
 
 void MainWindow::tableViewDoubleClicked(const QModelIndex &index)
 {
-    if (!ui->tableView->model())
+    if (!m_proxyModel->sourceModel())
         return;
 
-    const int row = index.row();
+    const int row = m_proxyModel->mapToSource(index).row();
 
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
-        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        PeopleModel * model = qobject_cast<PeopleModel *>(m_proxyModel->sourceModel());
         if (model) {
             qDebug() << "Double clicked person at row " << row << "with DB ID:" << model->idAtRow(row);
             slotEditPerson(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
-        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
         if (model) {
             qDebug() << "Double clicked place at row " << row << "with DB ID:" << model->idAtRow(row);
             slotEditPlace(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
-        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        RelationsModel * model = qobject_cast<RelationsModel *>(m_proxyModel->sourceModel());
         if (model) {
             qDebug() << "Double clicked relation at row " << row << "with DB ID:" << model->idAtRow(row);
             slotEditRelation(model->idAtRow(row));
@@ -228,24 +234,24 @@ void MainWindow::slotAddItemActionTriggered()
 
 void MainWindow::slotEditItemActionTriggered()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
     if (!currentIndex.isValid())
         return;
 
     const int row = currentIndex.row();
 
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
-        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        PeopleModel * model = qobject_cast<PeopleModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotEditPerson(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
-        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotEditPlace(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
-        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        RelationsModel * model = qobject_cast<RelationsModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotEditRelation(model->idAtRow(row));
         }
@@ -254,24 +260,24 @@ void MainWindow::slotEditItemActionTriggered()
 
 void MainWindow::slotDeleteItemActionTriggered()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
     if (!currentIndex.isValid())
         return;
 
     const int row = currentIndex.row();
 
     if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
-        PeopleModel * model = qobject_cast<PeopleModel *>(ui->tableView->model());
+        PeopleModel * model = qobject_cast<PeopleModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotDeletePerson(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
-        PlacesModel * model = qobject_cast<PlacesModel *>(ui->tableView->model());
+        PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotDeletePlace(model->idAtRow(row));
         }
     } else if (m_viewGroup->checkedAction() == ui->actionViewRelations) {
-        RelationsModel * model = qobject_cast<RelationsModel *>(ui->tableView->model());
+        RelationsModel * model = qobject_cast<RelationsModel *>(m_proxyModel->sourceModel());
         if (model) {
             slotDeleteRelation(model->idAtRow(row));
         }
@@ -376,8 +382,8 @@ void MainWindow::slotDeleteRelation(int relationID)
 
 void MainWindow::slotAddFather()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
-    int personID = m_peopleModel->idAtRow(currentIndex.row());
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
+    const int personID = m_peopleModel->idAtRow(currentIndex.row());
 
     qDebug() << "Adding father of " << personID;
 
@@ -417,8 +423,8 @@ void MainWindow::slotAddFather()
 
 void MainWindow::slotAddMother()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
-    int personID = m_peopleModel->idAtRow(currentIndex.row());
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
+    const int personID = m_peopleModel->idAtRow(currentIndex.row());
 
     qDebug() << "Adding mother of " << personID;
 
@@ -458,8 +464,8 @@ void MainWindow::slotAddMother()
 
 void MainWindow::slotAddSon()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
-    int personID = m_peopleModel->idAtRow(currentIndex.row());
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
+    const int personID = m_peopleModel->idAtRow(currentIndex.row());
 
     qDebug() << "Adding son of " << personID;
 
@@ -501,8 +507,8 @@ void MainWindow::slotAddSon()
 
 void MainWindow::slotAddDaugther()
 {
-    const QModelIndex currentIndex = ui->tableView->currentIndex();
-    int personID = m_peopleModel->idAtRow(currentIndex.row());
+    const QModelIndex currentIndex = m_proxyModel->mapToSource(ui->tableView->currentIndex());
+    const int personID = m_peopleModel->idAtRow(currentIndex.row());
 
     qDebug() << "Adding daughter of " << personID;
 

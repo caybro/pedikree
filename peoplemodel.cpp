@@ -37,8 +37,7 @@ PeopleModel::~PeopleModel()
 void PeopleModel::exec()
 {
     setQuery("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
-             "FROM People "
-             "ORDER BY surname");
+             "FROM People ORDER BY surname");
 }
 
 int PeopleModel::idAtRow(int row) const
@@ -137,7 +136,7 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
 PeopleLookupModel::PeopleLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
-    setQuery("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People");
+    setQuery("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People ORDER BY surname");
 }
 
 PeopleLookupModel::~PeopleLookupModel()

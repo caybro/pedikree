@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QActionGroup>
+#include <QSortFilterProxyModel>
 
 #include "peoplemodel.h"
 #include "placesmodel.h"
@@ -96,6 +97,7 @@ private:
     QString m_storageLocation;
 
     // models
+    QSortFilterProxyModel * m_proxyModel;
     PeopleModel * m_peopleModel;
     PlacesModel * m_placesModel;
     RelationsModel * m_relationsModel;
