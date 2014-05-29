@@ -39,8 +39,8 @@
  **
  ****************************************************************************/
 
-#ifndef LIGHTMAPS_H
-#define LIGHTMAPS_H
+#ifndef MAPWIDGET_H
+#define MAPWIDGET_H
 
 #include <QBasicTimer>
 #include <QWidget>
@@ -63,11 +63,15 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
     void mouseDoubleClickEvent(QMouseEvent * event);
     void keyPressEvent(QKeyEvent *event);
+    void wheelEvent(QWheelEvent * event);
 
 private slots:
     void updateMap(const QRect &r);
 
 private:
+    void zoomIn(int steps = 1);
+    void zoomOut(int steps = 1);
+
     SlippyMap *m_normalMap;
     bool pressed;
     bool snapped;

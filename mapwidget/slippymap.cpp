@@ -157,7 +157,6 @@ void SlippyMap::handleNetworkData(QNetworkReply *reply)
 {
     QImage img;
     QPoint tp = reply->request().attribute(QNetworkRequest::User).toPoint();
-    QUrl url = reply->url();
     if (!reply->error())
         if (!img.load(reply, 0))
             img = QImage();
@@ -192,12 +191,11 @@ void SlippyMap::download()
         return;
     }
 
-    QString path = "http://tile.openstreetmap.org/%1/%2/%3.png";
+    const QString path = "http://tile.openstreetmap.org/%1/%2/%3.png";
     m_url = QUrl(path.arg(zoom).arg(grab.x()).arg(grab.y()));
-    QNetworkRequest request;
-    request.setUrl(m_url);
+    QNetworkRequest request(m_url);
     request.setRawHeader("User-Agent", "Pedikree Map Widget");
-    request.setAttribute(QNetworkRequest::User, QVariant(grab));
+    request.setAttribute(QNetworkRequest::User, grab);
     m_manager.get(request);
 }
 

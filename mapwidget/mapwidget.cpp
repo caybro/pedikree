@@ -154,11 +154,9 @@ void MapWidget::mouseDoubleClickEvent(QMouseEvent *event)
     if (!event->buttons())
         return;
     if (event->button() == Qt::LeftButton)
-        m_normalMap->zoom = qBound(0, m_normalMap->zoom+1, 19);
+        zoomIn();
     else if (event->button() == Qt::RightButton)
-        m_normalMap->zoom = qBound(0, m_normalMap->zoom-1, 19);
-
-    m_normalMap->invalidate();
+        zoomOut();
 }
 
 void MapWidget::keyPressEvent(QKeyEvent *event)
@@ -187,4 +185,29 @@ void MapWidget::keyPressEvent(QKeyEvent *event)
             update();
         }
     }
+}
+
+void MapWidget::wheelEvent(QWheelEvent *event)
+{
+    const int scale = event->angleDelta().y()/120;
+
+    if (scale > 0) {
+        zoomIn(scale);
+    } else if (scale < 0) {
+        zoomOut(-scale);
+    }
+
+    event->accept();
+}
+
+void MapWidget::zoomIn(int steps)
+{
+    m_normalMap->zoom = qBound(0, m_normalMap->zoom+steps, 19);
+    m_normalMap->invalidate();
+}
+
+void MapWidget::zoomOut(int steps)
+{
+    m_normalMap->zoom = qBound(0, m_normalMap->zoom-steps, 19);
+    m_normalMap->invalidate();
 }
