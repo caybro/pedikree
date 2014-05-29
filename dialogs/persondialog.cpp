@@ -379,7 +379,7 @@ void PersonDialog::populateFamilyTab()
                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
                                               "AND p.id=r.person2_id "
                                               "GROUP BY p.id "
-                                              "HAVING count(p.id) > 1;");
+                                              "HAVING count(p.id) > 1 ORDER BY p.surname;");
         m_childrenQuery.prepare(childrenQuery);
         m_childrenQuery.bindValue(":person1", m_personID);
         m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
@@ -413,7 +413,7 @@ void PersonDialog::populateFamilyTab()
                                               "FROM People p, Relations r "
                                               "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
-                                              "AND p.id=r.person2_id AND p.id!=%1").arg(m_personID);
+                                              "AND p.id=r.person2_id AND p.id!=%1 ORDER BY p.surname").arg(m_personID);
         m_siblingsQuery.prepare(siblingsQuery);
         m_siblingsQuery.bindValue(":person1", m_parentsQuery.value("person_id"));
 
