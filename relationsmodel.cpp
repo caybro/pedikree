@@ -117,7 +117,7 @@ QVariant RelationsModel::headerData(int section, Qt::Orientation orientation, in
 }
 
 
-QMap<QString,QString> Relations::m_coupleRelations = {
+QMap<QString,QString> Relations::m_relations = {
     {"Annulment", QT_TR_NOOP("Annulment")},
     {"CommonLawMarriage", QT_TR_NOOP("Common Law Marriage")},
     {"CivilUnion", QT_TR_NOOP("Civil Union")},
@@ -131,9 +131,7 @@ QMap<QString,QString> Relations::m_coupleRelations = {
     {"MarriageLicense", QT_TR_NOOP("Marriage License")},
     {"MarriageNotice", QT_TR_NOOP("Marriage Notice")},
     {"Separation", QT_TR_NOOP("Separation")},
-};
 
-QMap<QString,QString> Relations::m_parentChildRelations = {
     {"AdoptiveParent", QT_TR_NOOP("Adoptive Parent")},
     {"BiologicalParent", QT_TR_NOOP("Biological Parent")},
     {"FosterParent", QT_TR_NOOP("Foster Parent")},
@@ -145,5 +143,5 @@ QMap<QString,QString> Relations::m_parentChildRelations = {
 
 QMap<QString, QString> Relations::relations()
 {
-    return m_coupleRelations.unite(m_parentChildRelations);
+    return m_relations;
 }
