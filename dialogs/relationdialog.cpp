@@ -128,7 +128,7 @@ void RelationDialog::popupCalendar()
 void RelationDialog::slotTypeChanged(int index)
 {
     const QString type = ui->type->itemData(index).toString();
-    if (type.contains("Parent") && ui->person1->currentData() != ui->person2->currentData()) {
+    if (Relations::parentChildRelations().keys().contains(type) && ui->person1->currentData() != ui->person2->currentData()) {
         qDebug() << "Type changed to parent/child";
 
         QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->person2->currentData().toInt()));

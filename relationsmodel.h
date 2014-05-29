@@ -26,9 +26,12 @@
 class Relations {
     Q_DECLARE_TR_FUNCTIONS(Relations)
 public:
-    static QMap<QString, QString> relations() { return m_relations; }
+    static QMap<QString, QString> coupleRelations() { return m_coupleRelations; }
+    static QMap<QString, QString> parentChildRelations() { return m_parentChildRelations; }
+    static QMap<QString, QString> relations();
 private:
-    static QMap<QString, QString> m_relations;
+    static QMap<QString, QString> m_coupleRelations;
+    static QMap<QString, QString> m_parentChildRelations;
 };
 
 class RelationsModel : public QSqlQueryModel
