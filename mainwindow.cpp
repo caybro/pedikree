@@ -127,6 +127,8 @@ void MainWindow::slotSwitchView(QAction *action)
     if (!QSqlDatabase::database().isOpen())
         return;
 
+    ui->leSearch->clear();
+
     if (action == ui->actionViewPeople) {
         if (!m_peopleModel) {
             m_peopleModel = new PeopleModel(this);
