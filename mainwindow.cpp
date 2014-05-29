@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent):
     m_proxyModel->setFilterKeyColumn(-1); // all columns
 
     //connections
+    connect(ui->tableView, &QTableView::clicked, this, &MainWindow::tableViewClicked);
     connect(ui->tableView, &QTableView::doubleClicked, this, &MainWindow::tableViewDoubleClicked);
     connect(ui->tableView, &QTableView::customContextMenuRequested, this, &MainWindow::tableViewContextMenuRequested);
     connect(ui->leSearch, &QLineEdit::textChanged, this, &MainWindow::slotSearchStringChanged);
@@ -157,6 +158,18 @@ void MainWindow::slotSwitchView(QAction *action)
 void MainWindow::slotSearchStringChanged(const QString &pattern)
 {
     m_proxyModel->setFilterFixedString(pattern);
+}
+
+void MainWindow::tableViewClicked(const QModelIndex &index)
+{
+    const int row = m_proxyModel->mapToSource(index).row();
+
+    if (m_viewGroup->checkedAction() == ui->actionViewPlaces) {
+        PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
+        if (model) {
+            qDebug() << "Clicked place at row " << row << "with DB ID:" << model->idAtRow(row);
+        }
+    }
 }
 
 void MainWindow::tableViewDoubleClicked(const QModelIndex &index)

@@ -24,6 +24,7 @@
 #include <QMenu>
 
 #include "osmgeocoder.h"
+#include "../mapwidget/mapwidget.h"
 
 namespace Ui {
 class PlaceDialog;
@@ -48,6 +49,7 @@ private slots:
     void geocodeReply(const QString & originalQuery, const QString & lat, const QString & lon, const QString & displayName, const QString & osmId);
     void geocodeFinished(const QString & originalQuery);
     void placeTriggered(QAction * action);
+    void updateMapCenter();
 
 private:
     void populateControls();
@@ -55,6 +57,7 @@ private:
     int m_placeID;
     OsmGeoCoder * m_gc;
     QMenu * m_placeMenu;
+    MapWidget * m_mapWidget;
 };
 
 #endif // PLACEDIALOG_H

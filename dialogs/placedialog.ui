@@ -6,116 +6,117 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
-    <height>334</height>
+    <width>529</width>
+    <height>377</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
-  <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="nameLabel">
-     <property name="text">
-      <string>Name:</string>
-     </property>
-     <property name="buddy">
-      <cstring>leName</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLineEdit" name="leName">
-       <property name="clearButtonEnabled">
-        <bool>true</bool>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="nameLabel">
+       <property name="text">
+        <string>Name:</string>
+       </property>
+       <property name="buddy">
+        <cstring>leName</cstring>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="btnGeoCode">
-       <property name="toolTip">
-        <string>Get suggestions and coordinates from OpenStreetMsap</string>
+     <item row="0" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLineEdit" name="leName">
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnGeoCode">
+         <property name="toolTip">
+          <string>Get suggestions and coordinates from OpenStreetMsap</string>
+         </property>
+         <property name="icon">
+          <iconset theme="ktip">
+           <normaloff/>
+          </iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="latitudeLabel">
+       <property name="text">
+        <string>Latitude:</string>
        </property>
-       <property name="icon">
-        <iconset theme="ktip">
-         <normaloff/>
-        </iconset>
+       <property name="buddy">
+        <cstring>sbLat</cstring>
        </property>
       </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QDoubleSpinBox" name="sbLat">
+       <property name="frame">
+        <bool>true</bool>
+       </property>
+       <property name="prefix">
+        <string/>
+       </property>
+       <property name="suffix">
+        <string> °</string>
+       </property>
+       <property name="decimals">
+        <number>10</number>
+       </property>
+       <property name="maximum">
+        <double>90.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="longitudeLabel">
+       <property name="text">
+        <string>Longitude:</string>
+       </property>
+       <property name="buddy">
+        <cstring>sbLon</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="sbLon">
+       <property name="suffix">
+        <string> °</string>
+       </property>
+       <property name="decimals">
+        <number>10</number>
+       </property>
+       <property name="minimum">
+        <double>-180.000000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>180.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="commentLabel">
+       <property name="text">
+        <string>Comment:</string>
+       </property>
+       <property name="buddy">
+        <cstring>teComment</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QPlainTextEdit" name="teComment"/>
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="latitudeLabel">
-     <property name="text">
-      <string>Latitude:</string>
-     </property>
-     <property name="buddy">
-      <cstring>sbLat</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QDoubleSpinBox" name="sbLat">
-     <property name="frame">
-      <bool>true</bool>
-     </property>
-     <property name="prefix">
-      <string/>
-     </property>
-     <property name="suffix">
-      <string> °</string>
-     </property>
-     <property name="decimals">
-      <number>10</number>
-     </property>
-     <property name="maximum">
-      <double>90.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="longitudeLabel">
-     <property name="text">
-      <string>Longitude:</string>
-     </property>
-     <property name="buddy">
-      <cstring>sbLon</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="sbLon">
-     <property name="suffix">
-      <string> °</string>
-     </property>
-     <property name="decimals">
-      <number>10</number>
-     </property>
-     <property name="minimum">
-      <double>-180.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>180.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="commentLabel">
-     <property name="text">
-      <string>Comment:</string>
-     </property>
-     <property name="buddy">
-      <cstring>teComment</cstring>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPlainTextEdit" name="teComment"/>
-   </item>
-   <item row="4" column="0" colspan="2">
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

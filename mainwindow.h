@@ -55,6 +55,7 @@ private slots:
     void slotSearchStringChanged(const QString & pattern);
 
     // table view handling
+    void tableViewClicked(const QModelIndex &index);
     void tableViewDoubleClicked(const QModelIndex &index);
     void tableViewContextMenuRequested(const QPoint & pos);
     void updateEditMenuActions();

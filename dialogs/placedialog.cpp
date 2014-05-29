@@ -36,9 +36,18 @@ PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
         populateControls();
     }
 
+    m_mapWidget = new MapWidget(this);
+    m_mapWidget->setMinimumSize(QSize(300, 200));
+    ui->verticalLayout->insertWidget(1, m_mapWidget, 1);
+    if (m_placeID != -1) {
+        updateMapCenter();
+    }
+
     m_gc = new OsmGeoCoder(this);
     m_placeMenu = new QMenu(this);
 
+    connect(ui->sbLat, SIGNAL(valueChanged(double)), this, SLOT(updateMapCenter()));
+    connect(ui->sbLon, SIGNAL(valueChanged(double)), this, SLOT(updateMapCenter()));
     connect(ui->btnGeoCode, &QPushButton::clicked, this, &PlaceDialog::geocode);
     connect(this, &PlaceDialog::accepted, this, &PlaceDialog::save);
 
@@ -146,6 +155,11 @@ void PlaceDialog::placeTriggered(QAction *action)
     ui->btnGeoCode->setText(QString());
     m_placeMenu->clear();
     ui->btnGeoCode->setMenu(0);
+}
+
+void PlaceDialog::updateMapCenter()
+{
+    m_mapWidget->setCenter(ui->sbLat->value(), ui->sbLon->value());
 }
 
 void PlaceDialog::populateControls()
