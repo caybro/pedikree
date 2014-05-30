@@ -145,6 +145,12 @@
    <property name="windowTitle">
     <string>Main toolbar</string>
    </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonFollowStyle</enum>
    </property>
@@ -165,9 +171,8 @@
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset theme="document-open">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/opened_folder-32.png</normaloff>:/icons/opened_folder-32.png</iconset>
    </property>
    <property name="text">
     <string>Open...</string>
@@ -183,15 +188,21 @@
    <property name="enabled">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/save_as-32.png</normaloff>:/icons/save_as-32.png</iconset>
+   </property>
    <property name="text">
     <string>Save As...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the current database under a different name</string>
    </property>
   </action>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/exit-32.png</normaloff>:/icons/exit-32.png</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -204,8 +215,15 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/about-32.png</normaloff>:/icons/about-32.png</iconset>
+   </property>
    <property name="text">
     <string>About...</string>
+   </property>
+   <property name="toolTip">
+    <string>About this application</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -213,9 +231,8 @@
   </action>
   <action name="actionNew">
    <property name="icon">
-    <iconset theme="document-new">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/add_file-32.png</normaloff>:/icons/add_file-32.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -235,9 +252,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-pim-contacts">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/user-32.png</normaloff>:/icons/user-32.png</iconset>
    </property>
    <property name="text">
     <string>People</string>
@@ -251,9 +267,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="konqueror">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/world_map-32.png</normaloff>:/icons/world_map-32.png</iconset>
    </property>
    <property name="text">
     <string>Places</string>
@@ -267,9 +282,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="list-add">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/Add_Row-32.png</normaloff>:/icons/Add_Row-32.png</iconset>
    </property>
    <property name="text">
     <string>Add...</string>
@@ -283,9 +297,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="document-edit">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/edit-32.png</normaloff>:/icons/edit-32.png</iconset>
    </property>
    <property name="text">
     <string>Edit...</string>
@@ -299,9 +312,8 @@
     <bool>false</bool>
    </property>
    <property name="icon">
-    <iconset theme="list-remove">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/Delete_Row-32.png</normaloff>:/icons/Delete_Row-32.png</iconset>
    </property>
    <property name="text">
     <string>Delete...</string>
@@ -315,9 +327,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="view-calendar-wedding-anniversary">
-     <normaloff/>
-    </iconset>
+    <iconset resource="assets.qrc">
+     <normaloff>:/icons/wedding_rings-32.png</normaloff>:/icons/wedding_rings-32.png</iconset>
    </property>
    <property name="text">
     <string>Relations</string>
@@ -328,6 +339,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="assets.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -6,5 +6,22 @@
         <file>schema/Relations.sql</file>
         <file>icons/appicon.png</file>
         <file>translations/pedikree_cs.qm</file>
+        <file>icons/wedding_rings-32.png</file>
+        <file>icons/user-32.png</file>
+        <file>icons/male-32.png</file>
+        <file>icons/female-32.png</file>
+        <file>icons/find_user-32.png</file>
+        <file>icons/exit-32.png</file>
+        <file>icons/baby-32.png</file>
+        <file>icons/world_map-32.png</file>
+        <file>icons/add_file-32.png</file>
+        <file>icons/opened_folder-32.png</file>
+        <file>icons/save_as-32.png</file>
+        <file>icons/about-32.png</file>
+        <file>icons/Add_Row-32.png</file>
+        <file>icons/Delete_Row-32.png</file>
+        <file>icons/edit-32.png</file>
+        <file>icons/star-32.png</file>
+        <file>icons/home-32.png</file>
     </qresource>
 </RCC>

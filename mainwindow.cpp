@@ -118,8 +118,9 @@ void MainWindow::slotOpen()
 void MainWindow::slotAbout()
 {
     QMessageBox::about(this, tr("About"),
-                       tr("A simple genealogy application written using Qt") + "\n\n" +
-                       QString::fromUtf8("(c) Lukáš Tinkl <lukas@kde.org>") + "\n\n" +
+                       "<p>" + tr("A simple genealogy application written using Qt") + "</p>" +
+                       "<p>" + QString::fromUtf8("(c) Lukáš Tinkl <a href=\"mailto:lukas@kde.org\">lukas@kde.org</a>") + "</p>" +
+                       "<p>" + tr("Uses free icons from %1").arg("<a href=\"http://icons8.com/license\">http://icons8.com/license</a></p>") +
                        tr("Version: %1").arg(qApp->applicationVersion()));
 }
 
