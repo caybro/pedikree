@@ -70,13 +70,17 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         } else if (column == 3) {
             return rec.field("birth_place").value();
         } else if (column == 4) {
-            if (rec.field("alive").value().toBool())
-                return QVariant();
-            const QDate deathDate = rec.field("death_date").value().toDate();
+            const bool alive = rec.field("alive").value().toBool();
+            if (alive)
+                return tr("Alive");
+            const QVariant dead = rec.field("death_date").value();
+            const QDate deathDate = dead.toDate();
             if (deathDate.isValid()) {
                 return deathDate;
+            } else if (!dead.toString().isEmpty()) {
+                return dead;
             }
-            return rec.field("death_date").value();
+            return tr("Deceased");
         } else if (column == 5) {
             return rec.field("death_place").value();
         } else if (column == 6) {
