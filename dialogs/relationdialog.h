@@ -39,7 +39,7 @@ public:
     ~RelationDialog();
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
     void save();
@@ -49,6 +49,7 @@ private slots:
 
 private:
     void populateControls();
+    void setChildMode(bool on);
     Ui::RelationDialog *ui;
     int m_relationID;
     PlacesLookupModel * m_placesModel;

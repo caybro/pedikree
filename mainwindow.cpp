@@ -219,6 +219,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
         menu.addAction(ui->actionDeleteItem);
     }
 
+#if 0 // FIXME
     if (validIndex && m_viewGroup->checkedAction() == ui->actionViewPeople) { // add Person specific entries
         menu.addSeparator();
         QMenu * menuPerson = menu.addMenu(tr("Add new"));
@@ -232,6 +233,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
         menuPerson->addAction(tr("Add &brother..."), this, SLOT(slotAddBrother()));
         menuPerson->addAction(tr("Add s&ister..."), this, SLOT(slotAddSister()));
     }
+#endif
 
     menu.exec(QCursor::pos());
 }

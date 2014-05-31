@@ -373,18 +373,15 @@ void PersonDialog::populateFamilyTab()
         ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
         //qDebug() << "First partner at:" << m_partnerQuery.at();
 
-        const QString childrenQuery = QString("SELECT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
+        const QString childrenQuery = QString("SELECT DISTINCT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
                                               "FROM People p, Relations r "
-                                              "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
-                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
-                                              "AND p.id=r.person2_id "
-                                              "GROUP BY p.id "
-                                              "HAVING count(p.id) > 1 ORDER BY p.surname;");
+                                              "WHERE ((r.person1_id=:person1 AND r.person2_id=:person2) OR (r.person1_id=:person2 AND r.person2_id=:person1)) AND person_id=r.child_id "
+                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
         m_childrenQuery.prepare(childrenQuery);
         m_childrenQuery.bindValue(":person1", m_personID);
         m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
         if (m_childrenQuery.exec() && m_childrenQuery.first()) {
-            //qDebug() << "Executed children query for" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
+            qDebug() << "Executed children query for" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
             m_childrenModel = new QSqlQueryModel(this);
             m_childrenModel->setQuery(m_childrenQuery);
             m_childrenModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
@@ -403,29 +400,20 @@ void PersonDialog::populateFamilyTab()
     }
 
     // parents and siblings
-    m_parentsQuery = QSqlQuery(QString("SELECT DISTINCT r.id, r.type, r.date, p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.sex "
-                                       "FROM People p, Relations r "
-                                       "WHERE r.person2_id=%1 AND r.person1_id=p.id "
+    m_parentsQuery = QSqlQuery(QString("SELECT r.person1_id AS parent1_id, r.person2_id AS parent2_id, "
+                                       "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person1_id) AS parent1_name, "
+                                       "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person2_id) AS parent2_name "
+                                       "FROM Relations r "
+                                       "WHERE r.child_id=%1 "
                                        "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
                                .arg(m_personID));
     if (m_parentsQuery.exec() && m_parentsQuery.first()) {
         const QString siblingsQuery = QString("SELECT DISTINCT p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name, p.birth_date, p.birth_place "
                                               "FROM People p, Relations r "
-                                              "WHERE (r.person1_id=:person1 OR r.person1_id=:person2) "
-                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent') "
-                                              "AND p.id=r.person2_id AND p.id!=%1 ORDER BY p.surname").arg(m_personID);
+                                              "WHERE p.id=r.child_id AND r.child_id!=%3 AND ((r.person1_id=%1 AND r.person2_id=%2) OR (r.person1_id=%2 AND r.person2_id=%1))")
+                                      .arg(m_parentsQuery.value("parent1_id").toInt()).arg(m_parentsQuery.value("parent2_id").toInt()).arg(m_personID);
         m_siblingsQuery.prepare(siblingsQuery);
-        m_siblingsQuery.bindValue(":person1", m_parentsQuery.value("person_id"));
-
-        qDebug() << "First parent:" << m_parentsQuery.value("person_id").toInt();
-        const QString parent1 = m_parentsQuery.value("name").toString();
-        QString parent2 = tr("Unknown parent");
-        if (m_parentsQuery.next()) {
-            qDebug() << "Second parent:" << m_parentsQuery.value("person_id").toInt();
-            m_siblingsQuery.bindValue(":person2", m_parentsQuery.value("person_id"));
-            parent2 = m_parentsQuery.value("name").toString();
-        }
-        ui->parents->setText(QString("%1 + %2").arg(parent1, parent2));
+        ui->parents->setText(QString("%1 + %2").arg(m_parentsQuery.value("parent1_name").toString(), m_parentsQuery.value("parent2_name").toString()));
 
         if (m_siblingsQuery.exec() && m_siblingsQuery.first()) {
             m_siblingsModel = new QSqlQueryModel(this);

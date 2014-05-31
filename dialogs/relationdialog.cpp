@@ -35,6 +35,8 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
 {
     ui->setupUi(this);
 
+    setChildMode(false);
+
     QMapIterator<QString, QString> i(Relations::relations());
     while (i.hasNext()) {
         i.next();
@@ -46,6 +48,8 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
     ui->person1->setModelColumn(1);
     ui->person2->setModel(m_peopleModel);
     ui->person2->setModelColumn(1);
+    ui->child->setModel(m_peopleModel);
+    ui->child->setModelColumn(1);
 
     m_placesModel = new PlacesLookupModel(this);
     ui->place->setModel(m_placesModel);
@@ -61,9 +65,10 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
         ui->place->setEditText(QString());
     }
 
-    connect(ui->type, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+    connect(ui->type, SIGNAL(activated(int)), SLOT(slotTypeChanged(int)));
     connect(ui->person1, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
     connect(ui->person2, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+    connect(ui->child, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
 
     connect(ui->btnAddPlace, &QPushButton::clicked, this, &RelationDialog::slotAddPlace);
 
@@ -94,11 +99,11 @@ void RelationDialog::save()
     QSqlQuery query;
 
     if (m_relationID == -1) { // add relation
-        query.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date, comment) "
-                      "VALUES (:type, :person1_id, :person2_id, :place, :date, :comment)");
+        query.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date, comment) "
+                      "VALUES (:type, :person1_id, :person2_id, :child_id, :place, :date, :comment)");
     } else { // update relation
         query.prepare("UPDATE Relations "
-                      "SET type=:type, person1_id=:person1_id, person2_id=:person2_id, place=:place, date=:date, comment=:comment "
+                      "SET type=:type, person1_id=:person1_id, person2_id=:person2_id, child_id=:child_id, place=:place, date=:date, comment=:comment "
                       "WHERE id=:id");
         query.bindValue(":id", m_relationID);
     }
@@ -106,6 +111,9 @@ void RelationDialog::save()
     query.bindValue(":type", ui->type->currentData());
     query.bindValue(":person1_id", ui->person1->currentData());
     query.bindValue(":person2_id", ui->person2->currentData());
+    if (ui->type->currentData().toString().contains("Parent")) {
+        query.bindValue(":child_id", ui->child->currentData());
+    }
     query.bindValue(":place", ui->place->currentText());
     // TODO place id
     query.bindValue(":date", ui->date->text());
@@ -127,11 +135,15 @@ void RelationDialog::popupCalendar()
 
 void RelationDialog::slotTypeChanged(int index)
 {
-    const QString type = ui->type->itemData(index).toString();
+    Q_UNUSED(index)
+
+    const QString type = ui->type->currentData().toString();
     if (type.contains("Parent") && ui->person1->currentData() != ui->person2->currentData()) {
         qDebug() << "Type changed to parent/child";
 
-        QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->person2->currentData().toInt()));
+        setChildMode(true);
+
+        QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->child->currentData().toInt()));
         if (!query.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
             return;
@@ -140,6 +152,10 @@ void RelationDialog::slotTypeChanged(int index)
             query.first();
         ui->date->setText(query.value("birth_date").toString());
         ui->place->setEditText(query.value("birth_place").toString()); // TODO place id
+    } else {
+        setChildMode(false);
+        ui->place->setEditText(QString());
+        ui->date->setText(QString());
     }
 }
 
@@ -160,7 +176,7 @@ void RelationDialog::slotAddPlace()
 void RelationDialog::populateControls()
 {
     QSqlQuery query;
-    query.prepare(QString("SELECT id, type, person1_id, person2_id, place, date, comment "
+    query.prepare(QString("SELECT id, type, person1_id, person2_id, child_id, place, date, comment "
                   "FROM Relations "
                   "WHERE id=%1").arg(m_relationID));
 
@@ -174,8 +190,28 @@ void RelationDialog::populateControls()
     ui->type->setCurrentIndex(ui->type->findData(query.value("type").toString()));
     ui->person1->setCurrentIndex(ui->person1->findData(query.value("person1_id").toInt()));
     ui->person2->setCurrentIndex(ui->person2->findData(query.value("person2_id").toInt()));
+    ui->child->setCurrentIndex(ui->child->findData(query.value("child_id").toInt()));
     ui->place->setCurrentIndex(ui->place->findText(query.value("place").toString()));
     // TODO place_id
     ui->date->setText(query.value("date").toString());
     ui->comment->setPlainText(query.value("comment").toString());
+
+    if (ui->type->currentData().toString().contains("Parent")) { //enable the child combo
+        setChildMode(true);
+    } else {
+        setChildMode(false);
+    }
+}
+
+void RelationDialog::setChildMode(bool on)
+{
+    ui->child->setVisible(on);
+    ui->childLabel->setVisible(on);
+    if (on) {
+        ui->person1Label->setText(tr("Parent 1:"));
+        ui->person2Label->setText(tr("Parent 2:"));
+    } else {
+        ui->person1Label->setText(tr("Person 1:"));
+        ui->person2Label->setText(tr("Person 2:"));
+    }
 }

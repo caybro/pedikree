@@ -41,7 +41,7 @@ public:
     int placeId() const;
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
     void save();

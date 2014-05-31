@@ -19,6 +19,7 @@
 
 #include <QMetaEnum>
 #include <QSqlRecord>
+#include <QSqlQuery>
 #include <QSqlField>
 #include <QSqlError>
 #include <QDate>
@@ -42,11 +43,12 @@ void RelationsModel::exec()
     setQuery("SELECT DISTINCT r.id, r.type, "
              "printf(\"%s %s %s\", p1.first_name, p1.surname, p1.suffix) as person1_name, "
              "printf(\"%s %s %s\", p2.first_name, p2.surname, p2.suffix) as person2_name, "
-             "r.place, r.date, r.comment "
+             "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.child_id) AS child_name, "
+             "r.child_id, r.place, r.date, r.comment "
              "FROM Relations r, People p1, People p2 "
              "JOIN People ON p1.id=r.person1_id "
              "JOIN People ON p2.id=r.person2_id");
-    //qDebug() << Q_FUNC_INFO << "Query status:" << lastError().text();
+    qDebug() << Q_FUNC_INFO << "Query status:" << lastError().text();
 }
 
 int RelationsModel::idAtRow(int row) const
@@ -57,7 +59,7 @@ int RelationsModel::idAtRow(int row) const
 int RelationsModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return 6;
+    return 7;
 }
 
 QVariant RelationsModel::data(const QModelIndex &item, int role) const
@@ -72,20 +74,22 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
         } else if (column == 2) {
             return rec.field("person2_name").value();
         } else if (column == 3) {
-            return rec.field("place").value();
+            return rec.field("child_name").value();
         } else if (column == 4) {
+            return rec.field("place").value();
+        } else if (column == 5) {
             const QDate date = rec.field("date").value().toDate();
             if (date.isValid()) {
                 return date;
             }
             return rec.field("date").value();
-        } else if (column == 5) {
+        } else if (column == 6) {
             return rec.field("comment").value();
         }
     } else if (role == Qt::ToolTipRole) {
         const QSqlRecord rec = record(item.row());
         const int column = item.column();
-        if (column == 4) {
+        if (column == 5) {
             const QDate date = rec.field("date").value().toDate();
             if (date.isValid()) {
                 return date.toString(Qt::DefaultLocaleLongDate);
@@ -106,10 +110,12 @@ QVariant RelationsModel::headerData(int section, Qt::Orientation orientation, in
         else if (section == 2)
             return tr("Person 2 Name");
         else if (section == 3)
-            return tr("Place");
+            return tr("Child Name");
         else if (section == 4)
-            return tr("Date");
+            return tr("Place");
         else if (section == 5)
+            return tr("Date");
+        else if (section == 6)
             return tr("Comment");
     }
 

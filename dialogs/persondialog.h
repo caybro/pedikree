@@ -47,7 +47,7 @@ public:
     int personID() const;
 
 protected:
-    void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 
 private slots:
     void genderClicked(QAbstractButton * button);

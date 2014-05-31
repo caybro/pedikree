@@ -88,7 +88,9 @@ SlippyMap::SlippyMap(QObject *parent)
     m_emptyTile.fill(Qt::lightGray);
 
     QNetworkDiskCache *cache = new QNetworkDiskCache;
-    cache->setCacheDirectory(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    const QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    //qDebug() << "Cache dir:" << "exists?" << QFile::exists(cacheDir);
+    cache->setCacheDirectory(cacheDir);
     m_manager.setCache(cache);
     connect(&m_manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(handleNetworkData(QNetworkReply*)));

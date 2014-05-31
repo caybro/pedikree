@@ -454,7 +454,7 @@
        <item>
         <widget class="QGroupBox" name="gbParents_Siblings">
          <property name="title">
-          <string>Parents and all siblings</string>
+          <string>Parents and siblings</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
@@ -1034,7 +1034,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupGender"/>
   <buttongroup name="buttonGroupAlive"/>
+  <buttongroup name="buttonGroupGender"/>
  </buttongroups>
 </ui>
