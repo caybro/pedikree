@@ -24,6 +24,8 @@
 #include <QStandardPaths>
 #include <QDebug>
 #include <QSignalMapper>
+#include <QDesktopServices>
+#include <QSqlRecord>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -294,6 +296,15 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             }
             connect(menuPerson, SIGNAL(triggered(QAction*)), this, SLOT(slotEditPerson(QAction*)));
         }
+    } else if (validIndex && m_viewGroup->checkedAction() == ui->actionViewPlaces) { // add Person specific entries
+        const int row = m_proxyModel->mapToSource(ui->tableView->indexAt(pos)).row();
+
+        PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
+        if (model) {
+            menu.addSeparator();
+            QAction * tmp = menu.addAction(tr("View on OpenStreetMaps..."), this, SLOT(slotViewPlace()));
+            tmp->setData(model->idAtRow(row));
+        }
     }
 
 #if 0 // FIXME
@@ -453,6 +464,19 @@ void MainWindow::slotDeletePlace(int placeID)
         } else {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
         }
+    }
+}
+
+void MainWindow::slotViewPlace()
+{
+    const int placeID = qobject_cast<QAction *>(sender())->data().toInt();
+    qDebug() << "View place" << placeID;
+
+    QSqlQuery query(QString("SELECT lat, lon FROM Places WHERE id=%1").arg(placeID));
+    if (query.exec() && query.first()) {
+        QDesktopServices::openUrl(QUrl::fromUserInput(QString("http://www.openstreetmap.org/#map=14/%1/%2")
+                                                      .arg(query.record().value("lat").toDouble())
+                                                      .arg(query.record().value("lon").toDouble())));
     }
 }
 

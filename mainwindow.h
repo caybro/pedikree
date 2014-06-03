@@ -75,6 +75,7 @@ private slots:
     void slotAddPlace();
     void slotEditPlace(int placeID);
     void slotDeletePlace(int placeID);
+    void slotViewPlace();
 
     // relations
     void slotAddRelation();
