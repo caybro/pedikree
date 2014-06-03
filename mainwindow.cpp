@@ -140,6 +140,7 @@ void MainWindow::slotSwitchView(QAction *action)
         m_peopleModel->exec();
         m_proxyModel->setSourceModel(m_peopleModel);
         ui->tableView->setModel(m_proxyModel);
+        ui->tableView->sortByColumn(1, Qt::AscendingOrder);
     } else if (action == ui->actionViewPlaces) {
         if (!m_placesModel) {
             m_placesModel = new PlacesModel(this);
@@ -147,6 +148,7 @@ void MainWindow::slotSwitchView(QAction *action)
         m_placesModel->exec();
         m_proxyModel->setSourceModel(m_placesModel);
         ui->tableView->setModel(m_proxyModel);
+        ui->tableView->sortByColumn(0, Qt::AscendingOrder);
     } else if (action == ui->actionViewRelations) {
         if (!m_relationsModel) {
             m_relationsModel = new RelationsModel(this);
@@ -154,6 +156,7 @@ void MainWindow::slotSwitchView(QAction *action)
         m_relationsModel->exec();
         m_proxyModel->setSourceModel(m_relationsModel);
         ui->tableView->setModel(m_proxyModel);
+        ui->tableView->sortByColumn(0, Qt::AscendingOrder);
     }
     ui->tableView->resizeColumnsToContents();
 }

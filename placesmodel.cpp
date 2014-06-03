@@ -88,7 +88,7 @@ QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int r
 PlacesLookupModel::PlacesLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
-    setQuery("SELECT id, name FROM Places ORDER BY name");
+    setQuery("SELECT id, name FROM Places");
 }
 
 PlacesLookupModel::~PlacesLookupModel()

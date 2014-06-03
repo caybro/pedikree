@@ -37,7 +37,7 @@ PeopleModel::~PeopleModel()
 void PeopleModel::exec()
 {
     setQuery("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
-             "FROM People ORDER BY surname");
+             "FROM People");
 }
 
 int PeopleModel::idAtRow(int row) const
