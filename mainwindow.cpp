@@ -23,9 +23,11 @@
 #include <QInputDialog>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QSignalMapper>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "person.h"
 
 #include "dialogs/persondialog.h"
 #include "dialogs/placedialog.h"
@@ -170,6 +172,13 @@ void MainWindow::tableViewClicked(const QModelIndex &index)
         if (model) {
             qDebug() << "Clicked place at row " << row << "with DB ID:" << model->idAtRow(row);
         }
+    } else if (m_viewGroup->checkedAction() == ui->actionViewPeople) {
+        PeopleModel * model = qobject_cast<PeopleModel *>(m_proxyModel->sourceModel());
+        if (model) {
+            Person person(model->idAtRow(row));
+            qDebug() << "Person" << model->idAtRow(row)<< "has father:" << person.fatherID() << ", mother:" << person.motherID();
+            qDebug() << "\thas spouses:" << person.spouseIDs();
+        }
     }
 }
 
@@ -217,6 +226,71 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
     if (validIndex) {
         menu.addAction(ui->actionEditItem);
         menu.addAction(ui->actionDeleteItem);
+    }
+
+    if (validIndex && m_viewGroup->checkedAction() == ui->actionViewPeople) { // add Person specific entries
+        const int row = m_proxyModel->mapToSource(ui->tableView->indexAt(pos)).row();
+
+        PeopleModel * model = qobject_cast<PeopleModel *>(m_proxyModel->sourceModel());
+        if (model) {
+            menu.addSeparator();
+
+            Person person(model->idAtRow(row));
+
+            QMenu * menuPerson = new QMenu(tr("Relatives"), this);
+
+            // parents
+            const int fatherID = person.fatherID();
+            const int motherID = person.motherID();
+
+            if (fatherID != -1 || motherID != -1) {
+                QMenu * menuParents = menuPerson->addMenu(tr("Parents"));
+                QAction * fatherAct = new QAction(tr("Father: %1").arg(Person::personFullName(fatherID)), this);
+                fatherAct->setData(fatherID);
+                menuParents->addAction(fatherAct);
+                QAction * motherAct = new QAction(tr("Mother: %1").arg(Person::personFullName(motherID)), this);
+                motherAct->setData(motherID);
+                menuParents->addAction(motherAct);
+            }
+
+            // spouses
+            const QList<int> spouseIDs = person.spouseIDs();
+            if (!spouseIDs.isEmpty()) {
+                QMenu * menuSpouses = menuPerson->addMenu(tr("Spouses (%1)").arg(spouseIDs.count()));
+                foreach (int spouseID, spouseIDs) {
+                    QAction * spouseAct = new QAction(tr("Spouse: %1").arg(Person::personFullName(spouseID)), this);
+                    spouseAct->setData(spouseID);
+                    menuSpouses->addAction(spouseAct);
+                }
+            }
+
+            // siblings
+            const QList<int> siblingIDs = person.siblingIDs();
+            if (!siblingIDs.isEmpty()) {
+                QMenu * menuSiblings = menuPerson->addMenu(tr("Siblings (%1)").arg(siblingIDs.count()));
+                foreach (int siblingID, siblingIDs) {
+                    QAction * siblingAct = new QAction(tr("Sibling: %1").arg(Person::personFullName(siblingID)), this);
+                    siblingAct->setData(siblingID);
+                    menuSiblings->addAction(siblingAct);
+                }
+            }
+
+            // children
+            const QList<int> childrenIDs = person.childrenIDs();
+            if (!childrenIDs.isEmpty()) {
+                QMenu * menuChildren = menuPerson->addMenu(tr("Children (%1)").arg(childrenIDs.count()));
+                foreach (int childID, childrenIDs) {
+                    QAction * childAct = new QAction(tr("Child: %1").arg(Person::personFullName(childID)), this);
+                    childAct->setData(childID);
+                    menuChildren->addAction(childAct);
+                }
+            }
+
+            if (!menuPerson->isEmpty()) {
+                menu.addMenu(menuPerson);
+            }
+            connect(menuPerson, SIGNAL(triggered(QAction*)), this, SLOT(slotEditPerson(QAction*)));
+        }
     }
 
 #if 0 // FIXME
@@ -328,10 +402,15 @@ void MainWindow::slotEditPerson(int personID)
     }
 }
 
+void MainWindow::slotEditPerson(QAction *action)
+{
+    slotEditPerson(action->data().toInt());
+}
+
 void MainWindow::slotDeletePerson(int personID)
 {
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
-    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person with ID %1?").arg(personID),
+    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person '%1'?").arg(Person::personFullName(personID)),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
         QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(personID));
         if (query.exec()) {
@@ -430,7 +509,7 @@ void MainWindow::slotAddFather()
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
         query2.bindValue(":person1_id", dlg->personID());
         query2.bindValue(":person2_id", personID);
         query2.bindValue(":place", query.value("birth_place"));
@@ -471,7 +550,7 @@ void MainWindow::slotAddMother()
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
         query2.bindValue(":person1_id", dlg->personID());
         query2.bindValue(":person2_id", personID);
         query2.bindValue(":place", query.value("birth_place"));
@@ -512,7 +591,7 @@ void MainWindow::slotAddSon()
 
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
         query2.bindValue(":person1_id", personID);
         query2.bindValue(":person2_id", dlg->personID());
         if (query.exec() && query.first()) {

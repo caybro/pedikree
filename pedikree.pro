@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     relationsmodel.cpp \
     osmgeocoder.cpp \
     mapwidget/mapwidget.cpp \
-    mapwidget/slippymap.cpp
+    mapwidget/slippymap.cpp \
+    person.cpp
 
 HEADERS  += mainwindow.h \
     placesmodel.h \
@@ -33,7 +34,8 @@ HEADERS  += mainwindow.h \
     relationsmodel.h \
     osmgeocoder.h \
     mapwidget/mapwidget.h \
-    mapwidget/slippymap.h
+    mapwidget/slippymap.h \
+    person.h
 
 FORMS    += mainwindow.ui \
     dialogs/persondialog.ui \

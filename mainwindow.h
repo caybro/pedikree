@@ -68,6 +68,7 @@ private slots:
     // people
     void slotAddPerson();
     void slotEditPerson(int personID);
+    void slotEditPerson(QAction * action);
     void slotDeletePerson(int personID);
 
     // places
