@@ -25,6 +25,7 @@
 #include <QDate>
 #include <QDebug>
 #include <QtGlobal>
+#include <QIcon>
 
 #include "relationsmodel.h"
 
@@ -94,6 +95,18 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
             if (date.isValid()) {
                 return date.toString(Qt::DefaultLocaleLongDate);
             }
+        }
+    } else if (role == Qt::DecorationRole) {
+        const QSqlRecord rec = record(item.row());
+        const int column = item.column();
+        if (column == 0) {
+            const QString type = rec.value("type").toString();
+            if (type.contains("Parent")) {
+                return QIcon(":/icons/baby-32.png");
+            } else if (type == "Marriage" || type == "DomesticPartnership" || type == "CivilUnion" || type == "Annulment") {
+                return QIcon(":/icons/wedding_rings-32.png");
+            }
+            return QVariant();
         }
     }
 

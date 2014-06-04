@@ -21,6 +21,7 @@
 #include <QDate>
 #include <QSqlRecord>
 #include <QSqlField>
+#include <QIcon>
 
 #include "peoplemodel.h"
 
@@ -99,6 +100,18 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
             if (deathDate.isValid()) {
                 return deathDate.toString(Qt::DefaultLocaleLongDate);
             }
+        }
+    } else if (role == Qt::DecorationRole) {
+        const QSqlRecord rec = record(item.row());
+        const int column = item.column();
+        if (column == 0) {
+            const QString sex = rec.value("sex").toString();
+            if (sex == "M") {
+                return QIcon(":/icons/male-32.png");
+            } else if (sex == "F") {
+                return QIcon(":/icons/female-32.png");
+            }
+            return QVariant();
         }
     }
 
