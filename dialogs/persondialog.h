@@ -57,6 +57,7 @@ private slots:
     void popupBirthDateCalendar();
     void popupDeathDateCalendar();
     void slotAddPlace();
+    void slotSelectImage();
 
     void tabChanged(int index);
     void nextPartner();
@@ -68,9 +69,11 @@ private:
     void updatePartnersLabel();
     void updatePartnersButtons();
     void fetchChildren();
+    QByteArray savePhoto() const;
     Ui::PersonDialog *ui;
     int m_personID;
     PlacesLookupModel * m_placesModel;
+    QString m_photoFilename;
 
     // family tab
     bool m_familyInitted;

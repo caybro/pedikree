@@ -21,6 +21,9 @@
 #include <QSqlError>
 #include <QDate>
 #include <QHeaderView>
+#include <QBuffer>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 #include "persondialog.h"
 #include "ui_persondialog.h"
@@ -58,6 +61,7 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
 
     connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
     connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
+    connect(ui->photo, &QPushButton::clicked, this, &PersonDialog::slotSelectImage);
 
     if (m_personID == -1) { // new person, preset some values
         ui->cbAlive->setChecked(true);
@@ -165,14 +169,14 @@ void PersonDialog::save()
                       "contact_email, contact_phone, contact_web, "
                       "contact_address, contact_city, contact_state, contact_zip, contact_country, "
                       "nationality, religion, height, weight, "
-                      "color, eye_color, hair_color, occupation, alive) "
+                      "color, eye_color, hair_color, occupation, alive, photo) "
                       "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
                       ":birth_date, :birth_place, "
                       ":death_date, :death_place, :death_reason, :burial_place, "
                       ":contact_email, :contact_phone, :contact_web, "
                       ":contact_address, :contact_city, :contact_state, :contact_zip, :contact_country, "
                       ":nationality, :religion, :height, :weight, "
-                      ":color, :eye_color, :hair_color, :occupation, :alive)");
+                      ":color, :eye_color, :hair_color, :occupation, :alive, :photo)");
     } else { // update person
         query.prepare("UPDATE People SET "
                       "first_name=:first_name, surname=:surname, maiden_name=:maiden_name, prefix=:prefix, suffix=:suffix, sex=:sex, "
@@ -183,7 +187,7 @@ void PersonDialog::save()
                       "contact_zip=:contact_zip, contact_country=:contact_country, "
                       "nationality=:nationality, religion=:religion, height=:height, weight=:weight, "
                       "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation, "
-                      "alive=:alive "
+                      "alive=:alive, photo=:photo "
                       "WHERE id=:id");
 
         query.bindValue(":id", m_personID);
@@ -222,6 +226,8 @@ void PersonDialog::save()
     query.bindValue(":eye_color", ui->eyeColor->currentText());
     query.bindValue(":hair_color", ui->hairColor->currentText());
     query.bindValue(":occupation", ui->occupation->text());
+    if (!m_photoFilename.isEmpty())
+        query.bindValue(":photo", savePhoto());
 
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
@@ -268,6 +274,16 @@ void PersonDialog::slotAddPlace()
     }
 }
 
+void PersonDialog::slotSelectImage()
+{
+    const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),
+                                                          "*.png *.jpg *.jpeg");
+    if (!fileName.isEmpty()) {
+        m_photoFilename = fileName;
+        ui->photo->setIcon(QIcon(m_photoFilename));
+    }
+}
+
 void PersonDialog::tabChanged(int index)
 {
     if (index == 1 && !m_familyInitted) {
@@ -285,7 +301,7 @@ void PersonDialog::populateControls()
                           "contact_address, contact_city, contact_state, contact_zip, contact_country, "
                           "nationality, religion, "
                           "height, weight, "
-                          "color, eye_color, hair_color, occupation, alive "
+                          "color, eye_color, hair_color, occupation, alive, photo "
                           "FROM People "
                           "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
@@ -349,6 +365,11 @@ void PersonDialog::populateControls()
     ui->hairColor->setEditText(query.value("hair_color").toString());
 
     ui->occupation->setText(query.value("occupation").toString());
+
+    const QByteArray photo = query.value("photo").toByteArray();
+    if (!photo.isEmpty()) {
+        ui->photo->setIcon(QPixmap::fromImage(QImage::fromData(photo)));
+    }
 }
 
 void PersonDialog::populateFamilyTab()
@@ -469,6 +490,16 @@ void PersonDialog::fetchChildren()
     } else {
         qWarning() << Q_FUNC_INFO << "Fetch children query failed with" << m_childrenQuery.lastError().text();
     }
+}
+
+QByteArray PersonDialog::savePhoto() const
+{
+    QImage image(m_photoFilename);
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    image.save(&buffer, "PNG");
+    return byteArray;
 }
 
 void PersonDialog::nextPartner()
