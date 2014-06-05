@@ -63,12 +63,18 @@ private slots:
     void nextPartner();
     void prevPartner();
 
+    void slotAddChild();
+    void slotRemoveChild();
+    void slotAddSibling();
+    void slotRemoveSibling();
+
 private:
     void populateControls();
     void populateFamilyTab();
     void updatePartnersLabel();
     void updatePartnersButtons();
     void fetchChildren();
+    void fetchSiblings();
     QByteArray savePhoto() const;
     Ui::PersonDialog *ui;
     int m_personID;

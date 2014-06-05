@@ -411,9 +411,8 @@ void MainWindow::slotEditPerson(int personID)
 {
     PersonDialog * dlg = new PersonDialog(this, personID);
     dlg->setWindowTitle(tr("Edit Person"));
-    if (dlg->exec() == QDialog::Accepted) {
-        m_peopleModel->exec();
-    }
+    dlg->exec();
+    m_peopleModel->exec();
 }
 
 void MainWindow::slotEditPerson(QAction *action)
@@ -424,7 +423,7 @@ void MainWindow::slotEditPerson(QAction *action)
 void MainWindow::slotDeletePerson(int personID)
 {
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
-    if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the person '%1'?").arg(Person::personFullName(personID)),
+    if (QMessageBox::question(this, tr("Delete Person"), tr("Do you really want to delete the person '%1'?").arg(Person::personFullName(personID)),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
         QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(personID));
         if (query.exec()) {

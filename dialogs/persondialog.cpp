@@ -19,17 +19,20 @@
 
 #include <QDebug>
 #include <QSqlError>
+#include <QSqlRecord>
 #include <QDate>
 #include <QHeaderView>
 #include <QBuffer>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QMessageBox>
 
 #include "persondialog.h"
 #include "ui_persondialog.h"
 #include "pddatedialog.h"
 #include "placedialog.h"
 #include "../relationsmodel.h"
+#include "person.h"
 
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
@@ -90,6 +93,10 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     connect(ui->tabWidget, &QTabWidget::currentChanged, this, &PersonDialog::tabChanged);
     connect(ui->btnPrevCouple, &QToolButton::clicked, this, &PersonDialog::prevPartner);
     connect(ui->btnNextCouple, &QToolButton::clicked, this, &PersonDialog::nextPartner);
+    connect(ui->btnAddChild, &QPushButton::clicked, this, &PersonDialog::slotAddChild);
+    connect(ui->btnRemoveChild, &QPushButton::clicked, this, &PersonDialog::slotRemoveChild);
+    connect(ui->btnAddSibling, &QPushButton::clicked, this, &PersonDialog::slotAddSibling);
+    connect(ui->btnRemoveSibling, &QPushButton::clicked, this, &PersonDialog::slotRemoveSibling);
 
     // button box
     connect(this, &PersonDialog::accepted, this, &PersonDialog::save);
@@ -375,7 +382,7 @@ void PersonDialog::populateControls()
 void PersonDialog::populateFamilyTab()
 {
     // this person
-    m_thisPersonQuery = QSqlQuery(QString("SELECT printf(\"%s %s\", first_name, surname) as name FROM People WHERE id=%1").arg(m_personID));
+    m_thisPersonQuery = QSqlQuery(QString("SELECT surname, printf(\"%s %s\", first_name, surname) as name FROM People WHERE id=%1").arg(m_personID));
     m_thisPersonQuery.exec();
     m_thisPersonQuery.first();
 
@@ -402,22 +409,24 @@ void PersonDialog::populateFamilyTab()
         m_childrenQuery.bindValue(":person1", m_personID);
         m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
         if (m_childrenQuery.exec() && m_childrenQuery.first()) {
-            qDebug() << "Executed children query for" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
-            m_childrenModel = new QSqlQueryModel(this);
-            m_childrenModel->setQuery(m_childrenQuery);
-            m_childrenModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-            m_childrenModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-            m_childrenModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
-            m_childrenModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
-            ui->children->setModel(m_childrenModel);
-            ui->children->hideColumn(0);
-            ui->children->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+            //qDebug() << "Executed children query for" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
         } else {
             qWarning() << Q_FUNC_INFO << "Children query failed with" << m_childrenQuery.lastError().text();
         }
+        m_childrenModel = new QSqlQueryModel(this);
+        m_childrenModel->setQuery(m_childrenQuery);
+        m_childrenModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+        m_childrenModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+        m_childrenModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
+        m_childrenModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
+        ui->children->setModel(m_childrenModel);
+        ui->children->hideColumn(0);
+        ui->children->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     } else {
         qWarning() << Q_FUNC_INFO << "Spouse query failed with" << m_partnerQuery.lastError().text();
         ui->couples->setText(tr("No spouse found for this person."));
+        ui->btnAddChild->setEnabled(false);
+        ui->btnRemoveChild->setEnabled(false);
     }
 
     // parents and siblings
@@ -437,21 +446,24 @@ void PersonDialog::populateFamilyTab()
         ui->parents->setText(QString("%1 + %2").arg(m_parentsQuery.value("parent1_name").toString(), m_parentsQuery.value("parent2_name").toString()));
 
         if (m_siblingsQuery.exec() && m_siblingsQuery.first()) {
-            m_siblingsModel = new QSqlQueryModel(this);
-            m_siblingsModel->setQuery(m_siblingsQuery);
-            m_siblingsModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
-            m_siblingsModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
-            m_siblingsModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
-            m_siblingsModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
-            ui->siblings->setModel(m_siblingsModel);
-            ui->siblings->hideColumn(0);
-            ui->siblings->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+            qDebug() << "Executed siblings query for" << m_personID;
         } else {
             qWarning() << Q_FUNC_INFO << "Siblings query failed with" << m_siblingsQuery.lastError().text();
         }
+        m_siblingsModel = new QSqlQueryModel(this);
+        m_siblingsModel->setQuery(m_siblingsQuery);
+        m_siblingsModel->setHeaderData(0, Qt::Horizontal, tr("ID"));
+        m_siblingsModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
+        m_siblingsModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
+        m_siblingsModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
+        ui->siblings->setModel(m_siblingsModel);
+        ui->siblings->hideColumn(0);
+        ui->siblings->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
     } else {
         qWarning() << Q_FUNC_INFO << "Parents query failed with" << m_parentsQuery.lastError().text();
         ui->parents->setText(tr("No parents found for this person."));
+        ui->btnAddSibling->setEnabled(false);
+        ui->btnRemoveSibling->setEnabled(false);
     }
 
     m_familyInitted = true;
@@ -482,13 +494,28 @@ void PersonDialog::updatePartnersButtons()
 
 void PersonDialog::fetchChildren()
 {
+    //qDebug() << "Fetching children of" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
+
     m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
     if (m_childrenQuery.exec()) {
         ui->children->reset();
+        m_childrenModel->setQuery(m_childrenQuery);
         m_childrenQuery.first();
         ui->children->update();
     } else {
         qWarning() << Q_FUNC_INFO << "Fetch children query failed with" << m_childrenQuery.lastError().text();
+    }
+}
+
+void PersonDialog::fetchSiblings()
+{
+    if (m_siblingsQuery.exec()) {
+        ui->siblings->reset();
+        m_siblingsModel->setQuery(m_siblingsQuery);
+        m_siblingsQuery.first();
+        ui->siblings->update();
+    } else {
+        qWarning() << Q_FUNC_INFO << "Fetch siblings query failed with" << m_siblingsQuery.lastError().text();
     }
 }
 
@@ -520,4 +547,103 @@ void PersonDialog::prevPartner()
     }
 
     updatePartnersButtons();
+}
+
+void PersonDialog::slotAddChild()
+{
+    qDebug() << "Adding child of" << m_personID << "and" << m_partnerQuery.value("person_id").toInt();
+
+    PersonDialog * dlg = new PersonDialog(this);
+    dlg->setSurname(m_thisPersonQuery.value("surname").toString());
+    dlg->setWindowTitle(tr("Add Child of %1 and %2").arg(m_thisPersonQuery.value("name").toString(),
+                                                         m_partnerQuery.value("name").toString()));
+    if (dlg->exec() == QDialog::Accepted) {
+        QSqlQuery query;
+        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)");
+        query2.bindValue(":person1_id", m_personID);
+        query2.bindValue(":person2_id", m_partnerQuery.value("person_id").toInt());
+        query2.bindValue(":child_id", dlg->personID());
+        if (query.first()) {
+            query2.bindValue(":place", query.value("birth_place"));
+            query2.bindValue(":date", query.value("birth_date"));
+        }
+
+        qDebug() << "Inserting child" << query2.executedQuery();
+
+        if (!query2.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
+            return;
+        }
+    }
+
+    fetchChildren();
+}
+
+void PersonDialog::slotRemoveChild()
+{
+    const int childID = m_childrenModel->record(ui->children->currentIndex().row()).value("person_id").toInt();
+    qDebug() << "Removing child" << childID;
+
+    if (QMessageBox::question(this, tr("Delete Child"), tr("Do you really want to delete the child '%1'?").arg(Person::personFullName(childID)),
+                              (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(childID));
+        if (query.exec()) {
+            fetchChildren();
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    }
+}
+
+void PersonDialog::slotAddSibling()
+{
+    qDebug() << "Adding sibling of parents" << m_parentsQuery.value("parent1_id").toInt() << "and" << m_parentsQuery.value("parent2_id").toInt();
+
+    PersonDialog * dlg = new PersonDialog(this);
+    dlg->setSurname(m_thisPersonQuery.value("surname").toString());
+    dlg->setWindowTitle(tr("Add Sibling of %1").arg(m_thisPersonQuery.value("name").toString()));
+    if (dlg->exec() == QDialog::Accepted) {
+        QSqlQuery query;
+        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+
+        QSqlQuery query2;
+        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
+                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)");
+        query2.bindValue(":person1_id", m_parentsQuery.value("parent1_id").toInt());
+        query2.bindValue(":person2_id", m_parentsQuery.value("parent2_id").toInt());
+        query2.bindValue(":child_id", dlg->personID());
+        if (query.first()) {
+            query2.bindValue(":place", query.value("birth_place"));
+            query2.bindValue(":date", query.value("birth_date"));
+        }
+
+        qDebug() << "Inserting sibling" << query2.executedQuery();
+
+        if (!query2.exec()) {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query2.lastError().text();
+            return;
+        }
+    }
+
+    fetchSiblings();
+}
+
+void PersonDialog::slotRemoveSibling()
+{
+    const int siblingID = m_siblingsModel->record(ui->siblings->currentIndex().row()).value("person_id").toInt();
+    qDebug() << "Removing sibling" << siblingID;
+
+    if (QMessageBox::question(this, tr("Delete Sibling"), tr("Do you really want to delete the sibling '%1'?").arg(Person::personFullName(siblingID)),
+                              (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
+        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(siblingID));
+        if (query.exec()) {
+            fetchSiblings();
+        } else {
+            qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
+        }
+    }
 }
