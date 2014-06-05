@@ -68,6 +68,9 @@ private slots:
     void slotAddSibling();
     void slotRemoveSibling();
 
+    void slotCurrentChildChanged();
+    void slotCurrentSiblingChanged();
+
 private:
     void populateControls();
     void populateFamilyTab();

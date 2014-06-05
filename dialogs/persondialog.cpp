@@ -284,7 +284,7 @@ void PersonDialog::slotAddPlace()
 void PersonDialog::slotSelectImage()
 {
     const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),
-                                                          "*.png *.jpg *.jpeg");
+                                                          "*.png *.jpg *.jpeg"); // FIXME better use a MIME type
     if (!fileName.isEmpty()) {
         m_photoFilename = fileName;
         ui->photo->setIcon(QIcon(m_photoFilename));
@@ -295,6 +295,10 @@ void PersonDialog::tabChanged(int index)
 {
     if (index == 1 && !m_familyInitted) {
         populateFamilyTab();
+        connect(ui->children->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(slotCurrentChildChanged()));
+        connect(m_childrenModel, SIGNAL(modelReset()), SLOT(slotCurrentChildChanged()));
+        connect(ui->siblings->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(slotCurrentSiblingChanged()));
+        connect(m_siblingsModel, SIGNAL(modelReset()), SLOT(slotCurrentSiblingChanged()));
     }
 }
 
@@ -646,4 +650,14 @@ void PersonDialog::slotRemoveSibling()
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
         }
     }
+}
+
+void PersonDialog::slotCurrentChildChanged()
+{
+    ui->btnRemoveChild->setEnabled(ui->children->currentIndex().isValid());
+}
+
+void PersonDialog::slotCurrentSiblingChanged()
+{
+    ui->btnRemoveSibling->setEnabled(ui->siblings->currentIndex().isValid());
 }
