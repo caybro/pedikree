@@ -536,8 +536,12 @@ QByteArray PersonDialog::savePhoto() const
 void PersonDialog::nextPartner()
 {
     if (m_partnerQuery.seek(1, true)) {
+        ui->btnAddChild->setEnabled(true);
         updatePartnersLabel();
         fetchChildren();
+    } else {
+        if (!m_partnerQuery.last())
+            ui->btnAddChild->setEnabled(false);
     }
 
     updatePartnersButtons();
@@ -546,8 +550,12 @@ void PersonDialog::nextPartner()
 void PersonDialog::prevPartner()
 {
     if (m_partnerQuery.seek(-1, true)) {
+        ui->btnAddChild->setEnabled(true);
         updatePartnersLabel();
         fetchChildren();
+    } else {
+        if (!m_partnerQuery.first())
+            ui->btnAddChild->setEnabled(false);
     }
 
     updatePartnersButtons();
