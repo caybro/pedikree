@@ -625,12 +625,12 @@
         <translation>Partneři a děti</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="455"/>
+        <location filename="../dialogs/persondialog.ui" line="461"/>
         <source>Go to the previous couple</source>
         <translation>Přejít na předchozí pár</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="468"/>
+        <location filename="../dialogs/persondialog.ui" line="474"/>
         <source>Go to the next couple</source>
         <translation>Přejít na další pár</translation>
     </message>
@@ -639,219 +639,229 @@
         <translation type="vanished">Rodiče a všichni sourozenci</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="498"/>
+        <location filename="../dialogs/persondialog.ui" line="490"/>
+        <source>Add a new spouse to this person</source>
+        <translation>Přidat nového partnera této osoby</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/persondialog.ui" line="493"/>
+        <source>Add spouse...</source>
+        <translation>Přidat manžela/ku...</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/persondialog.ui" line="520"/>
         <source>Add child...</source>
         <translation>Přidat dítě...</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="505"/>
+        <location filename="../dialogs/persondialog.ui" line="527"/>
         <source>Remove child...</source>
         <translation>Odstranit dítě...</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="530"/>
+        <location filename="../dialogs/persondialog.ui" line="552"/>
         <source>Parents and siblings</source>
         <translation>Rodiče a sourozenci</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="561"/>
+        <location filename="../dialogs/persondialog.ui" line="583"/>
         <source>Add sibling...</source>
         <translation>Přidat sourozence...</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="568"/>
+        <location filename="../dialogs/persondialog.ui" line="590"/>
         <source>Remove sibling...</source>
         <translation>Odstranit sourozence...</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="594"/>
+        <location filename="../dialogs/persondialog.ui" line="616"/>
         <source>Contact</source>
         <translation>Kontakt</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="600"/>
+        <location filename="../dialogs/persondialog.ui" line="622"/>
         <source>Email:</source>
         <translation>Email:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="617"/>
+        <location filename="../dialogs/persondialog.ui" line="639"/>
         <source>Phone:</source>
         <translation>Telefon:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="634"/>
+        <location filename="../dialogs/persondialog.ui" line="656"/>
         <source>Web:</source>
         <translation>Web:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="664"/>
+        <location filename="../dialogs/persondialog.ui" line="686"/>
         <source>Address:</source>
         <translation>Adresa:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="681"/>
+        <location filename="../dialogs/persondialog.ui" line="703"/>
         <source>City:</source>
         <translation>Město:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="698"/>
+        <location filename="../dialogs/persondialog.ui" line="720"/>
         <source>State:</source>
         <translation>Stát/provincie:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="715"/>
+        <location filename="../dialogs/persondialog.ui" line="737"/>
         <source>ZIP code:</source>
         <translation>PSČ:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="732"/>
+        <location filename="../dialogs/persondialog.ui" line="754"/>
         <source>Country:</source>
         <translation>Země:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="753"/>
+        <location filename="../dialogs/persondialog.ui" line="775"/>
         <source>Personal</source>
         <translation>Osobní</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="762"/>
+        <location filename="../dialogs/persondialog.ui" line="784"/>
         <source>Nationality:</source>
         <translation>Národnost:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="772"/>
+        <location filename="../dialogs/persondialog.ui" line="794"/>
         <source>Religion:</source>
         <translation>Vyznání:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="791"/>
+        <location filename="../dialogs/persondialog.ui" line="813"/>
         <source>Agnostic</source>
         <translation>Bez vyznání</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="796"/>
+        <location filename="../dialogs/persondialog.ui" line="818"/>
         <source>Christian</source>
         <translation>Křesťanské</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="801"/>
+        <location filename="../dialogs/persondialog.ui" line="823"/>
         <source>Islam</source>
         <translation>Islámské</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="806"/>
+        <location filename="../dialogs/persondialog.ui" line="828"/>
         <source>Judaism</source>
         <translation>Židovské</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="811"/>
+        <location filename="../dialogs/persondialog.ui" line="833"/>
         <source>Buddhism</source>
         <translation>Budhistické</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="816"/>
+        <location filename="../dialogs/persondialog.ui" line="838"/>
         <source>Hinduism</source>
         <translation>Hinduistické</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="844"/>
+        <location filename="../dialogs/persondialog.ui" line="866"/>
         <source>Height:</source>
         <translation>Výška:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="854"/>
-        <location filename="../dialogs/persondialog.ui" line="877"/>
+        <location filename="../dialogs/persondialog.ui" line="876"/>
+        <location filename="../dialogs/persondialog.ui" line="899"/>
         <source>Not Set</source>
         <translation>Nenastaveno</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="857"/>
+        <location filename="../dialogs/persondialog.ui" line="879"/>
         <source> cm</source>
         <comment>centimeters</comment>
         <translation> cm</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="867"/>
+        <location filename="../dialogs/persondialog.ui" line="889"/>
         <source>Weight:</source>
         <translation>Hmotnost:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="880"/>
+        <location filename="../dialogs/persondialog.ui" line="902"/>
         <source> kg</source>
         <comment>kilograms</comment>
         <translation> kg</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="890"/>
+        <location filename="../dialogs/persondialog.ui" line="912"/>
         <source>Color:</source>
         <translation>Barva:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="909"/>
+        <location filename="../dialogs/persondialog.ui" line="931"/>
         <source>white</source>
         <translation>bílá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="914"/>
-        <location filename="../dialogs/persondialog.ui" line="966"/>
-        <location filename="../dialogs/persondialog.ui" line="1008"/>
+        <location filename="../dialogs/persondialog.ui" line="936"/>
+        <location filename="../dialogs/persondialog.ui" line="988"/>
+        <location filename="../dialogs/persondialog.ui" line="1030"/>
         <source>black</source>
         <translation>černá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="919"/>
+        <location filename="../dialogs/persondialog.ui" line="941"/>
         <source>yellow</source>
         <translation>žlutá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="927"/>
+        <location filename="../dialogs/persondialog.ui" line="949"/>
         <source>Eye color:</source>
         <translation>Barva očí:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="937"/>
+        <location filename="../dialogs/persondialog.ui" line="959"/>
         <source>Hair color:</source>
         <translation>Barva vlasů:</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="956"/>
+        <location filename="../dialogs/persondialog.ui" line="978"/>
         <source>blond</source>
         <translation>blond</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="961"/>
-        <location filename="../dialogs/persondialog.ui" line="1003"/>
+        <location filename="../dialogs/persondialog.ui" line="983"/>
+        <location filename="../dialogs/persondialog.ui" line="1025"/>
         <source>brown</source>
         <translation>hnědá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="971"/>
-        <location filename="../dialogs/persondialog.ui" line="1018"/>
+        <location filename="../dialogs/persondialog.ui" line="993"/>
+        <location filename="../dialogs/persondialog.ui" line="1040"/>
         <source>gray</source>
         <translation>šedá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="976"/>
+        <location filename="../dialogs/persondialog.ui" line="998"/>
         <source>ginger</source>
         <translation>zrzavá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="981"/>
+        <location filename="../dialogs/persondialog.ui" line="1003"/>
         <source>bald</source>
         <translation>pleš</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="998"/>
+        <location filename="../dialogs/persondialog.ui" line="1020"/>
         <source>blue</source>
         <translation>modrá</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="1013"/>
+        <location filename="../dialogs/persondialog.ui" line="1035"/>
         <source>green</source>
         <translation>zelená</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.ui" line="1039"/>
+        <location filename="../dialogs/persondialog.ui" line="1061"/>
         <source>Occupation:</source>
         <translation>Zaměstnání:</translation>
     </message>
@@ -862,85 +872,90 @@
         <translation>Zadat datum</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="269"/>
+        <location filename="../dialogs/persondialog.cpp" line="270"/>
         <source>Add Place</source>
         <translation>Přidat místo</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="286"/>
+        <location filename="../dialogs/persondialog.cpp" line="287"/>
         <source>Select Image</source>
         <translation>Vybrat obrázek</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="418"/>
-        <location filename="../dialogs/persondialog.cpp" line="455"/>
+        <location filename="../dialogs/persondialog.cpp" line="419"/>
+        <location filename="../dialogs/persondialog.cpp" line="458"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="419"/>
-        <location filename="../dialogs/persondialog.cpp" line="456"/>
+        <location filename="../dialogs/persondialog.cpp" line="420"/>
+        <location filename="../dialogs/persondialog.cpp" line="459"/>
         <source>Name</source>
         <translation>Jméno</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="420"/>
-        <location filename="../dialogs/persondialog.cpp" line="457"/>
+        <location filename="../dialogs/persondialog.cpp" line="421"/>
+        <location filename="../dialogs/persondialog.cpp" line="460"/>
         <source>Birth Date</source>
         <translation>Datum narození</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="421"/>
-        <location filename="../dialogs/persondialog.cpp" line="458"/>
+        <location filename="../dialogs/persondialog.cpp" line="422"/>
+        <location filename="../dialogs/persondialog.cpp" line="461"/>
         <source>Birth Place</source>
         <translation>Místo narození</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="427"/>
+        <location filename="../dialogs/persondialog.cpp" line="430"/>
         <source>No spouse found for this person.</source>
         <translation>Žádný partner nenalezen pro tuto osobu.</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="558"/>
+        <location filename="../dialogs/persondialog.cpp" line="571"/>
         <source>Add Child of %1 and %2</source>
         <translation>Přidat dítě osob %1 a %2</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="591"/>
+        <location filename="../dialogs/persondialog.cpp" line="604"/>
         <source>Delete Child</source>
         <translation>Smazat dítě</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="591"/>
+        <location filename="../dialogs/persondialog.cpp" line="604"/>
         <source>Do you really want to delete the child &apos;%1&apos;?</source>
         <translation>Opravdu chcete smazat dítě %1?</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="608"/>
+        <location filename="../dialogs/persondialog.cpp" line="621"/>
         <source>Add Sibling of %1</source>
         <translation>Přidat sourozence osoby %1</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="640"/>
+        <location filename="../dialogs/persondialog.cpp" line="653"/>
         <source>Delete Sibling</source>
         <translation>Smazat sourozence</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="640"/>
+        <location filename="../dialogs/persondialog.cpp" line="653"/>
         <source>Do you really want to delete the sibling &apos;%1&apos;?</source>
         <translation>Opravdu chcete smazat sourozence &apos;%1&apos;?</translation>
+    </message>
+    <message>
+        <location filename="../dialogs/persondialog.cpp" line="671"/>
+        <source>Add Spouse of %1</source>
+        <translation>Přidat manžela/ku osoby %1</translation>
     </message>
     <message>
         <source>Unknown parent</source>
         <translation type="vanished">Neznámý rodič</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="464"/>
+        <location filename="../dialogs/persondialog.cpp" line="469"/>
         <source>No parents found for this person.</source>
         <translation>Žádní rodiče nenalezeni pro tuto osobu.</translation>
     </message>
     <message>
-        <location filename="../dialogs/persondialog.cpp" line="475"/>
+        <location filename="../dialogs/persondialog.cpp" line="480"/>
         <source>, since %1</source>
         <translation>, od %1</translation>
     </message>

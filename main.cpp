@@ -27,9 +27,15 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
+    //qDebug() << "Qt translations in" << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
+
     QTranslator qtTranslator;
-    qtTranslator.load(":/translations/pedikree_" + QLocale::system().name());
+    qtTranslator.load(QLocale::system(), "qt_", QString(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
+
+    QTranslator appTrans;
+    appTrans.load(":/translations/pedikree_" + QLocale::system().name());
+    a.installTranslator(&appTrans);
 
     a.setApplicationDisplayName(QApplication::tr("Pedikree"));
     a.setOrganizationDomain("kde.org");
