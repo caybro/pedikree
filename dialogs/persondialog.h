@@ -67,6 +67,7 @@ private slots:
     void slotRemoveChild();
     void slotAddSibling();
     void slotRemoveSibling();
+    void slotAddSpouse();
 
     void slotCurrentChildChanged();
     void slotCurrentSiblingChanged();
