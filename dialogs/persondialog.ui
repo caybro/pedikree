@@ -28,6 +28,10 @@
            <property name="text">
             <string>Male</string>
            </property>
+           <property name="icon">
+            <iconset resource="../assets.qrc">
+             <normaloff>:/icons/male.png</normaloff>:/icons/male.png</iconset>
+           </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroupGender</string>
            </attribute>
@@ -37,6 +41,10 @@
           <widget class="QRadioButton" name="cbFemale">
            <property name="text">
             <string>Female</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../assets.qrc">
+             <normaloff>:/icons/female.png</normaloff>:/icons/female.png</iconset>
            </property>
            <attribute name="buttonGroup">
             <string notr="true">buttonGroupGender</string>
@@ -178,6 +186,13 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Birth date:</string>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="1">
         <widget class="QLineEdit" name="leMaidenName">
          <property name="clearButtonEnabled">
@@ -185,23 +200,10 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>53</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="9" column="0">
+        <widget class="QLabel" name="labelDeathDate">
          <property name="text">
-          <string>Birth date:</string>
+          <string>Death date:</string>
          </property>
         </widget>
        </item>
@@ -284,26 +286,6 @@
          </item>
         </layout>
        </item>
-       <item row="8" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>52</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="labelDeathDate">
-         <property name="text">
-          <string>Death date:</string>
-         </property>
-        </widget>
-       </item>
        <item row="9" column="1">
         <widget class="QLabel" name="labelDeathPlace">
          <property name="text">
@@ -311,6 +293,16 @@
          </property>
          <property name="buddy">
           <cstring>leDeathPlace</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QLabel" name="labelBurial">
+         <property name="text">
+          <string>Burial place or graveyard:</string>
+         </property>
+         <property name="buddy">
+          <cstring>leBurialPlace</cstring>
          </property>
         </widget>
        </item>
@@ -369,16 +361,6 @@
          </property>
         </widget>
        </item>
-       <item row="11" column="1">
-        <widget class="QLabel" name="labelBurial">
-         <property name="text">
-          <string>Burial place or graveyard:</string>
-         </property>
-         <property name="buddy">
-          <cstring>leBurialPlace</cstring>
-         </property>
-        </widget>
-       </item>
        <item row="12" column="0">
         <widget class="QLineEdit" name="leDeathReason">
          <property name="clearButtonEnabled">
@@ -423,6 +405,32 @@
           </widget>
          </item>
         </layout>
+       </item>
+       <item row="5" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>53</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="8" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>52</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -1128,7 +1136,9 @@
   <tabstop>hairColor</tabstop>
   <tabstop>occupation</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../assets.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -107,9 +107,9 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         if (column == 0) {
             const QString sex = rec.value("sex").toString();
             if (sex == "M") {
-                return QIcon(":/icons/male-32.png");
+                return QIcon(":/icons/male.png");
             } else if (sex == "F") {
-                return QIcon(":/icons/female-32.png");
+                return QIcon(":/icons/female.png");
             }
             return QVariant();
         }

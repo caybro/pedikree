@@ -8,8 +8,6 @@
         <file>translations/pedikree_cs.qm</file>
         <file>icons/wedding_rings-32.png</file>
         <file>icons/user-32.png</file>
-        <file>icons/male-32.png</file>
-        <file>icons/female-32.png</file>
         <file>icons/find_user-32.png</file>
         <file>icons/exit-32.png</file>
         <file>icons/baby-32.png</file>
@@ -23,5 +21,7 @@
         <file>icons/edit-32.png</file>
         <file>icons/star-32.png</file>
         <file>icons/home-32.png</file>
+        <file>icons/male.png</file>
+        <file>icons/female.png</file>
     </qresource>
 </RCC>
