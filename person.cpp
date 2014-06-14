@@ -45,7 +45,7 @@ QList<int> Person::spouseIDs() const
                                    "FROM Relations r, People p "
                                    "WHERE ((r.person1_id=%1 AND r.person2_id=p.id) OR (r.person2_id=%1 AND r.person1_id=p.id)) "
                                    "AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
-                                   "           'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation')")
+                                   "               'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation')")
                     .arg(m_personID));
 
     QList<int> result;
@@ -53,12 +53,11 @@ QList<int> Person::spouseIDs() const
         while (query.next()) {
             result.append(query.value(0).toInt());
         }
-        return result;
     } else {
         qDebug() << Q_FUNC_INFO << "No spouse found for" << m_personID << query.lastError().text();
     }
 
-    return QList<int>();
+    return result;
 }
 
 QList<int> Person::siblingIDs() const
@@ -73,12 +72,11 @@ QList<int> Person::siblingIDs() const
         while (query.next()) {
             result.append(query.value(0).toInt());
         }
-        return result;
     } else {
         qDebug() << Q_FUNC_INFO << "No siblings found for" << m_personID << query.lastError().text();
     }
 
-    return QList<int>();
+    return result;
 }
 
 QList<int> Person::childrenIDs() const
@@ -94,12 +92,11 @@ QList<int> Person::childrenIDs() const
         while (query.next()) {
             result.append(query.value(0).toInt());
         }
-        return result;
     } else {
         qDebug() << Q_FUNC_INFO << "No children found for" << m_personID << query.lastError().text();
     }
 
-    return QList<int>();
+    return result;
 }
 
 QString Person::fullName() const
