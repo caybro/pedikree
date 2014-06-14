@@ -80,9 +80,9 @@ void MainWindow::saveSettings()
 {
     QSettings settings;
 
-    settings.beginGroup("MainWindow");
-    settings.setValue("state", saveState());
-    settings.setValue("geometry", saveGeometry());
+    settings.beginGroup(QStringLiteral("MainWindow"));
+    settings.setValue(QStringLiteral("state"), saveState());
+    settings.setValue(QStringLiteral("geometry"), saveGeometry());
     settings.endGroup();
 }
 
@@ -90,9 +90,9 @@ void MainWindow::loadSettings()
 {
     QSettings settings;
 
-    settings.beginGroup("MainWindow");
-    restoreState(settings.value("state").toByteArray());
-    restoreGeometry(settings.value("geometry").toByteArray());
+    settings.beginGroup(QStringLiteral("MainWindow"));
+    restoreState(settings.value(QStringLiteral("state")).toByteArray());
+    restoreGeometry(settings.value(QStringLiteral("geometry")).toByteArray());
     settings.endGroup();
 }
 
@@ -102,7 +102,7 @@ void MainWindow::slotNew()
     if (!dbName.isEmpty()) {
         closeDatabase();
         qDebug() << "new DB name:" << dbName;
-        openDatabase(m_storageLocation + "/" + dbName + ".pdb", true);
+        openDatabase(m_storageLocation + QStringLiteral("/") + dbName + QStringLiteral(".pdb"), true);
     }
 }
 

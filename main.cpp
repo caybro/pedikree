@@ -30,11 +30,11 @@ int main(int argc, char *argv[])
     //qDebug() << "Qt translations in" << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 
     QTranslator qtTranslator;
-    qtTranslator.load(QLocale::system(), "qt_", QString(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(QLocale::system(), QStringLiteral("qt_"), QString(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
     QTranslator appTrans;
-    appTrans.load(":/translations/pedikree_" + QLocale::system().name());
+    appTrans.load(QStringLiteral(":/translations/pedikree_") + QLocale::system().name());
     a.installTranslator(&appTrans);
 
     a.setApplicationDisplayName(QApplication::tr("Pedikree"));
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     a.setApplicationVersion("0.1");
     a.setWindowIcon(QIcon(":/icons/appicon.png"));
 
-    if (!QSqlDatabase::isDriverAvailable("QSQLITE")) {
+    if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
         QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"),
                               QApplication::tr("Your Qt installation doesn't contain the required SQLLite DB plugin."));
         return -1;
