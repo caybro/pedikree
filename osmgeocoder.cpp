@@ -38,7 +38,7 @@ OsmGeoCoder::~OsmGeoCoder()
 void OsmGeoCoder::geocode(const QString &query)
 {
     QNetworkRequest request(QUrl::fromUserInput(
-                                QString("http://nominatim.openstreetmap.org/search?q=%1&format=xml&addressdetails=1&accept-language=%2,en")
+                                QStringLiteral("http://nominatim.openstreetmap.org/search?q=%1&format=xml&addressdetails=1&accept-language=%2,en")
                                 .arg(query)
                                 .arg(QLocale::system().bcp47Name()))
                             );
@@ -66,7 +66,7 @@ void OsmGeoCoder::slotReplyFinished(QNetworkReply *reply)
                 //qDebug() << "Class" << classAttr;
                 const QString lat = place.attribute("lat");
                 const QString lon = place.attribute("lon");
-                const QString osmId = QString("%1:%2").arg(place.attribute("osm_type"), place.attribute("osm_id"));
+                const QString osmId = QStringLiteral("%1:%2").arg(place.attribute("osm_type"), place.attribute("osm_id"));
                 QStringList displayName;
 
                 // try suburb and locality and then city, town, village, hamlet, in that order

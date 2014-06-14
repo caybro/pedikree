@@ -425,7 +425,7 @@ void MainWindow::slotDeletePerson(int personID)
     qDebug() << Q_FUNC_INFO << "Deleting person" << personID;
     if (QMessageBox::question(this, tr("Delete Person"), tr("Do you really want to delete the person '%1'?").arg(Person::personFullName(personID)),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
-        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(personID));
+        QSqlQuery query(QStringLiteral("DELETE FROM People WHERE id=%1").arg(personID));
         if (query.exec()) {
             m_peopleModel->exec();
         } else {
@@ -457,7 +457,7 @@ void MainWindow::slotDeletePlace(int placeID)
     qDebug() << Q_FUNC_INFO << "Deleting place" << placeID;
     if (QMessageBox::question(this, tr("Delete Place"), tr("Do you really want to delete the place with ID %1?").arg(placeID),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
-        QSqlQuery query(QString("DELETE FROM Places WHERE id=%1").arg(placeID));
+        QSqlQuery query(QStringLiteral("DELETE FROM Places WHERE id=%1").arg(placeID));
         if (query.exec()) {
             m_placesModel->exec();
         } else {
@@ -471,9 +471,9 @@ void MainWindow::slotViewPlace()
     const int placeID = qobject_cast<QAction *>(sender())->data().toInt();
     qDebug() << "View place" << placeID;
 
-    QSqlQuery query(QString("SELECT lat, lon FROM Places WHERE id=%1").arg(placeID));
+    QSqlQuery query(QStringLiteral("SELECT lat, lon FROM Places WHERE id=%1").arg(placeID));
     if (query.exec() && query.first()) {
-        QDesktopServices::openUrl(QUrl::fromUserInput(QString("http://www.openstreetmap.org/#map=14/%1/%2")
+        QDesktopServices::openUrl(QUrl::fromUserInput(QStringLiteral("http://www.openstreetmap.org/#map=14/%1/%2")
                                                       .arg(query.record().value("lat").toDouble())
                                                       .arg(query.record().value("lon").toDouble())));
     }
@@ -502,7 +502,7 @@ void MainWindow::slotDeleteRelation(int relationID)
     qDebug() << Q_FUNC_INFO << "Deleting relation" << relationID;
     if (QMessageBox::question(this, tr("Delete Relation"), tr("Do you really want to delete the relation with ID %1?").arg(relationID),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
-        QSqlQuery query(QString("DELETE FROM Relations WHERE id=%1").arg(relationID));
+        QSqlQuery query(QStringLiteral("DELETE FROM Relations WHERE id=%1").arg(relationID));
         if (query.exec()) {
             m_relationsModel->exec();
         } else {
@@ -518,7 +518,7 @@ void MainWindow::slotAddFather()
 
     qDebug() << "Adding father of " << personID;
 
-    QSqlQuery query(QString("SELECT sex, first_name, maiden_name, surname, birth_place, birth_date FROM People WHERE id=%1").arg(personID));
+    QSqlQuery query(QStringLiteral("SELECT sex, first_name, maiden_name, surname, birth_place, birth_date FROM People WHERE id=%1").arg(personID));
 
     PersonDialog * dlg = new PersonDialog(this);
     dlg->setMale();
@@ -559,7 +559,7 @@ void MainWindow::slotAddMother()
 
     qDebug() << "Adding mother of " << personID;
 
-    QSqlQuery query(QString("SELECT sex, first_name, maiden_name, surname, birth_place, birth_date FROM People WHERE id=%1").arg(personID));
+    QSqlQuery query(QStringLiteral("SELECT sex, first_name, maiden_name, surname, birth_place, birth_date FROM People WHERE id=%1").arg(personID));
 
     PersonDialog * dlg = new PersonDialog(this);
     dlg->setFemale();
@@ -600,7 +600,7 @@ void MainWindow::slotAddSon()
 
     qDebug() << "Adding son of " << personID;
 
-    QSqlQuery query(QString("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
+    QSqlQuery query(QStringLiteral("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
 
     PersonDialog * dlg = new PersonDialog(this);
     dlg->setMale();
@@ -613,7 +613,7 @@ void MainWindow::slotAddSon()
 
     if (dlg->exec() == QDialog::Accepted) {
         query.finish();
-        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+        query.exec(QStringLiteral("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
@@ -643,7 +643,7 @@ void MainWindow::slotAddDaugther()
 
     qDebug() << "Adding daughter of " << personID;
 
-    QSqlQuery query(QString("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
+    QSqlQuery query(QStringLiteral("SELECT first_name, surname FROM People WHERE id=%1").arg(personID));
 
     PersonDialog * dlg = new PersonDialog(this);
     dlg->setFemale();
@@ -656,7 +656,7 @@ void MainWindow::slotAddDaugther()
 
     if (dlg->exec() == QDialog::Accepted) {
         query.finish();
-        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+        query.exec(QStringLiteral("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
         query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "

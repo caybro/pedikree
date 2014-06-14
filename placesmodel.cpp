@@ -35,7 +35,7 @@ PlacesModel::~PlacesModel()
 
 void PlacesModel::exec()
 {
-    setQuery("SELECT id, name, lat, lon, comment FROM Places ORDER BY name");
+    setQuery(QStringLiteral("SELECT id, name, lat, lon, comment FROM Places ORDER BY name"));
 }
 
 int PlacesModel::idAtRow(int row) const
@@ -88,7 +88,7 @@ QVariant PlacesModel::headerData(int section, Qt::Orientation orientation, int r
 PlacesLookupModel::PlacesLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
-    setQuery("SELECT id, name FROM Places ORDER BY name");
+    setQuery(QStringLiteral("SELECT id, name FROM Places ORDER BY name"));
 }
 
 PlacesLookupModel::~PlacesLookupModel()

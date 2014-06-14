@@ -37,8 +37,8 @@ PeopleModel::~PeopleModel()
 
 void PeopleModel::exec()
 {
-    setQuery("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
-             "FROM People");
+    setQuery(QStringLiteral("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
+                            "FROM People"));
 }
 
 int PeopleModel::idAtRow(int row) const
@@ -60,8 +60,8 @@ QVariant PeopleModel::data(const QModelIndex &item, int role) const
         if (column == 0) {
             return rec.field("first_name").value();
         } else if (column == 1) {
-            return QString("%1 %2").arg(rec.field("surname").value().toString(),
-                                        rec.field("suffix").value().toString().simplified());
+            return QStringLiteral("%1 %2").arg(rec.field("surname").value().toString(),
+                                               rec.field("suffix").value().toString().simplified());
         } else if (column == 2) {
             const QDate birthDate = rec.field("birth_date").value().toDate();
             if (birthDate.isValid()) {
@@ -144,7 +144,7 @@ QVariant PeopleModel::headerData(int section, Qt::Orientation orientation, int r
 PeopleLookupModel::PeopleLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
-    setQuery("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People ORDER BY surname");
+    setQuery(QStringLiteral("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People ORDER BY surname"));
 }
 
 PeopleLookupModel::~PeopleLookupModel()

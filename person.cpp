@@ -41,11 +41,11 @@ int Person::motherID() const
 
 QList<int> Person::spouseIDs() const
 {
-    QSqlQuery query(QString("SELECT p.id "
-                            "FROM Relations r, People p "
-                            "WHERE ((r.person1_id=%1 AND r.person2_id=p.id) OR (r.person2_id=%1 AND r.person1_id=p.id)) "
-                            "AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
-                            "           'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation')")
+    QSqlQuery query(QStringLiteral("SELECT p.id "
+                                   "FROM Relations r, People p "
+                                   "WHERE ((r.person1_id=%1 AND r.person2_id=p.id) OR (r.person2_id=%1 AND r.person1_id=p.id)) "
+                                   "AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
+                                   "           'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation')")
                     .arg(m_personID));
 
     QList<int> result;
@@ -63,9 +63,9 @@ QList<int> Person::spouseIDs() const
 
 QList<int> Person::siblingIDs() const
 {
-    QSqlQuery query = QSqlQuery(QString("SELECT DISTINCT p.id "
-                                        "FROM People p, Relations r "
-                                        "WHERE p.id=r.child_id AND r.child_id!=%3 AND ((r.person1_id=%1 AND r.person2_id=%2) OR (r.person1_id=%2 AND r.person2_id=%1))")
+    QSqlQuery query = QSqlQuery(QStringLiteral("SELECT DISTINCT p.id "
+                                               "FROM People p, Relations r "
+                                               "WHERE p.id=r.child_id AND r.child_id!=%3 AND ((r.person1_id=%1 AND r.person2_id=%2) OR (r.person1_id=%2 AND r.person2_id=%1))")
                                 .arg(fatherID()).arg(motherID()).arg(m_personID));
 
     QList<int> result;
@@ -83,10 +83,10 @@ QList<int> Person::siblingIDs() const
 
 QList<int> Person::childrenIDs() const
 {
-    QSqlQuery query = QSqlQuery(QString("SELECT DISTINCT p.id "
-                                        "FROM People p, Relations r "
-                                        "WHERE (r.person1_id=%1 OR r.person2_id=%1) AND p.id=child_id "
-                                        "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
+    QSqlQuery query = QSqlQuery(QStringLiteral("SELECT DISTINCT p.id "
+                                               "FROM People p, Relations r "
+                                               "WHERE (r.person1_id=%1 OR r.person2_id=%1) AND p.id=child_id "
+                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
                                 .arg(m_personID));
 
     QList<int> result;
@@ -109,7 +109,7 @@ QString Person::fullName() const
 
 QString Person::personFullName(int personID)
 {
-    QSqlQuery query(QString("SELECT printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People WHERE id=%1").arg(personID));
+    QSqlQuery query(QStringLiteral("SELECT printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People WHERE id=%1").arg(personID));
     if (query.exec() && query.first()) {
         return query.value("name").toString();
     } else {
@@ -121,10 +121,10 @@ QString Person::personFullName(int personID)
 
 int Person::getParentId(const QString &sex) const
 {
-    QString queryString = QString("SELECT %1 "
-                                  "FROM Relations r, People p "
-                                  "WHERE r.child_id=%2 AND %1=p.id AND p.sex='%3' "
-                                  "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
+    QString queryString = QStringLiteral("SELECT %1 "
+                                         "FROM Relations r, People p "
+                                         "WHERE r.child_id=%2 AND %1=p.id AND p.sex='%3' "
+                                         "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
     QSqlQuery query(queryString.arg("r.person1_id").arg(m_personID).arg(sex));
     if (query.exec() && query.first()) {
         return query.value(0).toInt();

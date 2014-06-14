@@ -100,26 +100,26 @@ void SlippyMap::invalidate()
     if (width <= 0 || height <= 0)
         return;
 
-    QPointF ct = tileForCoordinate(latitude, longitude, zoom);
-    qreal tx = ct.x();
-    qreal ty = ct.y();
+    const QPointF ct = tileForCoordinate(latitude, longitude, zoom);
+    const qreal tx = ct.x();
+    const qreal ty = ct.y();
 
     // top-left corner of the center tile
-    int xp = width / 2 - (tx - floor(tx)) * tdim;
-    int yp = height / 2 - (ty - floor(ty)) * tdim;
+    const int xp = width / 2 - (tx - floor(tx)) * tdim;
+    const int yp = height / 2 - (ty - floor(ty)) * tdim;
 
     // first tile vertical and horizontal
-    int xa = (xp + tdim - 1) / tdim;
-    int ya = (yp + tdim - 1) / tdim;
-    int xs = static_cast<int>(tx) - xa;
-    int ys = static_cast<int>(ty) - ya;
+    const int xa = (xp + tdim - 1) / tdim;
+    const int ya = (yp + tdim - 1) / tdim;
+    const int xs = static_cast<int>(tx) - xa;
+    const int ys = static_cast<int>(ty) - ya;
 
     // offset for top-left tile
     m_offset = QPoint(xp - xa * tdim, yp - ya * tdim);
 
     // last tile vertical and horizontal
-    int xe = static_cast<int>(tx) + (width - xp - 1) / tdim;
-    int ye = static_cast<int>(ty) + (height - yp - 1) / tdim;
+    const int xe = static_cast<int>(tx) + (width - xp - 1) / tdim;
+    const int ye = static_cast<int>(ty) + (height - yp - 1) / tdim;
 
     // build a rect
     m_tilesRect = QRect(xs, ys, xe - xs + 1, ye - ys + 1);
@@ -147,8 +147,8 @@ void SlippyMap::render(QPainter *p, const QRect &rect)
 
 void SlippyMap::pan(const QPoint &delta)
 {
-    QPointF dx = QPointF(delta) / qreal(tdim);
-    QPointF center = tileForCoordinate(latitude, longitude, zoom) - dx;
+    const QPointF dx = QPointF(delta) / qreal(tdim);
+    const QPointF center = tileForCoordinate(latitude, longitude, zoom) - dx;
     latitude = latitudeFromTile(center.y(), zoom);
     longitude = longitudeFromTile(center.x(), zoom);
     invalidate();
@@ -157,7 +157,7 @@ void SlippyMap::pan(const QPoint &delta)
 void SlippyMap::handleNetworkData(QNetworkReply *reply)
 {
     QImage img;
-    QPoint tp = reply->request().attribute(QNetworkRequest::User).toPoint();
+    const QPoint tp = reply->request().attribute(QNetworkRequest::User).toPoint();
     if (!reply->error())
         if (!img.load(reply, 0))
             img = QImage();
@@ -168,7 +168,7 @@ void SlippyMap::handleNetworkData(QNetworkReply *reply)
     emit updated(tileRect(tp));
 
     // purge unused spaces
-    QRect bound = m_tilesRect.adjusted(-2, -2, 2, 2);
+    const QRect bound = m_tilesRect.adjusted(-2, -2, 2, 2);
     foreach(QPoint tp, m_tilePixmaps.keys())
         if (!bound.contains(tp))
             m_tilePixmaps.remove(tp);
@@ -192,7 +192,7 @@ void SlippyMap::download()
         return;
     }
 
-    const QString path = "http://tile.openstreetmap.org/%1/%2/%3.png";
+    const QString path = QStringLiteral("http://tile.openstreetmap.org/%1/%2/%3.png");
     m_url = QUrl(path.arg(zoom).arg(grab.x()).arg(grab.y()));
     QNetworkRequest request(m_url);
     request.setRawHeader("User-Agent", "Pedikree Map Widget");
@@ -202,7 +202,7 @@ void SlippyMap::download()
 
 QRect SlippyMap::tileRect(const QPoint &tp)
 {
-    QPoint t = tp - m_tilesRect.topLeft();
+    const QPoint t = tp - m_tilesRect.topLeft();
     int x = t.x() * tdim + m_offset.x();
     int y = t.y() * tdim + m_offset.y();
     return QRect(x, y, tdim, tdim);

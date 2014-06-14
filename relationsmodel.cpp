@@ -41,14 +41,14 @@ RelationsModel::~RelationsModel()
 
 void RelationsModel::exec()
 {
-    setQuery("SELECT DISTINCT r.id, r.type, "
-             "printf(\"%s %s %s\", p1.first_name, p1.surname, p1.suffix) as person1_name, "
-             "printf(\"%s %s %s\", p2.first_name, p2.surname, p2.suffix) as person2_name, "
-             "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.child_id) AS child_name, "
-             "r.child_id, r.place, r.date, r.comment "
-             "FROM Relations r, People p1, People p2 "
-             "JOIN People ON p1.id=r.person1_id "
-             "JOIN People ON p2.id=r.person2_id");
+    setQuery(QStringLiteral("SELECT DISTINCT r.id, r.type, "
+                            "printf(\"%s %s %s\", p1.first_name, p1.surname, p1.suffix) as person1_name, "
+                            "printf(\"%s %s %s\", p2.first_name, p2.surname, p2.suffix) as person2_name, "
+                            "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.child_id) AS child_name, "
+                            "r.child_id, r.place, r.date, r.comment "
+                            "FROM Relations r, People p1, People p2 "
+                            "JOIN People ON p1.id=r.person1_id "
+                            "JOIN People ON p2.id=r.person2_id"));
     qDebug() << Q_FUNC_INFO << "Query status:" << lastError().text();
 }
 
