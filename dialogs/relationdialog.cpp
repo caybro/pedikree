@@ -99,12 +99,12 @@ void RelationDialog::save()
     QSqlQuery query;
 
     if (m_relationID == -1) { // add relation
-        query.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date, comment) "
-                      "VALUES (:type, :person1_id, :person2_id, :child_id, :place, :date, :comment)");
+        query.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date, comment) "
+                                     "VALUES (:type, :person1_id, :person2_id, :child_id, :place, :date, :comment)"));
     } else { // update relation
-        query.prepare("UPDATE Relations "
-                      "SET type=:type, person1_id=:person1_id, person2_id=:person2_id, child_id=:child_id, place=:place, date=:date, comment=:comment "
-                      "WHERE id=:id");
+        query.prepare(QStringLiteral("UPDATE Relations "
+                                     "SET type=:type, person1_id=:person1_id, person2_id=:person2_id, child_id=:child_id, place=:place, date=:date, comment=:comment "
+                                     "WHERE id=:id"));
         query.bindValue(":id", m_relationID);
     }
 
@@ -143,7 +143,7 @@ void RelationDialog::slotTypeChanged(int index)
 
         setChildMode(true);
 
-        QSqlQuery query(QString("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->child->currentData().toInt()));
+        QSqlQuery query(QStringLiteral("SELECT birth_date, birth_place FROM People WHERE id=%1").arg(ui->child->currentData().toInt()));
         if (!query.exec()) {
             qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
             return;
@@ -176,9 +176,9 @@ void RelationDialog::slotAddPlace()
 void RelationDialog::populateControls()
 {
     QSqlQuery query;
-    query.prepare(QString("SELECT id, type, person1_id, person2_id, child_id, place, date, comment "
-                  "FROM Relations "
-                  "WHERE id=%1").arg(m_relationID));
+    query.prepare(QStringLiteral("SELECT id, type, person1_id, person2_id, child_id, place, date, comment "
+                                 "FROM Relations "
+                                 "WHERE id=%1").arg(m_relationID));
 
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();

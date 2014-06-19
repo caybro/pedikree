@@ -242,7 +242,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
 
             Person person(model->idAtRow(row));
 
-            QMenu * menuPerson = new QMenu(tr("Relatives"), this);
+            QMenu * menuPerson = new QMenu(tr("&Relatives"), this);
 
             // parents
             const int fatherID = person.fatherID();
@@ -302,7 +302,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
         PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
         if (model) {
             menu.addSeparator();
-            QAction * tmp = menu.addAction(tr("View on OpenStreetMaps..."), this, SLOT(slotViewPlace()));
+            QAction * tmp = menu.addAction(tr("View on map..."), this, SLOT(slotViewPlace()));
             tmp->setData(model->idAtRow(row));
         }
     }
@@ -534,8 +534,8 @@ void MainWindow::slotAddFather()
 
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)"));
         query2.bindValue(":person1_id", dlg->personID());
         query2.bindValue(":person2_id", personID);
         query2.bindValue(":place", query.value("birth_place"));
@@ -575,8 +575,8 @@ void MainWindow::slotAddMother()
 
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)"));
         query2.bindValue(":person1_id", dlg->personID());
         query2.bindValue(":person2_id", personID);
         query2.bindValue(":place", query.value("birth_place"));
@@ -616,8 +616,8 @@ void MainWindow::slotAddSon()
         query.exec(QStringLiteral("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)"));
         query2.bindValue(":person1_id", personID);
         query2.bindValue(":person2_id", dlg->personID());
         if (query.exec() && query.first()) {
@@ -659,8 +659,8 @@ void MainWindow::slotAddDaugther()
         query.exec(QStringLiteral("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :place, :date)"));
         query2.bindValue(":person1_id", personID);
         query2.bindValue(":person2_id", dlg->personID());
         if (query.exec() && query.first()) {

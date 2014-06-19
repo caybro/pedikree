@@ -81,12 +81,12 @@ void PlaceDialog::save()
     QSqlQuery query;
 
     if (m_placeID == -1) { // add place
-        query.prepare("INSERT INTO Places (name, lat, lon, comment) "
-                      "VALUES (:name, :lat, :lon, :comment)");
+        query.prepare(QStringLiteral("INSERT INTO Places (name, lat, lon, comment) "
+                                     "VALUES (:name, :lat, :lon, :comment)"));
         //qDebug() << "Adding place with query" << query.lastQuery();
     } else { // update place
-        query.prepare("UPDATE Places SET name=:name, lat=:lat, lon=:lon, comment=:comment "
-                      "WHERE id=:id");
+        query.prepare(QStringLiteral("UPDATE Places SET name=:name, lat=:lat, lon=:lon, comment=:comment "
+                                     "WHERE id=:id"));
         query.bindValue(":id", m_placeID);
     }
 
@@ -126,7 +126,7 @@ void PlaceDialog::geocodeReply(const QString &originalQuery, const QString &lat,
 
     QAction * action = new QAction(m_placeMenu);
     action->setText(displayName);
-    action->setData(QString("%1:%2:%3").arg(lat).arg(lon).arg(displayName));
+    action->setData(QStringLiteral("%1:%2:%3").arg(lat).arg(lon).arg(displayName));
     m_placeMenu->addAction(action);
     connect(m_placeMenu, SIGNAL(triggered(QAction*)), this, SLOT(placeTriggered(QAction*)), Qt::UniqueConnection);
 }
@@ -165,9 +165,9 @@ void PlaceDialog::updateMapCenter()
 void PlaceDialog::populateControls()
 {
     QSqlQuery query;
-    query.prepare(QString("SELECT id, name, lat, lon, comment "
-                  "FROM Places "
-                  "WHERE id=%1").arg(m_placeID));
+    query.prepare(QStringLiteral("SELECT id, name, lat, lon, comment "
+                                 "FROM Places "
+                                 "WHERE id=%1").arg(m_placeID));
 
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();

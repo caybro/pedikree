@@ -119,11 +119,11 @@ QString PdDateDialog::date() const
 
     const QString month = ui->cbMonth->currentText();
     if (!month.isEmpty())
-        result += QString("-%1").arg(QString::number(ui->cbMonth->currentIndex()), 2, QChar('0'));
+        result += QStringLiteral("-%1").arg(QString::number(ui->cbMonth->currentIndex()), 2, QChar('0'));
 
     const QString day = ui->cbDay->currentText();
     if (!day.isEmpty())
-        result += QString("-%1").arg(day, 2, QChar('0'));
+        result += QStringLiteral("-%1").arg(day, 2, QChar('0'));
 
     return result;
 }

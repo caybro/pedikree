@@ -46,4 +46,6 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     assets.qrc
 
+DEFINES += QT_USE_QSTRINGBUILDER
+
 TRANSLATIONS = translations/pedikree_cs.ts

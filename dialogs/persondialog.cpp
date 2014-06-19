@@ -171,32 +171,32 @@ void PersonDialog::save()
     QSqlQuery query;
 
     if (m_personID == -1) { // add person
-        query.prepare("INSERT INTO People (first_name, surname, maiden_name, prefix, suffix, sex, "
-                      "birth_date, birth_place, "
-                      "death_date, death_place, death_reason, burial_place, "
-                      "contact_email, contact_phone, contact_web, "
-                      "contact_address, contact_city, contact_state, contact_zip, contact_country, "
-                      "nationality, religion, height, weight, "
-                      "color, eye_color, hair_color, occupation, alive, photo) "
-                      "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
-                      ":birth_date, :birth_place, "
-                      ":death_date, :death_place, :death_reason, :burial_place, "
-                      ":contact_email, :contact_phone, :contact_web, "
-                      ":contact_address, :contact_city, :contact_state, :contact_zip, :contact_country, "
-                      ":nationality, :religion, :height, :weight, "
-                      ":color, :eye_color, :hair_color, :occupation, :alive, :photo)");
+        query.prepare(QStringLiteral("INSERT INTO People (first_name, surname, maiden_name, prefix, suffix, sex, "
+                                     "birth_date, birth_place, "
+                                     "death_date, death_place, death_reason, burial_place, "
+                                     "contact_email, contact_phone, contact_web, "
+                                     "contact_address, contact_city, contact_state, contact_zip, contact_country, "
+                                     "nationality, religion, height, weight, "
+                                     "color, eye_color, hair_color, occupation, alive, photo) "
+                                     "VALUES (:first_name, :surname, :maiden_name, :prefix, :suffix, :sex, "
+                                     ":birth_date, :birth_place, "
+                                     ":death_date, :death_place, :death_reason, :burial_place, "
+                                     ":contact_email, :contact_phone, :contact_web, "
+                                     ":contact_address, :contact_city, :contact_state, :contact_zip, :contact_country, "
+                                     ":nationality, :religion, :height, :weight, "
+                                     ":color, :eye_color, :hair_color, :occupation, :alive, :photo)"));
     } else { // update person
-        query.prepare("UPDATE People SET "
-                      "first_name=:first_name, surname=:surname, maiden_name=:maiden_name, prefix=:prefix, suffix=:suffix, sex=:sex, "
-                      "birth_date=:birth_date, birth_place=:birth_place, "
-                      "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place, "
-                      "contact_email=:contact_email, contact_phone=:contact_phone, contact_web=:contact_web, "
-                      "contact_address=:contact_address, contact_city=:contact_city, contact_state=:contact_state, "
-                      "contact_zip=:contact_zip, contact_country=:contact_country, "
-                      "nationality=:nationality, religion=:religion, height=:height, weight=:weight, "
-                      "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation, "
-                      "alive=:alive, photo=:photo "
-                      "WHERE id=:id");
+        query.prepare(QStringLiteral("UPDATE People SET "
+                                     "first_name=:first_name, surname=:surname, maiden_name=:maiden_name, prefix=:prefix, suffix=:suffix, sex=:sex, "
+                                     "birth_date=:birth_date, birth_place=:birth_place, "
+                                     "death_date=:death_date, death_place=:death_place, death_reason=:death_reason, burial_place=:burial_place, "
+                                     "contact_email=:contact_email, contact_phone=:contact_phone, contact_web=:contact_web, "
+                                     "contact_address=:contact_address, contact_city=:contact_city, contact_state=:contact_state, "
+                                     "contact_zip=:contact_zip, contact_country=:contact_country, "
+                                     "nationality=:nationality, religion=:religion, height=:height, weight=:weight, "
+                                     "color=:color, eye_color=:eye_color, hair_color=:hair_color, occupation=:occupation, "
+                                     "alive=:alive, photo=:photo "
+                                     "WHERE id=:id"));
 
         query.bindValue(":id", m_personID);
     }
@@ -285,7 +285,11 @@ void PersonDialog::slotAddPlace()
 void PersonDialog::slotSelectImage()
 {
     const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),
-                                                          "*.png *.jpg *.jpeg"); // FIXME better use a MIME type
+                                                          QStringLiteral("*.png *.jpg *.jpeg"), 0
+                                                      #ifdef Q_OS_LINUX
+                                                          , QFileDialog::DontUseNativeDialog // FIXME native kfiledialog crashing
+                                                      #endif
+                                                          ); // FIXME better use a MIME type
     if (!fileName.isEmpty()) {
         m_photoFilename = fileName;
         ui->photo->setIcon(QIcon(m_photoFilename));
@@ -302,16 +306,16 @@ void PersonDialog::tabChanged(int index)
 void PersonDialog::populateControls()
 {
     QSqlQuery query;
-    query.prepare(QString("SELECT first_name, surname, maiden_name, prefix, suffix, sex, "
-                          "birth_date, birth_place, "
-                          "death_date, death_place, death_reason, burial_place, "
-                          "contact_email, contact_phone, contact_web, "
-                          "contact_address, contact_city, contact_state, contact_zip, contact_country, "
-                          "nationality, religion, "
-                          "height, weight, "
-                          "color, eye_color, hair_color, occupation, alive, photo "
-                          "FROM People "
-                          "WHERE id=%1").arg(m_personID));
+    query.prepare(QStringLiteral("SELECT first_name, surname, maiden_name, prefix, suffix, sex, "
+                                 "birth_date, birth_place, "
+                                 "death_date, death_place, death_reason, burial_place, "
+                                 "contact_email, contact_phone, contact_web, "
+                                 "contact_address, contact_city, contact_state, contact_zip, contact_country, "
+                                 "nationality, religion, "
+                                 "height, weight, "
+                                 "color, eye_color, hair_color, occupation, alive, photo "
+                                 "FROM People "
+                                 "WHERE id=%1").arg(m_personID));
     if (!query.exec()) {
         qWarning() << Q_FUNC_INFO << "Query failed with" << query.lastError().text();
         return;
@@ -383,29 +387,29 @@ void PersonDialog::populateControls()
 void PersonDialog::populateFamilyTab()
 {
     // this person
-    m_thisPersonQuery = QSqlQuery(QString("SELECT surname, sex, printf(\"%s %s\", first_name, surname) as name FROM People WHERE id=%1").arg(m_personID));
+    m_thisPersonQuery = QSqlQuery(QStringLiteral("SELECT surname, sex, printf(\"%s %s\", first_name, surname) as name FROM People WHERE id=%1").arg(m_personID));
     m_thisPersonQuery.exec();
     m_thisPersonQuery.first();
 
     // partners and children
-    m_partnerQuery = QSqlQuery(QString("SELECT r.id as relation_id, r.type, r.date, "
-                                       "p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name "
-                                       "FROM Relations r, People p "
-                                       "WHERE (r.person1_id=%1 OR r.person2_id=%1) "
-                                       "      AND (r.person1_id=p.id OR r.person2_id=p.id) "
-                                       "      AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
-                                       "                    'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation') "
-                                       "      AND p.id!=%1").arg(m_personID));
+    m_partnerQuery = QSqlQuery(QStringLiteral("SELECT r.id as relation_id, r.type, r.date, "
+                                              "p.id as person_id, printf(\"%s %s\", p.first_name, p.surname) as name "
+                                              "FROM Relations r, People p "
+                                              "WHERE (r.person1_id=%1 OR r.person2_id=%1) "
+                                              "      AND (r.person1_id=p.id OR r.person2_id=p.id) "
+                                              "      AND r.type IN ('Annulment', 'CommonLawMarriage', 'CivilUnion', 'DomesticPartnership', 'Divorce', 'DivorceFiling', "
+                                              "                    'Engagement', 'Marriage', 'MarriageBanns', 'MarriageContract', 'MarriageLicense', 'MarriageNotice', 'Separation') "
+                                              "      AND p.id!=%1").arg(m_personID));
 
     if (m_partnerQuery.exec() && m_partnerQuery.first()) {
         updatePartnersLabel();
         ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
         //qDebug() << "First partner at:" << m_partnerQuery.at();
 
-        const QString childrenQuery = QString("SELECT DISTINCT p.id as person_id, printf(\"%s %s %s\", p.first_name, p.surname, p.suffix) as name, p.birth_date, p.birth_place "
-                                              "FROM People p, Relations r "
-                                              "WHERE ((r.person1_id=:person1 AND r.person2_id=:person2) OR (r.person1_id=:person2 AND r.person2_id=:person1)) AND person_id=r.child_id "
-                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
+        const QString childrenQuery = QStringLiteral("SELECT DISTINCT p.id as person_id, printf(\"%s %s %s\", p.first_name, p.surname, p.suffix) as name, p.birth_date, p.birth_place "
+                                                     "FROM People p, Relations r "
+                                                     "WHERE ((r.person1_id=:person1 AND r.person2_id=:person2) OR (r.person1_id=:person2 AND r.person2_id=:person1)) AND person_id=r.child_id "
+                                                     "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
         m_childrenQuery.prepare(childrenQuery);
         m_childrenQuery.bindValue(":person1", m_personID);
         m_childrenQuery.bindValue(":person2", m_partnerQuery.value("person_id"));
@@ -433,12 +437,12 @@ void PersonDialog::populateFamilyTab()
     }
 
     // parents and siblings
-    m_parentsQuery = QSqlQuery(QString("SELECT r.person1_id AS parent1_id, r.person2_id AS parent2_id, "
-                                       "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person1_id) AS parent1_name, "
-                                       "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person2_id) AS parent2_name "
-                                       "FROM Relations r "
-                                       "WHERE r.child_id=%1 "
-                                       "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
+    m_parentsQuery = QSqlQuery(QStringLiteral("SELECT r.person1_id AS parent1_id, r.person2_id AS parent2_id, "
+                                              "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person1_id) AS parent1_name, "
+                                              "(SELECT printf(\"%s %s %s\", first_name, surname, suffix) FROM People WHERE id=r.person2_id) AS parent2_name "
+                                              "FROM Relations r "
+                                              "WHERE r.child_id=%1 "
+                                              "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')")
                                .arg(m_personID));
     if (m_parentsQuery.exec() && m_parentsQuery.first()) {
         const QString siblingsQuery = QString("SELECT DISTINCT p.id as person_id, printf(\"%s %s %s\", p.first_name, p.surname, p.suffix) as name, p.birth_date, p.birth_place "
@@ -446,7 +450,7 @@ void PersonDialog::populateFamilyTab()
                                               "WHERE p.id=r.child_id AND r.child_id!=%3 AND ((r.person1_id=%1 AND r.person2_id=%2) OR (r.person1_id=%2 AND r.person2_id=%1))")
                                       .arg(m_parentsQuery.value("parent1_id").toInt()).arg(m_parentsQuery.value("parent2_id").toInt()).arg(m_personID);
         m_siblingsQuery.prepare(siblingsQuery);
-        ui->parents->setText(QString("%1 + %2").arg(m_parentsQuery.value("parent1_name").toString(), m_parentsQuery.value("parent2_name").toString()));
+        ui->parents->setText(QStringLiteral("%1 + %2").arg(m_parentsQuery.value("parent1_name").toString(), m_parentsQuery.value("parent2_name").toString()));
 
         if (m_siblingsQuery.exec() && m_siblingsQuery.first()) {
             qDebug() << "Executed siblings query for" << m_personID;
@@ -486,9 +490,9 @@ void PersonDialog::updatePartnersLabel()
     if (!dateStr.isEmpty()) {
         dateStr = format.arg(dateStr);
     }
-    ui->couples->setText(QString("%1 + %2 (%3%4)").arg(m_thisPersonQuery.value("name").toString(),
-                                                       m_partnerQuery.value("name").toString(),
-                                                       type, dateStr));
+    ui->couples->setText(QStringLiteral("%1 + %2 (%3%4)").arg(m_thisPersonQuery.value("name").toString(),
+                                                              m_partnerQuery.value("name").toString(),
+                                                              type, dateStr));
 }
 
 void PersonDialog::updatePartnersButtons()
@@ -572,11 +576,11 @@ void PersonDialog::slotAddChild()
                                                          m_partnerQuery.value("name").toString()));
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query;
-        query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
+        query.exec(QStringLiteral("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)"));
         query2.bindValue(":person1_id", m_personID);
         query2.bindValue(":person2_id", m_partnerQuery.value("person_id").toInt());
         query2.bindValue(":child_id", dlg->personID());
@@ -603,7 +607,7 @@ void PersonDialog::slotRemoveChild()
 
     if (QMessageBox::question(this, tr("Delete Child"), tr("Do you really want to delete the child '%1'?").arg(Person::personFullName(childID)),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
-        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(childID));
+        QSqlQuery query(QStringLiteral("DELETE FROM People WHERE id=%1").arg(childID));
         if (query.exec()) {
             fetchChildren();
         } else {
@@ -624,8 +628,8 @@ void PersonDialog::slotAddSibling()
         query.exec(QString("SELECT birth_place, birth_date FROM People WHERE id=%1").arg(dlg->personID()));
 
         QSqlQuery query2;
-        query2.prepare("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
-                       "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)");
+        query2.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id, child_id, place, date) "
+                                      "VALUES ('BiologicalParent', :person1_id, :person2_id, :child_id, :place, :date)"));
         query2.bindValue(":person1_id", m_parentsQuery.value("parent1_id").toInt());
         query2.bindValue(":person2_id", m_parentsQuery.value("parent2_id").toInt());
         query2.bindValue(":child_id", dlg->personID());
@@ -652,7 +656,7 @@ void PersonDialog::slotRemoveSibling()
 
     if (QMessageBox::question(this, tr("Delete Sibling"), tr("Do you really want to delete the sibling '%1'?").arg(Person::personFullName(siblingID)),
                               (QMessageBox::Yes | QMessageBox::No), QMessageBox::No) == QMessageBox::Yes) {
-        QSqlQuery query(QString("DELETE FROM People WHERE id=%1").arg(siblingID));
+        QSqlQuery query(QStringLiteral("DELETE FROM People WHERE id=%1").arg(siblingID));
         if (query.exec()) {
             fetchSiblings();
         } else {
@@ -672,8 +676,8 @@ void PersonDialog::slotAddSpouse()
 
     if (dlg->exec() == QDialog::Accepted) {
         QSqlQuery query;
-        query.prepare("INSERT INTO Relations (type, person1_id, person2_id) "
-                      "VALUES ('Marriage', :person1_id, :person2_id)");
+        query.prepare(QStringLiteral("INSERT INTO Relations (type, person1_id, person2_id) "
+                                     "VALUES ('Marriage', :person1_id, :person2_id)"));
         query.bindValue(":person1_id", m_personID);
         query.bindValue(":person2_id", dlg->personID());
 
