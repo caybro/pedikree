@@ -39,8 +39,8 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     ui(new Ui::PersonDialog),
     m_personID(personID),
     m_familyInitted(false),
-    m_childrenModel(0),
-    m_siblingsModel(0)
+    m_childrenModel(Q_NULLPTR),
+    m_siblingsModel(Q_NULLPTR)
 {
     ui->setupUi(this);
 

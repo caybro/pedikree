@@ -23,7 +23,6 @@
 #include <QInputDialog>
 #include <QStandardPaths>
 #include <QDebug>
-#include <QSignalMapper>
 #include <QDesktopServices>
 #include <QSqlRecord>
 
@@ -40,9 +39,9 @@ MainWindow::MainWindow(QWidget *parent):
     ui(new Ui::MainWindow),
     m_viewGroup(new QActionGroup(this)),
     m_proxyModel(new QSortFilterProxyModel(this)),
-    m_peopleModel(0),
-    m_placesModel(0),
-    m_relationsModel(0)
+    m_peopleModel(Q_NULLPTR),
+    m_placesModel(Q_NULLPTR),
+    m_relationsModel(Q_NULLPTR)
 {
     ui->setupUi(this);
     setupActions();
@@ -745,7 +744,7 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
 
 void MainWindow::closeDatabase()
 {
-    ui->tableView->setModel(0);
+    ui->tableView->setModel(Q_NULLPTR);
 
     delete m_peopleModel;
     m_peopleModel = 0;

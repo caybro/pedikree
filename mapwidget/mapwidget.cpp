@@ -93,10 +93,10 @@ void MapWidget::paintEvent(QPaintEvent *event)
     p.setPen(Qt::black);
 
     QFont font = p.font();
-    font.setPixelSize(9);
+    font.setPointSize(8);
     p.setFont(font);
 
-    p.drawText(rect(), Qt::AlignBottom | Qt::AlignRight | Qt::TextWordWrap, "CC BY-SA © OpenStreetMap contributors");
+    p.drawText(rect(), Qt::AlignBottom | Qt::AlignRight | Qt::TextWordWrap, QStringLiteral("CC BY-SA © OpenStreetMap contributors"));
     p.end();
 }
 

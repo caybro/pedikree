@@ -18,7 +18,7 @@
      </property>
      <widget class="QWidget" name="tabGeneral">
       <attribute name="title">
-       <string>General</string>
+       <string>Basic facts</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
@@ -983,6 +983,11 @@
          </item>
          <item>
           <property name="text">
+           <string>white</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>blond</string>
           </property>
          </item>
@@ -1174,7 +1179,7 @@
   </connection>
  </connections>
  <buttongroups>
-  <buttongroup name="buttonGroupGender"/>
   <buttongroup name="buttonGroupAlive"/>
+  <buttongroup name="buttonGroupGender"/>
  </buttongroups>
 </ui>
