@@ -273,7 +273,14 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             if (!siblingIDs.isEmpty()) {
                 QMenu * menuSiblings = menuPerson->addMenu(tr("Siblings (%1)").arg(siblingIDs.count()));
                 foreach (int siblingID, siblingIDs) {
-                    QAction * siblingAct = new QAction(tr("Sibling: %1").arg(Person::personFullName(siblingID)), this);
+                    Person::Sex siblingSex = Person::personSex(siblingID);
+                    QString siblingRole = tr("Unknown");
+                    if (siblingSex == Person::Male) {
+                        siblingRole = tr("Brother");
+                    } else if (siblingSex == Person::Female) {
+                        siblingRole = tr("Sister");
+                    }
+                    QAction * siblingAct = new QAction(tr("%1: %2").arg(siblingRole).arg(Person::personFullName(siblingID)), this);
                     siblingAct->setData(siblingID);
                     menuSiblings->addAction(siblingAct);
                 }
@@ -284,7 +291,14 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             if (!childrenIDs.isEmpty()) {
                 QMenu * menuChildren = menuPerson->addMenu(tr("Children (%1)").arg(childrenIDs.count()));
                 foreach (int childID, childrenIDs) {
-                    QAction * childAct = new QAction(tr("Child: %1").arg(Person::personFullName(childID)), this);
+                    Person::Sex childSex = Person::personSex(childID);
+                    QString childRole = tr("Unknown");
+                    if (childSex == Person::Male) {
+                        childRole = tr("Son");
+                    } else if (childSex == Person::Female) {
+                        childRole = tr("Daughter");
+                    }
+                    QAction * childAct = new QAction(tr("%1: %2").arg(childRole).arg(Person::personFullName(childID)), this);
                     childAct->setData(childID);
                     menuChildren->addAction(childAct);
                 }
@@ -747,11 +761,11 @@ void MainWindow::closeDatabase()
     ui->tableView->setModel(Q_NULLPTR);
 
     delete m_peopleModel;
-    m_peopleModel = 0;
+    m_peopleModel = Q_NULLPTR;
     delete m_relationsModel;
-    m_relationsModel = 0;
+    m_relationsModel = Q_NULLPTR;
     delete m_placesModel;
-    m_placesModel = 0;
+    m_placesModel = Q_NULLPTR;
 
     QSqlDatabase db = QSqlDatabase::database();
     if (db.isOpen()) {

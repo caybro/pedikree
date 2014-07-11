@@ -29,6 +29,11 @@ Person::Person(int personID):
 {
 }
 
+Person::Sex Person::sex() const
+{
+    return Person::personSex(m_personID);
+}
+
 int Person::fatherID() const
 {
     return getParentId("M");
@@ -104,6 +109,22 @@ QString Person::fullName() const
     return Person::personFullName(m_personID);
 }
 
+Person::Sex Person::personSex(int personID)
+{
+    QSqlQuery query(QStringLiteral("SELECT sex FROM People WHERE id=%1").arg(personID));
+    if (query.exec() && query.first()) {
+        const QString result = query.value(0).toString();
+        if (result == "M")
+            return Male;
+        else if (result == "F")
+            return Female;
+    } else {
+        qDebug() << Q_FUNC_INFO << "Unknown sex or query failed for" << personID << query.lastError().text();
+    }
+
+    return Unknown;
+}
+
 QString Person::personFullName(int personID)
 {
     QSqlQuery query(QStringLiteral("SELECT printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People WHERE id=%1").arg(personID));
@@ -118,10 +139,10 @@ QString Person::personFullName(int personID)
 
 int Person::getParentId(const QString &sex) const
 {
-    QString queryString = QStringLiteral("SELECT %1 "
-                                         "FROM Relations r, People p "
-                                         "WHERE r.child_id=%2 AND %1=p.id AND p.sex='%3' "
-                                         "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
+    const QString queryString = QStringLiteral("SELECT %1 "
+                                               "FROM Relations r, People p "
+                                               "WHERE r.child_id=%2 AND %1=p.id AND p.sex='%3' "
+                                               "AND r.type IN ('AdoptiveParent', 'BiologicalParent', 'FosterParent', 'GuardianParent', 'StepParent', 'SociologicalParent', 'SurrogateParent')");
     QSqlQuery query(queryString.arg("r.person1_id").arg(m_personID).arg(sex));
     if (query.exec() && query.first()) {
         return query.value(0).toInt();

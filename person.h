@@ -25,8 +25,15 @@
 class Person
 {
 public:
+    enum Sex {
+        Male,
+        Female,
+        Unknown
+    };
+
     explicit Person(int personID);
 
+    Sex sex() const;
     int fatherID() const;
     int motherID() const;
     QList<int> spouseIDs() const;
@@ -34,6 +41,7 @@ public:
     QList<int> childrenIDs() const;
     QString fullName() const;
 
+    static Sex personSex(int personID);
     static QString personFullName(int personID);
 
 private:
