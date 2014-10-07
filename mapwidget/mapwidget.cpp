@@ -43,14 +43,8 @@
 #include <QtGui>
 #include <QtNetwork>
 
-#include <math.h>
-
 #include "mapwidget.h"
 #include "slippymap.h"
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 
 // how long (milliseconds) the user need to hold (after a tap on the screen)
 // before triggering the magnifying glass feature
@@ -64,6 +58,7 @@ MapWidget::MapWidget(QWidget *parent)
 {
     m_normalMap = new SlippyMap(this);
     connect(m_normalMap, SIGNAL(updated(QRect)), SLOT(updateMap(QRect)));
+    setCursor(Qt::OpenHandCursor);
 }
 
 void MapWidget::setCenter(qreal lat, qreal lng)
@@ -109,6 +104,7 @@ void MapWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->buttons() != Qt::LeftButton)
         return;
+    setCursor(Qt::ClosedHandCursor);
     pressed = snapped = true;
     pressPos = dragPos = event->pos();
     tapTimer.stop();
@@ -119,6 +115,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent *event)
 {
     if (!event->buttons())
         return;
+
     if (!zoomed) {
         if (!pressed || !snapped) {
             QPoint delta = event->pos() - pressPos;
@@ -145,6 +142,7 @@ void MapWidget::mouseMoveEvent(QMouseEvent *event)
 
 void MapWidget::mouseReleaseEvent(QMouseEvent *)
 {
+    setCursor(Qt::OpenHandCursor);
     zoomed = false;
     update();
 }
