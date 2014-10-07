@@ -107,12 +107,7 @@ void MainWindow::slotNew()
 
 void MainWindow::slotOpen()
 {
-    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Database"), m_storageLocation, tr("Pedikree databases (*.pdb)"),
-                                                          0
-                                                      #ifdef Q_OS_LINUX
-                                                          , QFileDialog::DontUseNativeDialog // FIXME native kfiledialog crashing
-                                                      #endif
-                                                          );
+    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Database"), m_storageLocation, tr("Pedikree databases (*.pdb)"));
     if (!filename.isEmpty()) {
         openDatabase(filename);
     }
