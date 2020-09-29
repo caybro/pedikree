@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef RELATIONSMODEL_H
-#define RELATIONSMODEL_H
+#pragma once
 
 #include <QSqlQueryModel>
 #include <QCoreApplication>
@@ -35,16 +34,14 @@ class RelationsModel : public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    RelationsModel(QObject *parent = 0);
-    virtual ~RelationsModel();
+    explicit RelationsModel(QObject *parent = nullptr);
+    ~RelationsModel() = default;
 
     void exec();
 
     int idAtRow(int row) const;
 
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 };
-
-#endif // RELATIONSMODEL_H

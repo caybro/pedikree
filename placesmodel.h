@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PLACESMODEL_H
-#define PLACESMODEL_H
+#pragma once
 
 #include <QSqlQueryModel>
 
@@ -26,29 +25,27 @@ class PlacesModel: public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    PlacesModel(QObject *parent = 0);
-    virtual ~PlacesModel();
+    explicit PlacesModel(QObject *parent = nullptr);
+    ~PlacesModel() = default;
 
     void exec();
 
     int idAtRow(int row) const;
 
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 };
 
 class PlacesLookupModel: public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    PlacesLookupModel(QObject * parent = 0);
-    virtual ~PlacesLookupModel();
+    explicit PlacesLookupModel(QObject *parent = nullptr);
+    ~PlacesLookupModel() = default;
 
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const override;
 
 public slots:
     void reload();
 };
-
-#endif // PLACESMODEL_H

@@ -35,10 +35,6 @@ RelationsModel::RelationsModel(QObject *parent) :
     exec();
 }
 
-RelationsModel::~RelationsModel()
-{
-}
-
 void RelationsModel::exec()
 {
     setQuery(QStringLiteral("SELECT DISTINCT r.id, r.type, "

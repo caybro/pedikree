@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PEOPLEMODEL_H
-#define PEOPLEMODEL_H
+#pragma once
 
 #include <QSqlQueryModel>
 
@@ -26,27 +25,24 @@ class PeopleModel : public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    PeopleModel(QObject *parent = 0);
-    virtual ~PeopleModel();
+    explicit PeopleModel(QObject *parent = nullptr);
+    ~PeopleModel() = default;
 
     void exec();
 
     int idAtRow(int row) const;
 
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
 };
 
 class PeopleLookupModel: public QSqlQueryModel
 {
     Q_OBJECT
 public:
-    PeopleLookupModel(QObject * parent = 0);
-    virtual ~PeopleLookupModel();
+    explicit PeopleLookupModel(QObject * parent = nullptr);
+    ~PeopleLookupModel() = default;
 
-    virtual QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    QVariant data(const QModelIndex &item, int role = Qt::DisplayRole) const override;
 };
-
-
-#endif // PEOPLEMODEL_H

@@ -29,10 +29,6 @@ PlacesModel::PlacesModel(QObject *parent):
     exec();
 }
 
-PlacesModel::~PlacesModel()
-{
-}
-
 void PlacesModel::exec()
 {
     setQuery(QStringLiteral("SELECT id, name, lat, lon, comment FROM Places ORDER BY name"));
@@ -89,10 +85,6 @@ PlacesLookupModel::PlacesLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
     setQuery(QStringLiteral("SELECT id, name FROM Places ORDER BY name"));
-}
-
-PlacesLookupModel::~PlacesLookupModel()
-{
 }
 
 QVariant PlacesLookupModel::data(const QModelIndex &item, int role) const

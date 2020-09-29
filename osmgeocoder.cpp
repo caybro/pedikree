@@ -31,10 +31,6 @@ OsmGeoCoder::OsmGeoCoder(QObject *parent) :
     connect(m_manager, &QNetworkAccessManager::finished, this, &OsmGeoCoder::slotReplyFinished);
 }
 
-OsmGeoCoder::~OsmGeoCoder()
-{
-}
-
 void OsmGeoCoder::geocode(const QString &query)
 {
     QNetworkRequest request(QUrl::fromUserInput(
@@ -47,6 +43,8 @@ void OsmGeoCoder::geocode(const QString &query)
 
 void OsmGeoCoder::slotReplyFinished(QNetworkReply *reply)
 {
+    reply->deleteLater();
+
     if (reply->error() != QNetworkReply::NoError) {
         qWarning() << Q_FUNC_INFO << "Geocode query failed with error:" << reply->error() << ", " << reply->errorString();
         return;
@@ -108,5 +106,4 @@ void OsmGeoCoder::slotReplyFinished(QNetworkReply *reply)
     }
 
     emit geocodeFinished(origQuery);
-    reply->deleteLater();
 }

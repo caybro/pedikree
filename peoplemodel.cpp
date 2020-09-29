@@ -31,10 +31,6 @@ PeopleModel::PeopleModel(QObject *parent) :
     exec();
 }
 
-PeopleModel::~PeopleModel()
-{
-}
-
 void PeopleModel::exec()
 {
     setQuery(QStringLiteral("SELECT id, sex, first_name, surname, suffix, birth_date, birth_place, death_date, death_place, occupation, alive "
@@ -145,10 +141,6 @@ PeopleLookupModel::PeopleLookupModel(QObject *parent):
     QSqlQueryModel(parent)
 {
     setQuery(QStringLiteral("SELECT id, printf(\"%s %s %s\", first_name, surname, suffix) as name FROM People ORDER BY surname"));
-}
-
-PeopleLookupModel::~PeopleLookupModel()
-{
 }
 
 QVariant PeopleLookupModel::data(const QModelIndex &item, int role) const

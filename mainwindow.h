@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QActionGroup>
@@ -37,7 +36,7 @@ class MainWindow: public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -96,15 +95,13 @@ private:
     void closeDatabase();
     void initDatabase();
     Ui::MainWindow *ui;
-    QActionGroup * m_viewGroup;
+    QActionGroup * m_viewGroup{nullptr};
     QString m_filename;
     QString m_storageLocation;
 
     // models
-    QSortFilterProxyModel * m_proxyModel;
-    PeopleModel * m_peopleModel;
-    PlacesModel * m_placesModel;
-    RelationsModel * m_relationsModel;
+    QSortFilterProxyModel * m_proxyModel{nullptr};
+    PeopleModel * m_peopleModel{nullptr};
+    PlacesModel * m_placesModel{nullptr};
+    RelationsModel * m_relationsModel{nullptr};
 };
-
-#endif // MAINWINDOW_H

@@ -57,7 +57,7 @@ MapWidget::MapWidget(QWidget *parent)
       invert(false)
 {
     m_normalMap = new SlippyMap(this);
-    connect(m_normalMap, SIGNAL(updated(QRect)), SLOT(updateMap(QRect)));
+    connect(m_normalMap, &SlippyMap::updated, this, &MapWidget::updateMap);
     setCursor(Qt::OpenHandCursor);
 }
 

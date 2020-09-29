@@ -38,10 +38,7 @@ MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     m_viewGroup(new QActionGroup(this)),
-    m_proxyModel(new QSortFilterProxyModel(this)),
-    m_peopleModel(Q_NULLPTR),
-    m_placesModel(Q_NULLPTR),
-    m_relationsModel(Q_NULLPTR)
+    m_proxyModel(new QSortFilterProxyModel(this))
 {
     ui->setupUi(this);
     setupActions();
@@ -418,7 +415,6 @@ void MainWindow::slotAddPerson()
 void MainWindow::slotEditPerson(int personID)
 {
     PersonDialog * dlg = new PersonDialog(this, personID);
-    dlg->setWindowTitle(tr("Edit Person"));
     dlg->exec();
     m_peopleModel->exec();
 }
@@ -753,14 +749,14 @@ void MainWindow::openDatabase(const QString &dbFilePath, bool create)
 
 void MainWindow::closeDatabase()
 {
-    ui->tableView->setModel(Q_NULLPTR);
+    ui->tableView->setModel(nullptr);
 
     delete m_peopleModel;
-    m_peopleModel = Q_NULLPTR;
+    m_peopleModel = nullptr;
     delete m_relationsModel;
-    m_relationsModel = Q_NULLPTR;
+    m_relationsModel = nullptr;
     delete m_placesModel;
-    m_placesModel = Q_NULLPTR;
+    m_placesModel = nullptr;
 
     QSqlDatabase db = QSqlDatabase::database();
     if (db.isOpen()) {

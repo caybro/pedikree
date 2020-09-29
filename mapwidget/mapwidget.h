@@ -39,8 +39,7 @@
  **
  ****************************************************************************/
 
-#ifndef MAPWIDGET_H
-#define MAPWIDGET_H
+#pragma once
 
 #include <QBasicTimer>
 #include <QWidget>
@@ -51,19 +50,21 @@ class MapWidget: public QWidget
 {
     Q_OBJECT
 public:
-    MapWidget(QWidget *parent = 0);
+    explicit MapWidget(QWidget *parent = nullptr);
+    ~MapWidget() = default;
+
     void setCenter(qreal lat, qreal lng);
 
 protected:
-    void resizeEvent(QResizeEvent *);
-    void paintEvent(QPaintEvent *event);
-    void timerEvent(QTimerEvent *);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *);
-    void mouseDoubleClickEvent(QMouseEvent * event);
-    void keyPressEvent(QKeyEvent *event);
-    void wheelEvent(QWheelEvent * event);
+    void resizeEvent(QResizeEvent *) override;
+    void paintEvent(QPaintEvent *event) override;
+    void timerEvent(QTimerEvent *) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void mouseDoubleClickEvent(QMouseEvent * event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void wheelEvent(QWheelEvent * event) override;
 
 private slots:
     void updateMap(const QRect &r);
@@ -72,7 +73,7 @@ private:
     void zoomIn(int steps = 1);
     void zoomOut(int steps = 1);
 
-    SlippyMap *m_normalMap;
+    SlippyMap *m_normalMap{nullptr};
     bool pressed;
     bool snapped;
     QPoint pressPos;
@@ -83,5 +84,3 @@ private:
     QPixmap maskPixmap;
     bool invert;
 };
-
-#endif

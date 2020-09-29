@@ -27,8 +27,7 @@
 PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
     QDialog(parent),
     ui(new Ui::PlaceDialog),
-    m_placeID(placeID),
-    m_gc(Q_NULLPTR)
+    m_placeID(placeID)
 {
     ui->setupUi(this);
 
@@ -154,7 +153,7 @@ void PlaceDialog::placeTriggered(QAction *action)
 
     ui->btnGeoCode->setText(QString());
     m_placeMenu->clear();
-    ui->btnGeoCode->setMenu(Q_NULLPTR);
+    ui->btnGeoCode->setMenu(nullptr);
 }
 
 void PlaceDialog::updateMapCenter()

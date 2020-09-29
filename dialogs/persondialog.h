@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PERSONDIALOG_H
-#define PERSONDIALOG_H
+#pragma once
 
 #include <QDialog>
 #include <QAbstractButton>
@@ -37,7 +36,7 @@ class PersonDialog: public QDialog
     Q_OBJECT
 
 public:
-    explicit PersonDialog(QWidget *parent = 0, int personID = -1);
+    explicit PersonDialog(QWidget *parent = nullptr, int personID = -1);
     ~PersonDialog();
 
     void setMale();
@@ -47,7 +46,7 @@ public:
     int personID() const;
 
 protected:
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *e) override;
 
 private slots:
     void genderClicked(QAbstractButton * button);
@@ -86,14 +85,12 @@ private:
     QString m_photoFilename;
 
     // family tab
-    bool m_familyInitted;
+    bool m_familyInitted{false};
     QSqlQuery m_partnerQuery;
     QSqlQuery m_thisPersonQuery;
     QSqlQuery m_childrenQuery;
-    QSqlQueryModel * m_childrenModel;
+    QSqlQueryModel * m_childrenModel{nullptr};
     QSqlQuery m_parentsQuery;
     QSqlQuery m_siblingsQuery;
-    QSqlQueryModel * m_siblingsModel;
+    QSqlQueryModel * m_siblingsModel{nullptr};
 };
-
-#endif // PERSONDIALOG_H

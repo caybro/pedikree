@@ -37,10 +37,7 @@
 PersonDialog::PersonDialog(QWidget *parent, int personID):
     QDialog(parent),
     ui(new Ui::PersonDialog),
-    m_personID(personID),
-    m_familyInitted(false),
-    m_childrenModel(Q_NULLPTR),
-    m_siblingsModel(Q_NULLPTR)
+    m_personID(personID)
 {
     ui->setupUi(this);
 
@@ -81,11 +78,11 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
     connect(ui->btnAddDeathPlace, &QPushButton::clicked, this, &PersonDialog::slotAddPlace);
     connect(ui->btnAddBurialPlace, &QPushButton::clicked, this, &PersonDialog::slotAddPlace);
 
-    QAction * tmp = ui->leBirthDate->addAction(QIcon::fromTheme("view-calendar-day"), QLineEdit::TrailingPosition);
+    QAction * tmp = ui->leBirthDate->addAction(QIcon(":/icons/view-calendar.svg"), QLineEdit::TrailingPosition);
     tmp->setToolTip(tr("Enter date"));
     connect(tmp, &QAction::triggered, this, &PersonDialog::popupBirthDateCalendar);
 
-    QAction * tmp2 = ui->leDeathDate->addAction(QIcon::fromTheme("view-calendar-day"), QLineEdit::TrailingPosition);
+    QAction * tmp2 = ui->leDeathDate->addAction(QIcon(":/icons/view-calendar.svg"), QLineEdit::TrailingPosition);
     tmp2->setToolTip(tr("Enter date"));
     connect(tmp2, &QAction::triggered, this, &PersonDialog::popupDeathDateCalendar);
 
@@ -101,6 +98,10 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
 
     // button box
     connect(this, &PersonDialog::accepted, this, &PersonDialog::save);
+
+    if (m_personID != -1) {
+        setWindowTitle(tr("Edit Person %1").arg(ui->leGivenNames->text() + QStringLiteral(" ") + ui->leSurname->text()));
+    }
 
     qDebug() << "Editting person with ID:" << m_personID;
 }
@@ -285,11 +286,7 @@ void PersonDialog::slotAddPlace()
 void PersonDialog::slotSelectImage()
 {
     const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),
-                                                          QStringLiteral("*.png *.jpg *.jpeg"), 0
-                                                      #ifdef Q_OS_LINUX
-                                                          , QFileDialog::DontUseNativeDialog // FIXME native kfiledialog crashing
-                                                      #endif
-                                                          ); // FIXME better use a MIME type
+                                                          QStringLiteral("*.png *.jpg *.jpeg")); // FIXME better use a MIME type
     if (!fileName.isEmpty()) {
         m_photoFilename = fileName;
         ui->photo->setIcon(QIcon(m_photoFilename));
@@ -403,7 +400,7 @@ void PersonDialog::populateFamilyTab()
 
     if (m_partnerQuery.exec() && m_partnerQuery.first()) {
         updatePartnersLabel();
-        ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
+        //ui->btnNextCouple->setEnabled(true); // BUG in Qt, even after first() is successfully called, at() returns -1!!!
         //qDebug() << "First partner at:" << m_partnerQuery.at();
 
         const QString childrenQuery = QStringLiteral("SELECT DISTINCT p.id as person_id, printf(\"%s %s %s\", p.first_name, p.surname, p.suffix) as name, p.birth_date, p.birth_place "

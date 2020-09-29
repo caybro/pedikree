@@ -23,5 +23,6 @@
         <file>icons/home-32.png</file>
         <file>icons/male.png</file>
         <file>icons/female.png</file>
+        <file>icons/view-calendar.svg</file>
     </qresource>
 </RCC>

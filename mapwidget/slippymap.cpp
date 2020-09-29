@@ -91,8 +91,7 @@ SlippyMap::SlippyMap(QObject *parent)
     const QString cacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     cache->setCacheDirectory(cacheDir);
     m_manager.setCache(cache);
-    connect(&m_manager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(handleNetworkData(QNetworkReply*)));
+    connect(&m_manager, &QNetworkAccessManager::finished, this, &SlippyMap::handleNetworkData);
 }
 
 void SlippyMap::invalidate()
@@ -200,7 +199,7 @@ void SlippyMap::download()
     m_manager.get(request);
 }
 
-QRect SlippyMap::tileRect(const QPoint &tp)
+QRect SlippyMap::tileRect(const QPoint &tp) const
 {
     const QPoint t = tp - m_tilesRect.topLeft();
     int x = t.x() * tdim + m_offset.x();

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
+    <width>604</width>
     <height>356</height>
    </rect>
   </property>
@@ -38,9 +38,8 @@
           <string>Get suggestions and coordinates from OpenStreetMsap</string>
          </property>
          <property name="icon">
-          <iconset theme="ktip">
-           <normaloff/>
-          </iconset>
+          <iconset>
+           <normaloff>../icons/world_map-32.png</normaloff>../icons/world_map-32.png</iconset>
          </property>
         </widget>
        </item>

@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef RELATIONDIALOG_H
-#define RELATIONDIALOG_H
+#pragma once
 
 #include <QDialog>
 #include <QSqlQueryModel>
@@ -35,11 +34,11 @@ class RelationDialog: public QDialog
     Q_OBJECT
 
 public:
-    explicit RelationDialog(QWidget *parent = 0, int relationID = -1);
+    explicit RelationDialog(QWidget *parent = nullptr, int relationID = -1);
     ~RelationDialog();
 
 protected:
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *e) override;
 
 private slots:
     void save();
@@ -52,8 +51,6 @@ private:
     void setChildMode(bool on);
     Ui::RelationDialog *ui;
     int m_relationID;
-    PlacesLookupModel * m_placesModel;
-    PeopleLookupModel * m_peopleModel;
+    PlacesLookupModel * m_placesModel{nullptr};
+    PeopleLookupModel * m_peopleModel{nullptr};
 };
-
-#endif // RELATIONDIALOG_H

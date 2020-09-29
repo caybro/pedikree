@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PERSON_H
-#define PERSON_H
+#pragma once
 
 #include <QString>
 
@@ -32,6 +31,7 @@ public:
     };
 
     explicit Person(int personID);
+    ~Person() = default;
 
     Sex sex() const;
     int fatherID() const;
@@ -45,8 +45,6 @@ public:
     static QString personFullName(int personID);
 
 private:
-    int getParentId(const QString & sex) const;
+    int getParentId(const QString &sex) const;
     int m_personID;
 };
-
-#endif // PERSON_H

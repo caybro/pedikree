@@ -73,7 +73,7 @@ private slots:
     void download();
 
 protected:
-    QRect tileRect(const QPoint &tp);
+    QRect tileRect(const QPoint &tp) const;
 
 private:
     QPoint m_offset;

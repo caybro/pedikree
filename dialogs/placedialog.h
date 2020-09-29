@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PLACEDIALOG_H
-#define PLACEDIALOG_H
+#pragma once
 
 #include <QDialog>
 #include <QMenu>
@@ -35,18 +34,19 @@ class PlaceDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PlaceDialog(QWidget *parent = 0, int placeID = -1);
+    explicit PlaceDialog(QWidget *parent = nullptr, int placeID = -1);
     ~PlaceDialog();
 
     int placeId() const;
 
 protected:
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *e) override;
 
 private slots:
     void save();
     void geocode();
-    void geocodeReply(const QString & originalQuery, const QString & lat, const QString & lon, const QString & displayName, const QString & osmId);
+    void geocodeReply(const QString & originalQuery, const QString & lat, const QString & lon, const QString & displayName,
+                      const QString & osmId);
     void geocodeFinished(const QString & originalQuery);
     void placeTriggered(QAction * action);
     void updateMapCenter();
@@ -55,9 +55,7 @@ private:
     void populateControls();
     Ui::PlaceDialog *ui;
     int m_placeID;
-    OsmGeoCoder * m_gc;
-    QMenu * m_placeMenu;
-    MapWidget * m_mapWidget;
+    OsmGeoCoder * m_gc{nullptr};
+    QMenu * m_placeMenu{nullptr};
+    MapWidget * m_mapWidget{nullptr};
 };
-
-#endif // PLACEDIALOG_H

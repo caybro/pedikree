@@ -65,10 +65,10 @@ void PdDateDialog::slotClear()
 void PdDateDialog::init()
 {
     ui->cbQualifier->addItem(tr("Exactly"), QString());
-    ui->cbQualifier->addItem(tr("Around"), QLatin1String("AROUND"));
-    ui->cbQualifier->addItem(tr("Before"), QLatin1String("BEFORE"));
-    ui->cbQualifier->addItem(tr("After"), QLatin1String("AFTER"));
-    ui->cbQualifier->addItem(tr("Calculated"), QLatin1String("CALC"));
+    ui->cbQualifier->addItem(tr("Around"), QStringLiteral("AROUND"));
+    ui->cbQualifier->addItem(tr("Before"), QStringLiteral("BEFORE"));
+    ui->cbQualifier->addItem(tr("After"), QStringLiteral("AFTER"));
+    ui->cbQualifier->addItem(tr("Calculated"), QStringLiteral("CALC"));
 
     ui->cbDay->addItem(QString()); // empty day
     for (int i = 1; i < 32; i++)

@@ -17,8 +17,7 @@
  *
  */
 
-#ifndef PDDATEDIALOG_H
-#define PDDATEDIALOG_H
+#pragma once
 
 #include <QDialog>
 
@@ -31,13 +30,13 @@ class PdDateDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit PdDateDialog(const QString & date, QWidget *parent = 0);
+    explicit PdDateDialog(const QString & date, QWidget *parent = nullptr);
     ~PdDateDialog();
 
     QString date() const;
 
 protected:
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent *e) override;
 
 private slots:
     void slotClear();
@@ -48,5 +47,3 @@ private:
     Ui::PdDateDialog *ui;
     QString m_initialDate;
 };
-
-#endif // PDDATEDIALOG_H
