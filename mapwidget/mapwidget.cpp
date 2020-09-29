@@ -53,8 +53,7 @@
 #define HOLD_TIME 701
 
 MapWidget::MapWidget(QWidget *parent)
-    : QWidget(parent), pressed(false), snapped(false), zoomed(false),
-      invert(false)
+    : QWidget(parent)
 {
     m_normalMap = new SlippyMap(this);
     connect(m_normalMap, &SlippyMap::updated, this, &MapWidget::updateMap);

@@ -74,13 +74,13 @@ private:
     void zoomOut(int steps = 1);
 
     SlippyMap *m_normalMap{nullptr};
-    bool pressed;
-    bool snapped;
+    bool pressed{false};
+    bool snapped{false};
     QPoint pressPos;
     QPoint dragPos;
     QBasicTimer tapTimer;
-    bool zoomed;
+    bool zoomed{false};
     QPixmap zoomPixmap;
     QPixmap maskPixmap;
-    bool invert;
+    bool invert{false};
 };

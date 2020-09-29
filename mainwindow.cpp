@@ -253,7 +253,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             const QList<int> spouseIDs = person.spouseIDs();
             if (!spouseIDs.isEmpty()) {
                 QMenu * menuSpouses = menuPerson->addMenu(tr("Spouses (%1)").arg(spouseIDs.count()));
-                foreach (int spouseID, spouseIDs) {
+                for (int spouseID: spouseIDs) {
                     QAction * spouseAct = new QAction(tr("Spouse: %1").arg(Person::personFullName(spouseID)), this);
                     spouseAct->setData(spouseID);
                     menuSpouses->addAction(spouseAct);
@@ -264,7 +264,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             const QList<int> siblingIDs = person.siblingIDs();
             if (!siblingIDs.isEmpty()) {
                 QMenu * menuSiblings = menuPerson->addMenu(tr("Siblings (%1)").arg(siblingIDs.count()));
-                foreach (int siblingID, siblingIDs) {
+                for (int siblingID: siblingIDs) {
                     Person::Sex siblingSex = Person::personSex(siblingID);
                     QString siblingRole = tr("Unknown");
                     if (siblingSex == Person::Male) {
@@ -282,7 +282,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             const QList<int> childrenIDs = person.childrenIDs();
             if (!childrenIDs.isEmpty()) {
                 QMenu * menuChildren = menuPerson->addMenu(tr("Children (%1)").arg(childrenIDs.count()));
-                foreach (int childID, childrenIDs) {
+                for (int childID: childrenIDs) {
                     Person::Sex childSex = Person::personSex(childID);
                     QString childRole = tr("Unknown");
                     if (childSex == Person::Male) {
@@ -770,7 +770,7 @@ void MainWindow::initDatabase()
     const QStringList tables = QStringList() << "Places" << "People" << "Events" << "Relations";
     QSqlQuery query;
 
-    foreach (const QString & table, tables) {
+    for (const QString &table: tables) {
         QFile file(QString::fromLatin1(":/schema/%1.sql").arg(table));
         if (!file.open(QFile::ReadOnly))
             return;

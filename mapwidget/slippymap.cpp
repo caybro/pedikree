@@ -158,7 +158,7 @@ void SlippyMap::handleNetworkData(QNetworkReply *reply)
     QImage img;
     const QPoint tp = reply->request().attribute(QNetworkRequest::User).toPoint();
     if (!reply->error())
-        if (!img.load(reply, 0))
+        if (!img.load(reply, nullptr))
             img = QImage();
     reply->deleteLater();
     m_tilePixmaps[tp] = QPixmap::fromImage(img);
@@ -168,7 +168,7 @@ void SlippyMap::handleNetworkData(QNetworkReply *reply)
 
     // purge unused spaces
     const QRect bound = m_tilesRect.adjusted(-2, -2, 2, 2);
-    foreach(QPoint tp, m_tilePixmaps.keys())
+    for(const QPoint &tp: m_tilePixmaps.keys())
         if (!bound.contains(tp))
             m_tilePixmaps.remove(tp);
 
