@@ -59,8 +59,10 @@ PersonDialog::PersonDialog(QWidget *parent, int personID):
         ui->country->addItem(countryName, i);
     }
 
-    connect(ui->buttonGroupGender, SIGNAL(buttonToggled(QAbstractButton*, bool)), this, SLOT(genderClicked(QAbstractButton*)));
-    connect(ui->buttonGroupAlive, SIGNAL(buttonToggled(QAbstractButton*,bool)), this, SLOT(deadAliveClicked(QAbstractButton*)));
+    connect(ui->buttonGroupGender, QOverload<QAbstractButton*, bool>::of(&QButtonGroup::buttonToggled),
+            this, &PersonDialog::genderClicked);
+    connect(ui->buttonGroupAlive, QOverload<QAbstractButton*, bool>::of(&QButtonGroup::buttonToggled),
+            this, &PersonDialog::deadAliveClicked);
     connect(ui->photo, &QPushButton::clicked, this, &PersonDialog::slotSelectImage);
 
     if (m_personID == -1) { // new person, preset some values
@@ -421,8 +423,8 @@ void PersonDialog::populateFamilyTab()
         m_childrenModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
         m_childrenModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
         m_childrenModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
-        connect(m_childrenModel, SIGNAL(modelReset()), SLOT(slotCurrentChildChanged()));
-        connect(ui->children->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(slotCurrentChildChanged()));
+        connect(m_childrenModel, &QSqlQueryModel::modelReset, this, &PersonDialog::slotCurrentChildChanged);
+        connect(ui->children->selectionModel(), &QItemSelectionModel::currentChanged, this, &PersonDialog::slotCurrentChildChanged);
         ui->children->setModel(m_childrenModel);
         ui->children->hideColumn(0);
         ui->children->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
@@ -460,8 +462,8 @@ void PersonDialog::populateFamilyTab()
         m_siblingsModel->setHeaderData(1, Qt::Horizontal, tr("Name"));
         m_siblingsModel->setHeaderData(2, Qt::Horizontal, tr("Birth Date"));
         m_siblingsModel->setHeaderData(3, Qt::Horizontal, tr("Birth Place"));
-        connect(m_siblingsModel, SIGNAL(modelReset()), SLOT(slotCurrentSiblingChanged()));
-        connect(ui->siblings->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), SLOT(slotCurrentSiblingChanged()));
+        connect(m_siblingsModel, &QSqlQueryModel::modelReset, this, &PersonDialog::slotCurrentSiblingChanged);
+        connect(ui->siblings->selectionModel(), &QItemSelectionModel::currentChanged, this, &PersonDialog::slotCurrentSiblingChanged);
         ui->siblings->setModel(m_siblingsModel);
         ui->siblings->hideColumn(0);
         ui->siblings->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);

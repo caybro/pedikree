@@ -299,7 +299,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
             if (!menuPerson->isEmpty()) {
                 menu.addMenu(menuPerson);
             }
-            connect(menuPerson, SIGNAL(triggered(QAction*)), this, SLOT(slotEditPerson(QAction*)));
+            connect(menuPerson, &QMenu::triggered, this, QOverload<QAction *>::of(&MainWindow::slotEditPerson));
         }
     } else if (validIndex && m_viewGroup->checkedAction() == ui->actionViewPlaces) { // add Person specific entries
         const int row = m_proxyModel->mapToSource(ui->tableView->indexAt(pos)).row();
@@ -307,7 +307,7 @@ void MainWindow::tableViewContextMenuRequested(const QPoint &pos)
         PlacesModel * model = qobject_cast<PlacesModel *>(m_proxyModel->sourceModel());
         if (model) {
             menu.addSeparator();
-            QAction * tmp = menu.addAction(tr("View on map..."), this, SLOT(slotViewPlace()));
+            QAction * tmp = menu.addAction(tr("View on map..."), this, &MainWindow::slotViewPlace);
             tmp->setData(model->idAtRow(row));
         }
     }

@@ -65,10 +65,10 @@ RelationDialog::RelationDialog(QWidget *parent, int relationID) :
         ui->place->setEditText(QString());
     }
 
-    connect(ui->type, SIGNAL(activated(int)), SLOT(slotTypeChanged(int)));
-    connect(ui->person1, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
-    connect(ui->person2, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
-    connect(ui->child, SIGNAL(currentIndexChanged(int)), SLOT(slotTypeChanged(int)));
+    connect(ui->type, QOverload<int>::of(&QComboBox::activated), this, &RelationDialog::slotTypeChanged);
+    connect(ui->person1, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RelationDialog::slotTypeChanged);
+    connect(ui->person2, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RelationDialog::slotTypeChanged);
+    connect(ui->child, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &RelationDialog::slotTypeChanged);
 
     connect(ui->btnAddPlace, &QPushButton::clicked, this, &RelationDialog::slotAddPlace);
 
