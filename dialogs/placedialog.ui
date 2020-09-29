@@ -34,12 +34,15 @@
        </item>
        <item>
         <widget class="QPushButton" name="btnGeoCode">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="toolTip">
           <string>Get suggestions and coordinates from OpenStreetMsap</string>
          </property>
          <property name="icon">
-          <iconset>
-           <normaloff>../icons/world_map-32.png</normaloff>../icons/world_map-32.png</iconset>
+          <iconset resource="../assets.qrc">
+           <normaloff>:/icons/world_map-32.png</normaloff>:/icons/world_map-32.png</iconset>
          </property>
         </widget>
        </item>
@@ -159,7 +162,9 @@
   <tabstop>teComment</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../assets.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

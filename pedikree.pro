@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets sql network xml
+QT       += core gui widgets sql network xml location
 
 TARGET = pedikree
 TEMPLATE = app
@@ -19,7 +19,6 @@ SOURCES += main.cpp\
     dialogs/pddatedialog.cpp \
     dialogs/relationdialog.cpp \
     relationsmodel.cpp \
-    osmgeocoder.cpp \
     mapwidget/mapwidget.cpp \
     mapwidget/slippymap.cpp \
     person.cpp
@@ -32,7 +31,6 @@ HEADERS  += mainwindow.h \
     dialogs/pddatedialog.h \
     dialogs/relationdialog.h \
     relationsmodel.h \
-    osmgeocoder.h \
     mapwidget/mapwidget.h \
     mapwidget/slippymap.h \
     person.h

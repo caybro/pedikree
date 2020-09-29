@@ -20,6 +20,8 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QGeoCodingManager>
+#include <QGeoAddress>
 
 #include "placedialog.h"
 #include "ui_placedialog.h"
@@ -42,11 +44,25 @@ PlaceDialog::PlaceDialog(QWidget *parent, int placeID) :
         updateMapCenter();
     }
 
-    m_gc = new OsmGeoCoder(this);
     m_placeMenu = new QMenu(this);
 
-    connect(ui->sbLat, SIGNAL(valueChanged(double)), this, SLOT(updateMapCenter()));
-    connect(ui->sbLon, SIGNAL(valueChanged(double)), this, SLOT(updateMapCenter()));
+    qDebug() << "!!! GEOCODE service providers:" << QGeoServiceProvider::availableServiceProviders();
+    m_geoProvider = new QGeoServiceProvider(QStringLiteral("osm"));
+    if (m_geoProvider->error() == QGeoServiceProvider::NoError) {
+        m_gc = m_geoProvider->geocodingManager();
+        if (!m_gc) {
+            qWarning() << Q_FUNC_INFO << "Failed to acquire QGeoCodingManager:" << m_geoProvider->geocodingErrorString();
+        } else {
+            ui->btnGeoCode->setEnabled(true);
+            connect(m_gc, &QGeoCodingManager::finished, this, &PlaceDialog::geocodeFinished);
+            connect(m_placeMenu, &QMenu::triggered, this, &PlaceDialog::placeTriggered);
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "Failed to acquire QGeoServiceProvider:" << m_geoProvider->errorString();
+    }
+
+    connect(ui->sbLat, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &PlaceDialog::updateMapCenter);
+    connect(ui->sbLon, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &PlaceDialog::updateMapCenter);
     connect(ui->btnGeoCode, &QPushButton::clicked, this, &PlaceDialog::geocode);
     connect(this, &PlaceDialog::accepted, this, &PlaceDialog::save);
 
@@ -108,36 +124,34 @@ void PlaceDialog::geocode()
     const QString query = ui->leName->text();
     qDebug() << "Geocoding" << query;
 
-    m_gc->geocode(query);
+    if (m_gc) {
+        m_gc->geocode(query);
 
-    ui->btnGeoCode->setCursor(Qt::BusyCursor);
-
-    connect(m_gc, SIGNAL(geocodeReply(QString,QString,QString,QString,QString)),
-            this, SLOT(geocodeReply(QString,QString,QString,QString,QString)), Qt::UniqueConnection);
-    connect(m_gc, SIGNAL(geocodeFinished(QString)), this, SLOT(geocodeFinished(QString)), Qt::UniqueConnection);
-}
-
-void PlaceDialog::geocodeReply(const QString &originalQuery, const QString &lat, const QString &lon, const QString &displayName, const QString &osmId)
-{
-    qDebug() << "GEOCODE RESULT" << originalQuery << lat << lon << displayName << osmId;
-    if (originalQuery != ui->leName->text())
-        return;
-
-    QAction * action = new QAction(m_placeMenu);
-    action->setText(displayName);
-    action->setData(QStringLiteral("%1:%2:%3").arg(lat).arg(lon).arg(displayName));
-    m_placeMenu->addAction(action);
-    connect(m_placeMenu, SIGNAL(triggered(QAction*)), this, SLOT(placeTriggered(QAction*)), Qt::UniqueConnection);
-}
-
-void PlaceDialog::geocodeFinished(const QString &originalQuery)
-{
-    qDebug() << "GEOCODE FINISHED" << originalQuery;
-    if (!m_placeMenu->actions().isEmpty()) {
-        ui->btnGeoCode->setText(tr("Suggestions available"));
-        ui->btnGeoCode->setMenu(m_placeMenu);
+        ui->btnGeoCode->setCursor(Qt::BusyCursor);
     }
+}
+
+void PlaceDialog::geocodeFinished(QGeoCodeReply *reply)
+{
+    reply->deleteLater();
     ui->btnGeoCode->unsetCursor();
+
+    if (reply->error() == QGeoCodeReply::NoError && !reply->locations().isEmpty()) {
+        for (const auto &loc: reply->locations()) {
+            QAction * action = new QAction(m_placeMenu);
+            action->setText(loc.address().text());
+            const auto coord = loc.coordinate();
+            action->setData(QStringLiteral("%1:%2:%3").arg(coord.latitude()).arg(coord.longitude()).arg(action->text()));
+            m_placeMenu->addAction(action);
+        }
+
+        if (!m_placeMenu->actions().isEmpty()) {
+            ui->btnGeoCode->setText(tr("Suggestions available"));
+            ui->btnGeoCode->setMenu(m_placeMenu);
+        }
+    } else {
+        qWarning() << Q_FUNC_INFO << "Geocoding finished with error:" << reply->errorString();
+    }
 }
 
 void PlaceDialog::placeTriggered(QAction *action)
