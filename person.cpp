@@ -36,12 +36,12 @@ Person::Sex Person::sex() const
 
 int Person::fatherID() const
 {
-    return getParentId("M");
+    return getParentId(QStringLiteral("M"));
 }
 
 int Person::motherID() const
 {
-    return getParentId("F");
+    return getParentId(QStringLiteral("F"));
 }
 
 QList<int> Person::spouseIDs() const
@@ -114,9 +114,9 @@ Person::Sex Person::personSex(int personID)
     QSqlQuery query(QStringLiteral("SELECT sex FROM People WHERE id=%1").arg(personID));
     if (query.exec() && query.first()) {
         const QString result = query.value(0).toString();
-        if (result == "M")
+        if (result == QStringLiteral("M"))
             return Male;
-        else if (result == "F")
+        else if (result == QStringLiteral("F"))
             return Female;
     } else {
         qDebug() << Q_FUNC_INFO << "Unknown sex or query failed for" << personID << query.lastError().text();

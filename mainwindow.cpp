@@ -767,11 +767,11 @@ void MainWindow::closeDatabase()
 
 void MainWindow::initDatabase()
 {
-    const QStringList tables = QStringList() << "Places" << "People" << "Events" << "Relations";
+    const QStringList tables = {QStringLiteral("Places"), "People", "Events", "Relations"};
     QSqlQuery query;
 
     for (const QString &table: tables) {
-        QFile file(QString::fromLatin1(":/schema/%1.sql").arg(table));
+        QFile file(QStringLiteral(":/schema/%1.sql").arg(table));
         if (!file.open(QFile::ReadOnly))
             return;
 

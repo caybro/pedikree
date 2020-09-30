@@ -17,7 +17,6 @@
  *
  */
 
-#include <QMetaEnum>
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlField>
@@ -97,10 +96,11 @@ QVariant RelationsModel::data(const QModelIndex &item, int role) const
         const int column = item.column();
         if (column == 0) {
             const QString type = rec.value("type").toString();
-            if (type.contains("Parent")) {
-                return QIcon(":/icons/baby-32.png");
-            } else if (type == "Marriage" || type == "DomesticPartnership" || type == "CivilUnion" || type == "Annulment") {
-                return QIcon(":/icons/wedding_rings-32.png");
+            if (type.contains(QStringLiteral("Parent"))) {
+                return QIcon(QStringLiteral(":/icons/baby-32.png"));
+            } else if (type == QStringLiteral("Marriage") || type == QStringLiteral("DomesticPartnership")
+                       || type == QStringLiteral("CivilUnion") || type == QStringLiteral("Annulment")) {
+                return QIcon(QStringLiteral(":/icons/wedding_rings-32.png"));
             }
             return QVariant();
         }
@@ -133,27 +133,27 @@ QVariant RelationsModel::headerData(int section, Qt::Orientation orientation, in
 
 
 QMap<QString,QString> Relations::m_relations = {
-    {"Annulment", QT_TR_NOOP("Annulment")},
-    {"CommonLawMarriage", QT_TR_NOOP("Common Law Marriage")},
-    {"CivilUnion", QT_TR_NOOP("Civil Union")},
-    {"DomesticPartnership", QT_TR_NOOP("Domestic Partnership")},
-    {"Divorce", QT_TR_NOOP("Divorce")},
-    {"DivorceFiling", QT_TR_NOOP("Divorce Filing")},
-    {"Engagement", QT_TR_NOOP("Engagement")},
-    {"Marriage", QT_TR_NOOP("Marriage")},
-    {"MarriageBanns", QT_TR_NOOP("Marriage Banns")},
-    {"MarriageContract", QT_TR_NOOP("Marriage Contract")},
-    {"MarriageLicense", QT_TR_NOOP("Marriage License")},
-    {"MarriageNotice", QT_TR_NOOP("Marriage Notice")},
-    {"Separation", QT_TR_NOOP("Separation")},
+    {QStringLiteral("Annulment"), QT_TR_NOOP("Annulment")},
+    {QStringLiteral("CommonLawMarriage"), QT_TR_NOOP("Common Law Marriage")},
+    {QStringLiteral("CivilUnion"), QT_TR_NOOP("Civil Union")},
+    {QStringLiteral("DomesticPartnership"), QT_TR_NOOP("Domestic Partnership")},
+    {QStringLiteral("Divorce"), QT_TR_NOOP("Divorce")},
+    {QStringLiteral("DivorceFiling"), QT_TR_NOOP("Divorce Filing")},
+    {QStringLiteral("Engagement"), QT_TR_NOOP("Engagement")},
+    {QStringLiteral("Marriage"), QT_TR_NOOP("Marriage")},
+    {QStringLiteral("MarriageBanns"), QT_TR_NOOP("Marriage Banns")},
+    {QStringLiteral("MarriageContract"), QT_TR_NOOP("Marriage Contract")},
+    {QStringLiteral("MarriageLicense"), QT_TR_NOOP("Marriage License")},
+    {QStringLiteral("MarriageNotice"), QT_TR_NOOP("Marriage Notice")},
+    {QStringLiteral("Separation"), QT_TR_NOOP("Separation")},
 
-    {"AdoptiveParent", QT_TR_NOOP("Adoptive Parent")},
-    {"BiologicalParent", QT_TR_NOOP("Biological Parent")},
-    {"FosterParent", QT_TR_NOOP("Foster Parent")},
-    {"GuardianParent", QT_TR_NOOP("Guardian Parent")},
-    {"StepParent", QT_TR_NOOP("Step Parent")},
-    {"SociologicalParent", QT_TR_NOOP("Socialogical Parent")},
-    {"SurrogateParent", QT_TR_NOOP("Surrogate Parent")}
+    {QStringLiteral("AdoptiveParent"), QT_TR_NOOP("Adoptive Parent")},
+    {QStringLiteral("BiologicalParent"), QT_TR_NOOP("Biological Parent")},
+    {QStringLiteral("FosterParent"), QT_TR_NOOP("Foster Parent")},
+    {QStringLiteral("GuardianParent"), QT_TR_NOOP("Guardian Parent")},
+    {QStringLiteral("StepParent"), QT_TR_NOOP("Step Parent")},
+    {QStringLiteral("SociologicalParent"), QT_TR_NOOP("Socialogical Parent")},
+    {QStringLiteral("SurrogateParent"), QT_TR_NOOP("Surrogate Parent")}
 };
 
 QMap<QString, QString> Relations::relations()
