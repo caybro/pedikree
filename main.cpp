@@ -17,36 +17,39 @@
  *
  */
 
-#include "mainwindow.h"
-
 #include <QApplication>
 #include <QMessageBox>
 #include <QtSql>
 
+#include "mainwindow.h"
+
 int main(int argc, char *argv[])
 {
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
     QApplication a(argc, argv);
 
     //qDebug() << "Qt translations in" << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
 
     QTranslator qtTranslator;
-    qtTranslator.load(QLocale::system(), QStringLiteral("qt_"), QString(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(QLocale(), QStringLiteral("qt_"), QString(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     a.installTranslator(&qtTranslator);
 
     QTranslator appTrans;
-    appTrans.load(QStringLiteral(":/translations/pedikree_") + QLocale::system().name());
+    appTrans.load(QLocale(), QStringLiteral("pedikree"), QStringLiteral("_"), QStringLiteral(":/translations/"));
     a.installTranslator(&appTrans);
 
     a.setApplicationDisplayName(QApplication::tr("Pedikree"));
-    a.setOrganizationDomain("kde.org");
-    a.setOrganizationName("KDE");
-    a.setApplicationVersion("0.1");
-    a.setWindowIcon(QIcon(":/icons/appicon.png"));
+    a.setOrganizationDomain(QStringLiteral("kde.org"));
+    a.setOrganizationName(QStringLiteral("KDE"));
+    a.setApplicationVersion(QStringLiteral("0.1"));
+    a.setWindowIcon(QIcon(QStringLiteral(":/icons/appicon.png")));
 
     if (!QSqlDatabase::isDriverAvailable(QStringLiteral("QSQLITE"))) {
-        QMessageBox::critical(0, QApplication::tr("No SQLLite DB support"),
+        QMessageBox::critical(nullptr, QApplication::tr("No SQLLite DB support"),
                               QApplication::tr("Your Qt installation doesn't contain the required SQLLite DB plugin."));
-        return -1;
+        return EXIT_FAILURE;
     }
 
     MainWindow w;
