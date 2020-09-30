@@ -287,7 +287,7 @@ void PersonDialog::slotAddPlace()
 
 void PersonDialog::slotSelectImage()
 {
-    const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),
+    const QString fileName = QFileDialog::getOpenFileName(this, tr("Select Image"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).constFirst(),
                                                           QStringLiteral("*.png *.jpg *.jpeg")); // FIXME better use a MIME type
     if (!fileName.isEmpty()) {
         m_photoFilename = fileName;

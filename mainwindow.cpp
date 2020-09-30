@@ -477,9 +477,10 @@ void MainWindow::slotViewPlace()
 
     QSqlQuery query(QStringLiteral("SELECT lat, lon FROM Places WHERE id=%1").arg(placeID));
     if (query.exec() && query.first()) {
+        const auto rec = query.record();
         QDesktopServices::openUrl(QUrl::fromUserInput(QStringLiteral("http://www.openstreetmap.org/#map=14/%1/%2")
-                                                      .arg(query.record().value("lat").toDouble())
-                                                      .arg(query.record().value("lon").toDouble())));
+                                                      .arg(rec.value("lat").toDouble())
+                                                      .arg(rec.value("lon").toDouble())));
     }
 }
 
@@ -767,7 +768,8 @@ void MainWindow::closeDatabase()
 
 void MainWindow::initDatabase()
 {
-    const QStringList tables = {QStringLiteral("Places"), "People", "Events", "Relations"};
+    const QStringList tables = {QStringLiteral("Places"), QStringLiteral("People"),
+                                QStringLiteral("Events"), QStringLiteral("Relations")};
     QSqlQuery query;
 
     for (const QString &table: tables) {

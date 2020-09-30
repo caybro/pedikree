@@ -19,6 +19,8 @@
 
 #include <QLocale>
 #include <QDebug>
+#include <QPushButton>
+#include <QCalendar>
 
 #include "pddatedialog.h"
 #include "ui_pddatedialog.h"
@@ -32,10 +34,15 @@ PdDateDialog::PdDateDialog(const QString &date, QWidget *parent) :
 
     ui->leYear->setValidator(new QIntValidator(this));
 
+    connect(ui->cbMonth, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &PdDateDialog::slotCurrentMonthChanged);
+    connect(ui->buttonBox, &QDialogButtonBox::clicked, [this](QAbstractButton *button) {
+        if (button == ui->buttonBox->button(QDialogButtonBox::Reset)) {
+            slotClear();
+        }
+    });
+
     init();
     parse();
-
-    connect(ui->btnClear, &QPushButton::clicked, this, &PdDateDialog::slotClear);
 }
 
 PdDateDialog::~PdDateDialog()
@@ -62,6 +69,29 @@ void PdDateDialog::slotClear()
     ui->leYear->clear();
 }
 
+void PdDateDialog::slotCurrentMonthChanged(int month)
+{
+    const int day = ui->cbDay->currentIndex();
+
+    ui->cbDay->clear();
+    ui->cbDay->addItem(QString()); // empty day
+
+    QCalendar cal;
+    bool ok = false;
+    int year = ui->leYear->text().toInt(&ok);
+    if (!ok) year = QCalendar::Unspecified;
+
+    for (int i = 1; i <= cal.daysInMonth(month, year); i++)
+        ui->cbDay->addItem(QString::number(i));
+
+    // try to restore the same day, if possible when changing month
+    if (day < ui->cbDay->count()) {
+        ui->cbDay->setCurrentIndex(day);
+    } else { // set to the last day of the month
+        ui->cbDay->setCurrentIndex(ui->cbDay->count() - 1);
+    }
+}
+
 void PdDateDialog::init()
 {
     ui->cbQualifier->addItem(tr("Exactly"), QString());
@@ -69,10 +99,6 @@ void PdDateDialog::init()
     ui->cbQualifier->addItem(tr("Before"), QStringLiteral("BEFORE"));
     ui->cbQualifier->addItem(tr("After"), QStringLiteral("AFTER"));
     ui->cbQualifier->addItem(tr("Calculated"), QStringLiteral("CALC"));
-
-    ui->cbDay->addItem(QString()); // empty day
-    for (int i = 1; i < 32; i++)
-        ui->cbDay->addItem(QString::number(i));
 
     ui->cbMonth->addItem(QString()); // empty month
     for (int i = 1; i < 13; i++)

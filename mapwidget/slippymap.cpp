@@ -168,7 +168,7 @@ void SlippyMap::handleNetworkData(QNetworkReply *reply)
 
     // purge unused spaces
     const QRect bound = m_tilesRect.adjusted(-2, -2, 2, 2);
-    for(const QPoint &tp: m_tilePixmaps.keys())
+    for (const QPoint &tp: m_tilePixmaps.keys())
         if (!bound.contains(tp))
             m_tilePixmaps.remove(tp);
 

@@ -40,6 +40,7 @@ protected:
 
 private slots:
     void slotClear();
+    void slotCurrentMonthChanged(int month);
 
 private:
     void init();
